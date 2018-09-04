@@ -21,7 +21,7 @@
   template:
     src: "conf.d/{{ item }}.j2"
     dest: "{{ dovecot_conf_dir }}/{{ item }}"
-    backup: yes
+    backup: no
   when: inventory_hostname in groups['imap']
   notify: reload dovecot
   tags: [doveconfig]
@@ -57,7 +57,7 @@
   template:
     src: "conf.d/replication/primary/99-replicator.conf.j2"
     dest: "{{ dovecot_conf_dir }}/99-replicator.conf"
-    backup: yes
+    backup: no
   when: inventory_hostname == "host1"
   notify: reload dovecot
   tags: [doveconfig]
@@ -66,7 +66,7 @@
   template:
     src: "conf.d/replication/secondary/99-replicator.conf.j2"
     dest: "{{ dovecot_conf_dir }}/99-replicator.conf"
-    backup: yes
+    backup: no
   when: inventory_hostname == "host2"
   notify: reload dovecot
   tags: [doveconfig]
@@ -76,7 +76,7 @@
   template:
     src: "conf.d/lmtp/primary/20-lmtp.conf.j2"
     dest: "{{ dovecot_conf_dir }}/20-lmtp.conf"
-    backup: yes
+    backup: no
   when: inventory_hostname == "host1"
   notify: reload dovecot
   tags: [doveconfig]
@@ -85,7 +85,7 @@
   template:
     src: "conf.d/lmtp/secondary/20-lmtp.conf.j2"
     dest: "{{ dovecot_conf_dir }}/20-lmtp.conf"
-    backup: yes
+    backup: no
   when: inventory_hostname == "host2"
   notify: reload dovecot
   tags: [doveconfig]
