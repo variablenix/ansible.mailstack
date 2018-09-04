@@ -1,0 +1,36 @@
+---
+- name: Mail Stack Deployment
+  hosts: all
+  remote_user: deploy
+  become: yes
+  gather_facts: no
+  vars_files:
+    - vars/main.yml
+  roles:
+    - { role: postfix, tags: [ 'postfix' ] }
+    - { role: postgrey, tags: [ 'postgrey' ] }
+    - { role: policyd-spf, tags: [ 'spf' ] }
+    - { role: pwhois_milter, tags: [ 'pwhois' ] }
+    - { role: opendmarc, tags: [ 'opendmarc' ] }
+    - { role: dovecot, tags: [ 'dovecot' ] }
+    - { role: saslauthd, tags: [ 'sasl' ] }
+
+  pre_tasks:
+    - name: Add virtual mail group
+      group:
+        name: vmail
+        state: present
+        gid: 5000
+
+    - name: Add virtual mail user
+      user:
+        name: vmail
+        shell: /usr/bin/nologin
+        home: /home/vmail
+        create_home: True
+        uid: 5000
+        group: 5000
+
+    - name: Sync pacman database
+      pacman:
+        update_cache: yes

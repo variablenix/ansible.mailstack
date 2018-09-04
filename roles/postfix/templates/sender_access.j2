@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+## Black/Whitelist for senders matching the 'MAIL FROM' field.
+# source: https://wiki.centos.org/HowTos/postfix_restrictions
+##
+# ADDRESS PATTERNS          # ACTION
+#123.456.789.123            REJECT Your IP is spam
+#123.456.789.0/24           REJECT Your IP range is spam
+#tux@tux.org      		      OK
+#myfriend@example.com       OK
+#junk@spam.com              REJECT
+#marketing@                 REJECT
+#theboss@                   OK
+#deals.marketing.com        REJECT
+#somedomain.com             OK
+#sender@example.com         550 Blacklisted
+
+op-srl.it                   REJECT
+91053.net                   REJECT
+90983.net                   REJECT

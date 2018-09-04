@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: CRT
+  description: This Playbook installs and configures a Mailstack to use with an OpenLDAP backend.
+  license: MIT
+  min_ansible_version: 2.4
+  platforms:
+    - name: ArchLinux
+      versions:
+        - all
+  galaxy_tags:
+    - email
+    - mail
+    - system
+dependencies: []

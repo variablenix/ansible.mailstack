@@ -1,0 +1,23 @@
+---
+- name: Ensure Prefix WhoIs Milter is installed
+  makepkg:
+    name: pwhois_milter
+    state: present
+    as_deps: true
+  notify: restart pwhois_milter
+
+- name: Create PWhois directory
+  file:
+    path: /run/pwhois_milter
+    state: directory
+    owner: postfix
+    group: postfix
+    mode: 0755
+
+# Finally ensure PWhois is running
+- name: Enable PWhois_Milter
+  systemd:
+    name: pwhois_milter
+    enabled: yes
+    masked: no
+    state: started

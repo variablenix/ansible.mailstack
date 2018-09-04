@@ -1,0 +1,35 @@
+# {{ ansible_managed }}
+hosts = {{ ldap_server_provider }}.{{ domain }} {{ ldap_server_consumer1 }}.{{ domain }} {{ ldap_server_consumer2 }}.{{ domain }}
+auth_bind = yes
+ldap_version = 3
+base = {{ ldap_mail_search_base }}
+deref = never
+scope = subtree
+default_pass_scheme = SSHA
+
+# password filter with prefetch enabled [8/18/18: mailEnabled attribute is not respected]
+#pass_attrs  = mail=user,userPassword=password,mailHomeDirectory=userdb_home,mailStorageDirectory=userdb_mail,mailUidNumber=userdb_uid,mailGidNumber=userdb_gid,mailQuota=userdb_quota_rule=*:bytes=%$
+#pass_filter = (&(objectclass=inetOrgPerson)(uid=%n)(mailEnabled=TRUE))
+
+# password filter with prefetch disabled
+pass_attrs  = mail=user,userPassword=password
+pass_filter = (&(objectclass=inetOrgPerson)(uid=%n))
+
+# user filter
+user_attrs = mailHomeDirectory=home,mailStorageDirectory=mail,mailUidNumber=uid,mailGidNumber=gid,mailQuota=quota_rule=*:bytes=%$
+user_filter = (&(objectclass=inetOrgPerson)(uid=%n)(mailEnabled=TRUE))
+
+iterate_attrs = mail=user
+iterate_filter = (objectClass=inetOrgPerson)
+
+# Use TLS to connect to the LDAP server.
+tls = {{ dovecot_ldap_tls }}
+# TLS options, currently supported only with OpenLDAP:
+tls_ca_cert_file = {{ tls_ca_cert }}
+tls_ca_cert_dir = {{ tls_ca_cert_dir }}
+tls_cipher_suite = ALL:!LOW:!SSLv2:!EXP:!aNULL
+# TLS cert/key is used only if LDAP server requires a client certificate.
+#tls_cert_file = {{ dovecot_ssl_dir }}/{{ tls_cert }}
+#tls_key_file = {{ dovecot_ssl_dir }}/{{ tls_key_cert }}
+# Valid values: never, hard, demand, allow, try
+tls_require_cert = demand

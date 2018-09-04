@@ -1,0 +1,161 @@
+---
+# Install Postfix if not present
+- name: Install Postfix
+  pacman:
+    name: postfix
+    state: present
+
+# Configure main.cf
+- name: Configure Postfix main.cf
+  template:
+    src: main.cf.j2
+    dest: "{{ postfix_config_file }}"
+    mode: 0644
+  notify: reload postfix
+  tags: [postfixconfig]
+
+- name: Set mynetworks
+  lineinfile:
+    path: "{{ postfix_config_file }}"
+    regexp: '^mynetworks = 127\.0\.0\.0'
+    line: "mynetworks = {{ postfix_networks_host1 }}"
+    owner: root
+    group: root
+    mode: 0644
+  tags: [postfixconfig]
+  when: inventory_hostname == "host1"
+
+- name: Set mynetworks
+  lineinfile:
+    path: "{{ postfix_config_file }}"
+    regexp: '^mynetworks = 127\.0\.0\.0'
+    line: "mynetworks = {{ postfix_networks_host2 }}"
+    owner: root
+    group: root
+    mode: 0644
+  tags: [postfixconfig]
+  when: inventory_hostname == "host2"
+
+- name: Set mynetworks
+  lineinfile:
+    path: "{{ postfix_config_file }}"
+    regexp: '^mynetworks \= 127\.0\.0\.0'
+    line: "mynetworks = {{ postfix_networks_host3 }}"
+    owner: root
+    group: root
+    mode: 0644
+  tags: [postfixconfig]
+  when: inventory_hostname == "host3"
+
+# Use when Dovecot is not on same host as MX
+- name: Ensure virtual_transport points to primary LMTP node address
+  lineinfile:
+    path: "{{ postfix_config_file }}"
+    regexp: '^virtual_transport'
+    line: "virtual_transport = lmtp:192.168.1.x:24"
+    owner: root
+    group: root
+    mode: 0644
+  tags: [postfixconfig]
+  when: inventory_hostname == "host3"
+
+# Configure master.cf
+- name: Configure Postfix master.cf
+  template:
+    src: master.cf.j2
+    dest: "{{ postfix_master_file }}"
+    mode: 0644
+  notify: reload postfix
+  tags: [postfixconfig]
+
+
+# Configure Postfix header_checks
+- name: Configure Postfix header_checks
+  template:
+    src: header_checks.j2
+    dest: "{{ header_checks_config }}"
+    mode: 0644
+  notify: reload postfix
+  tags: [header_checks]
+
+# Configure Postfix sender_access
+- name: Configure Postfix sender_access
+  tags: [sender_access]
+  template:
+    src: sender_access.j2
+    dest: "{{ sender_access_config }}"
+    mode: 0644
+
+# Run postmap to hash sender_access and reload Postfix
+- name: Hash sender_access with postmap
+  shell: postmap "{{ sender_access_config }}"
+  notify: reload postfix
+  tags: [sender_access]
+
+# Configure SMTP header checks
+- name: Configure Postfix SMTP header checks
+  tags: [smtp_header_checks]
+  template:
+    src: smtp_header_checks.j2
+    dest: "{{ smtp_header_checks_config }}"
+    mode: 0644
+
+
+# LDAP
+- name: Create Postfix LDAP directory
+  file:
+    path: "{{ postfix_ldap_dir }}"
+    state: directory
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+    mode: 0755
+  tags: [postfix_ldap]
+
+- name: Configure virtual LDAP mailbox
+  template:
+    src: ../templates/ldap/{{ ldap_vmailbox }}.j2
+    dest: "{{ postfix_ldap_dir }}/{{ ldap_vmailbox }}"
+    mode: 0644
+  notify: reload postfix
+  tags: [postfix_ldap]
+
+- name: Configure virtual LDAP mail aliases
+  template:
+    src: ../templates/ldap/{{ ldap_aliases }}.j2
+    dest: "{{ postfix_ldap_dir }}/{{ ldap_aliases }}"
+    mode: 0644
+  notify: reload postfix
+  tags: [postfix_ldap]
+
+- name: Configure virtual LDAP mail domains
+  template:
+    src: ../templates/ldap/{{ ldap_domains }}.j2
+    dest: "{{ postfix_ldap_dir }}/{{ ldap_domains }}"
+    mode: 0644
+  notify: reload postfix
+  tags: [postfix_ldap]
+
+- name: Configure virtual LDAP mail forwarding
+  template:
+    src: ../templates/ldap/{{ ldap_forward }}.j2
+    dest: "{{ postfix_ldap_dir }}/{{ ldap_forward }}"
+    mode: 0644
+  notify: reload postfix
+  tags: [postfix_ldap]
+
+- name: Configure virtual LDAP mail distribution groups
+  template:
+    src: ../templates/ldap/{{ ldap_groups }}.j2
+    dest: "{{ postfix_ldap_dir }}/{{ ldap_groups }}"
+    mode: 0644
+  notify: reload postfix
+  tags: [postfix_ldap]
+
+
+# Finally ensure Postfix is running
+- name: Enable Postfix
+  systemd:
+    name: postfix
+    enabled: yes
+    masked: no
+    state: started

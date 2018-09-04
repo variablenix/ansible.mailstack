@@ -1,0 +1,14 @@
+---
+- name: Ensure Python Postfix SPF is installed
+  makepkg:
+    name: python-postfix-policyd-spf
+    state: present
+    as_deps: true
+
+- name: Sync policyd-spf configuration
+  copy:
+    src: ../files/policyd-spf.conf
+    dest: /etc/python-policyd-spf/policyd-spf.conf
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+    mode: 0644

@@ -1,0 +1,81 @@
+---
+# Domains
+domain: "domain.tld"
+domain_email: "domain.email"
+
+# Permissions
+global_owner: "root"
+global_group: "root"
+
+# Certificates
+tls_cert: ""
+tls_key_cert: ""
+tls_chain_cert: ""
+tls_ca_cert: "/etc/ssl/certs/ca-certificates.crt"
+tls_ca_cert_dir: "/etc/ssl/certs"
+
+# Postfix/Postgrey
+postfix_conf_dir: "/etc/postfix"
+postfix_ssl_dir: "/etc/postfix/ssl"
+postfix_ssl_cert: "{{ tls_cert }}"
+postfix_ssl_key: "{{ tls_key_cert }}"
+postfix_ssl_chain: "{{ tls_chain_cert }}"
+postfix_config_file: "{{ postfix_conf_dir }}/main.cf"
+postfix_master_file: "{{ postfix_conf_dir }}/master.cf"
+header_checks_config: "{{ postfix_conf_dir }}/header_checks"
+sender_access_config: "{{ postfix_conf_dir }}/sender_access"
+smtp_header_checks_config: "{{ postfix_conf_dir }}/smtp_header_checks"
+postfix_networks_host1: "127.0.0.0/8 192.168.1.0/24 <WAN IP> [::1]/128 [2600:3c01::]/64 [fe80::]/64"
+postfix_networks_host2: "127.0.0.0/8 192.168.2.0/24 <WAN IP> [::1]/128 [2600:3c01::]/64 [fe80::]/64"
+postfix_networks_host3: "127.0.0.0/8 192.168.3.0/24 <WAN IP> [::1]/128 [2600:3c01::]/64 [fe80::]/64"
+postfix_inet_interfaces: "all"
+postfix_message_size_limit: "20480000"
+postfix_virtual_mailbox_base: "/home/vmail/"
+postgrey_whitelist_clients: "{{ postfix_conf_dir }}/postgrey_whitelist_clients.local"
+postgrey_whitelist_recipients: "{{ postfix_conf_dir }}/postgrey_whitelist_recipients.local"
+
+# LDAP
+postfix_ldap_dir: "{{ postfix_conf_dir }}/ldap"
+ldap_vmailbox: "ldap-vmailbox.cf"
+ldap_aliases: "ldap-aliases.cf"
+ldap_domains: "ldap-virtual-domains.cf"
+ldap_forward: "ldap-forward.cf"
+ldap_groups: "ldap-groups.cf"
+ldap_server_provider: "ldaphost1"
+ldap_server_consumer1: "ldaphost2"
+ldap_server_consumer2: "ldaphost3"
+ldap_mail_search_base: "ou=Mail,dc=domain,dc=tld"
+ldap_mail_groups_search_base: "ou=Groups,ou=Mail,dc=domain,dc=tld"
+ldap_mail_domains_search_base: "ou=Domains,dc=domain,dc=tld"
+ldap_bind: "no"
+starttls: "yes"
+requiretls: "yes"
+
+# OpenDMARC
+opendmarc_dir: "/etc/opendmarc"
+authserverid: "{{ inventory_hostname }}"
+opendmarcsock: "unix:/run/opendmarc/opendmarc.sock"
+
+# Dovecot
+dovecot_dir: "/etc/dovecot"
+dovecot_mcrypt_dir: "/etc/dovecot/mcrypt"
+dovecot_ssl_dir: "/etc/dovecot/ssl"
+dovecot_conf_dir: "/etc/dovecot/conf.d"
+dovecot_trash: "dovecot-trash.conf.ext"
+dovecot_ldap_conf: "dovecot-ldap.conf.ext"
+dovecot_ldap_master: "dovecot-ldap-masteruser.conf.ext"
+dovecot_ldap_symlink: "dovecot-ldap-userdb.conf.ext"
+dovecot_ldap_tls: "yes"
+dovecot_primary_host: "host1"
+dovecot_secondary_host: "host2"
+dovecot_lmtp_primary_address: "WAN_IP LOCAL_IP 127.0.0.1 ::1"
+dovecot_lmtp_secondary_address: "WAN_IP LOCAL_IP 127.0.0.1 ::1"
+dovecot_submission_host: "mail.{{ domain }}"
+doveadm_password:
+
+  create:   ansible-vault encrypt_string 'secretpw' --name 'doveadm_password'
+
+# SASL
+sasldest: "/etc/saslauthd.conf"
+sasldest2: "/etc/conf.d/saslauthd"
+sasldest3: "/usr/lib/sasl2/smtpd.conf"

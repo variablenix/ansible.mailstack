@@ -1,0 +1,25 @@
+---
+- name: start saslauthd
+  systemd:
+    name: saslauthd
+    enabled: yes
+    state: started
+  become: yes
+
+- name: stop saslauthd
+  systemd:
+    name: saslauthd
+    enabled: yes
+    state: stopped
+  become: yes
+
+- name: restart saslauthd
+  systemd:
+    name: saslauthd
+    enabled: yes
+    state: restarted
+  become: yes
+
+- name: reload systemd daemon
+  systemd:
+    daemon_reload: yes

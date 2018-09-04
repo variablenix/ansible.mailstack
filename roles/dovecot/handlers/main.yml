@@ -1,0 +1,30 @@
+---
+- name: start dovecot
+  systemd:
+    name: dovecot
+    enabled: yes
+    state: started
+  become: yes
+
+- name: stop dovecot
+  systemd:
+    name: dovecot
+    enabled: yes
+    state: stopped
+  become: yes
+
+- name: reload dovecot
+  systemd:
+    name: dovecot
+    state: reloaded
+
+- name: restart dovecot
+  systemd:
+    name: dovecot
+    enabled: yes
+    state: restarted
+  become: yes
+
+- name: reload systemd daemon
+  systemd:
+    daemon_reload: yes

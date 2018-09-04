@@ -1,0 +1,167 @@
+---
+# Install Dovecot and Pigeonhole
+- name: Install Dovecot and Pigeonhole
+  pacman:
+    name: dovecot,pigeonhole
+    state: present
+  when: inventory_hostname in groups['imap']
+  tags: [doveconfig]
+
+# Configure Dovecot
+- name: Configure dovecot.conf
+  copy:
+    src: dovecot.conf
+    dest: "{{ dovecot_dir }}/dovecot.conf"
+    mode: 0644
+  when: inventory_hostname in groups['imap']
+  notify: reload dovecot
+  tags: [doveconfig]
+
+- name: Sync Dovecot config files
+  template:
+    src: "conf.d/{{ item }}.j2"
+    dest: "{{ dovecot_conf_dir }}/{{ item }}"
+    backup: yes
+  when: inventory_hostname in groups['imap']
+  notify: reload dovecot
+  tags: [doveconfig]
+  with_items:
+    - 10-auth.conf
+    - 10-director.conf
+    - 10-logging.conf
+    - 10-mail.conf
+    - 10-master.conf
+    - 10-ssl.conf
+    - 15-lda.conf
+    - 15-mailboxes.conf
+    - 20-imap.conf
+    - 20-managesieve.conf
+    - 20-pop3.conf
+    - 20-submission.conf
+    - 90-acl.conf
+    - 90-plugin.conf
+    - 90-quota.conf
+    - 90-sieve-extprograms.conf
+    - 90-sieve.conf
+    - auth-checkpassword.conf.ext
+    - auth-deny.conf.ext
+    - auth-dict.conf.ext
+    - auth-ldap.conf.ext
+    - auth-master.conf.ext
+    - auth-passwdfile.conf.ext
+    - auth-static.conf.ext
+    - auth-system.conf.ext
+
+# Set dsync replication
+- name: Set replication on primary node
+  template:
+    src: "conf.d/replication/primary/99-replicator.conf.j2"
+    dest: "{{ dovecot_conf_dir }}/99-replicator.conf"
+    backup: yes
+  when: inventory_hostname == "host1"
+  notify: reload dovecot
+  tags: [doveconfig]
+
+- name: Set replication host on secondary node
+  template:
+    src: "conf.d/replication/secondary/99-replicator.conf.j2"
+    dest: "{{ dovecot_conf_dir }}/99-replicator.conf"
+    backup: yes
+  when: inventory_hostname == "host2"
+  notify: reload dovecot
+  tags: [doveconfig]
+
+# Set LMTP address for primary and secondary nodes
+- name: Set LMTP address on primary node
+  template:
+    src: "conf.d/lmtp/primary/20-lmtp.conf.j2"
+    dest: "{{ dovecot_conf_dir }}/20-lmtp.conf"
+    backup: yes
+  when: inventory_hostname == "host1"
+  notify: reload dovecot
+  tags: [doveconfig]
+
+- name: Set LMTP address on secondary node
+  template:
+    src: "conf.d/lmtp/secondary/20-lmtp.conf.j2"
+    dest: "{{ dovecot_conf_dir }}/20-lmtp.conf"
+    backup: yes
+  when: inventory_hostname == "host2"
+  notify: reload dovecot
+  tags: [doveconfig]
+
+- name: Create MailCrypt directory
+  file:
+    path: "{{ dovecot_mcrypt_dir }}"
+    state: directory
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+    mode: 0755
+  tags: [doveconfig]
+
+- name: Push MailCrypt private/public keys
+  copy:
+    src: "mcrypt/{{ item }}"
+    dest: "{{ dovecot_mcrypt_dir }}/{{ item }}"
+  when: inventory_hostname in groups['imap']
+  notify: reload dovecot
+  tags: [doveconfig]
+  with_items:
+    - ecprivkey.pem
+    - ecpubkey.pem
+
+- name: Push quota warning script
+  copy:
+    src: scripts/quota-warning.sh
+    dest: /usr/loca/bin/quota-warning.sh
+    mode: a+x
+  when: inventory_hostname in groups['imap']
+  tags: [doveconfig]
+
+# Trash
+- name: Configure Trash settings
+  copy:
+    src: "{{ dovecot_trash }}"
+    dest: "{{ dovecot_dir }}/{{ dovecot_trash }}"
+    mode: 0644
+  when: inventory_hostname in groups['imap']
+  notify: reload dovecot
+  tags: [doveconfig]
+
+# LDAP
+- name: Configure LDAP auth
+  template:
+    src: "{{ dovecot_ldap_conf }}.j2"
+    dest: "{{ dovecot_dir }}/{{ dovecot_ldap_conf }}"
+    mode: 0640
+  when: inventory_hostname in groups['imap']
+  notify: reload dovecot
+  tags: [dovecot_ldap,doveconfig]
+
+- name: Create dovecot-ldap.conf.ext symlink
+  file:
+    src: "{{ dovecot_dir }}/{{ dovecot_ldap_conf }}"
+    dest: "{{ dovecot_dir }}/{{ dovecot_ldap_symlink }}"
+    state: link
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+  when: inventory_hostname in groups['imap']
+  tags: [dovecot_ldap,doveconfig]
+
+- name: Configure LDAP master user
+  template:
+    src: "{{ dovecot_ldap_master }}.j2"
+    dest: "{{ dovecot_dir }}/{{ dovecot_ldap_master }}"
+    mode: 0640
+  when: inventory_hostname in groups['imap']
+  notify: reload dovecot
+  tags: [dovecot_ldap,doveconfig]
+
+
+# Finally ensure Dovecot is running
+- name: Enable Dovecot
+  systemd:
+    name: dovecot
+    enabled: yes
+    masked: no
+    state: started

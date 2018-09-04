@@ -1,0 +1,34 @@
+---
+# Install OpenDMARC if not present
+- name: Install OpenDMARC if needed
+  pacman:
+    name: opendmarc
+    state: present
+
+- name: Copy custom systemd opendmarc.service file to /etc/systemd/system/
+  copy: >
+    src=opendmarc.service
+    dest=/etc/systemd/system/opendmarc.service
+    mode=644
+  notify: reload systemd daemon
+
+- name: Automatically create socket directory
+  copy: >
+    src=tmpfiles.d/opendmarc.conf
+    dest=/etc/tmpfiles.d/opendmarc.conf
+  notify: restart opendmarc
+
+- name: Sync OpenDMARC configuration
+  template:
+    src: opendmarc.conf.j2
+    dest: "{{ opendmarc_dir }}/opendmarc.conf"
+    mode: 0640
+  notify: restart opendmarc
+  tags: [opendmarc]
+  
+- name: Ensure OpenDMARC is enabled
+  systemd:
+    name: opendmarc
+    enabled: yes
+    masked: no
+    state: started

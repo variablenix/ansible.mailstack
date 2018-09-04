@@ -1,0 +1,36 @@
+---
+# Install Postgrey if not present
+- name: Install Postgrey if needed
+  pacman:
+    name: postgrey
+    state: present
+
+- name: Copy custom systemd postgrey.service file to /etc/systemd/system/
+  copy: >
+    src=postgrey.service
+    dest=/etc/systemd/system/postgrey.service
+    mode=644
+  notify: reload systemd daemon
+
+- name: Enable Postgrey
+  systemd:
+    name: postgrey
+    enabled: yes
+    masked: no
+    state: started
+
+- name: Whitelist local Postgrey clients
+  template:
+        src: postgrey_whitelist_clients.local.j2
+        dest: "{{ postgrey_whitelist_clients }}"
+        mode: 0644
+  notify: restart postgrey
+  tags: [postgrey_whitelist]
+
+- name: Whitelist local Postgrey recipients
+  template:
+        src: postgrey_whitelist_recipients.local.j2
+        dest: "{{ postgrey_whitelist_recipients }}"
+        mode: 0644
+  notify: restart postgrey
+  tags: [postgrey_whitelist]

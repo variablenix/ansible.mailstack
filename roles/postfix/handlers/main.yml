@@ -1,0 +1,30 @@
+---
+- name: start postfix
+  systemd:
+    name: postfix
+    enabled: yes
+    state: started
+  become: yes
+
+- name: stop postfix
+  systemd:
+    name: postfix
+    enabled: yes
+    state: stopped
+  become: yes
+
+- name: reload postfix
+  systemd:
+    name: postfix
+    state: reloaded
+
+- name: restart postfix
+  systemd:
+    name: postfix
+    enabled: yes
+    state: restarted
+  become: yes
+
+- name: reload systemd daemon
+  systemd:
+    daemon_reload: yes

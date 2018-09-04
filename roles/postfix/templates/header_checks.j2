@@ -1,0 +1,187 @@
+# {{ ansible_managed }}
+# http://www.postfix.org/header_checks.5.html
+# https://gist.github.com/midwire/19ff582d3fcdf3b495a2/0b208078b36e26802132954d836407382aeae9a5
+/^Content-Type:.*?charset\s*=\s*"?(Big5|gb2312|euc-cn)"?/ REJECT HDR2100: Unaccepted character set: "$1"
+/^Content-Type:.*?charset\s*=\s*"?(euc-kr|iso-2022-kr)"?/ REJECT HDR2110: Unaccepted character set: "$1"
+/^Content-Type:.*?charset\s*=\s*"?(iso-2022-\w+|euc-jp|shift_jis)"?/ REJECT HDR2120: Unaccepted character set: "$1"
+/^Content-Type:.*?charset\s*=\s*"?(koi8-(?:r|u))"?/ REJECT HDR2200: Unaccepted character set: "$1"
+/^Content-Type:.*?charset\s*=\s*"?(windows-(?:1250|1251))"?/ REJECT HDR2210: Unaccepted character set: "$1"
+
+/^Content-(Disposition|Type).*name\s*=\s*"?([^;]*(\.|=2E)(
+              ade|adp|asp|bas|bat|chm|cmd|com|cpl|crt|dll|exe|
+              hlp|ht[at]|
+              inf|ins|isp|jse?|lnk|md[betw]|ms[cipt]|nws|
+              \{[[:xdigit:]]{8}(?:-[[:xdigit:]]{4}){3}-[[:xdigit:]]{12}\}|
+              ops|pcd|pif|prf|reg|sc[frt]|sh[bsm]|swf|
+              vb[esx]?|vxd|ws[cfh]))(\?=)?"?\s*(;|$)/x
+              REJECT Attachment name "$2" may not end with ".$4"
+
+#/^Content-Type:.*OFFICEDOCUMENT/ REJECT We do not accept your spam.
+/^From:.*agilenscrumsservices.com/ REJECT We do not accept your spam.
+/^From:.*avi.maderer@gmail.com/ REJECT We do not accept your spam.
+/^From:.*buckaroo.com/ REJECT We do not accept your spam.
+/^From:.*concannonforkansas.com/ REJECT We do not accept your spam.
+/^From:.*connect.vmware.com/ REJECT We do not accept your spam.
+/^From:.*contactmaxima.com/ REJECT We do not accept your spam.
+/^From:.*deltashore.net/ REJECT We do not accept your spam.
+/^From:.*facebookmail.com/ REJECT We do not accept your spam.
+/^From:.*gfs.com.pk/ REJECT We do not accept your spam.
+/^From:.*libertyquest2@netzero.net/ REJECT We do not accept your spam.
+/^From:.*lipodoc.com/ REJECT We do not accept your spam.
+/^From:.*matchcom/ REJECT We do not accept your spam.
+/^From:.*mediamoxi.com/ REJECT We do not accept your spam.
+/^From:.*nckcn.com/ REJECT We do not accept your spam.
+/^From:.*permissionswitch.com/ REJECT We do not accept your spam.
+/^From:.*philcase\.com/ REJECT We do not accept your spam.
+/^From:.*regus.com/ REJECT We do not accept your spam.
+#/^From:.*senate.gov/ REJECT We do not accept your spam.
+/^From:.*thecreativecoast.org/ REJECT We do not accept your spam.
+/^From:.*trainersdirectbb.info/ REJECT Fuck off!
+/^From:.*tribalfusion.com/ REJECT We do not accept your spam.
+/^From:.*turbotax.intuit.com/ REJECT We do not accept your spam.
+/^From:.*webistry.net/ REJECT We do not accept your spam.
+/^List-Unsubscribe:.*knowledgehut/ REJECT We do not accept your spam.
+/^Organization:.*MediaMoxi/ REJECT We do not accept your spam.
+#/^Precedence:.*bulk/ REJECT We do not accept your spam.
+/^Received:.*123-vps.co.uk/ REJECT We do not accept your spam.
+#/^Received:.*\.gov/ REJECT We do not accept your spam.
+/^Received:.*akooka.org/ REJECT We do not accept your spam.
+/^Received:.*angelvisionnews.com/ REJECT We do not accept your spam.
+/^Received:.*aql.com/ REJECT We do not accept your spam.
+/^Received:.*assistanttrain.com/ REJECT We do not accept your spam.
+/^Received:.*automatcher.net/ REJECT We do not accept your spam.
+/^Received:.*b2b-mail.net/ REJECT We do not accept your spam.
+/^Received:.*b2bsalesgeneration.net/ REJECT We do not accept your spam.
+/^Received:.*bigwetfish.co.uk/ REJECT We do not accept your spam.
+/^Received:.*bluehornet.com/ REJECT We do not accept your spam.
+/^Received:.*bms.local/ REJECT We do not accept your spam.
+/^Received:.*bmsend.com/ REJECT We do not accept your spam.
+/^Received:.*boatsandcycles.com/ REJECT We do not accept your spam.
+/^Received:.*bridgemailsystem.com/ REJECT We do not accept your spam.
+/^Received:.*buckaroomail.net/ REJECT We do not accept your spam.
+/^Received:.*bullhorn.com/ REJECT We do not accept your spam.
+/^Received:.*careerdar.com/ REJECT We do not accept your spam.
+/^Received:.*cexfees.com/ REJECT We do not accept your spam.
+/^Received:.*charter.com/ REJECT We do not accept your spam.
+/^Received:.*chkmails.com/ REJECT We do not accept your spam.
+/^Received:.*cloudestar.com/ REJECT We do not accept your spam.
+/^Received:.*coltonbarrett.net/ REJECT We do not accept your spam.
+/^Received:.*cornerstoneondemand.us/ REJECT We do not accept your spam.
+/^Received:.*createsend.com/ REJECT We do not accept your spam.
+/^Received:.*cventrsvp.com/ REJECT We do not accept your spam.
+/^Received:.*damcogroup.co/ REJECT We do not accept your spam.
+/^Received:.*demandprogress.org/ REJECT We do not accept your spam.
+/^Received:.*dramachinese.net/ REJECT We do not accept your spam.
+/^Received:.*e2ma.net/ REJECT We do not accept your spam.
+/^Received:.*elgservice3.com/ REJECT We do not accept your spam.
+/^Received:.*email11-edithroman.com/ REJECT We do not accept your spam.
+/^Received:.*en25.com/ REJECT We do not accept your spam.
+/^Received:.*equiptglobalhealth.com/ REJECT We do not accept your spam.
+/^Received:.*etransformersgames.com/ REJECT We do not accept your spam.
+/^Received:.*ezeemail.co.in/ REJECT We do not accept your spam.
+/^Received:.*fakebody.com/ REJECT We do not accept your spam.
+/^Received:.*flatfeehire.info/ REJECT We do not accept your spam.
+/^Received:.*fmr.com/ REJECT We do not accept your spam.
+/^Received:.*freepbx.org/ REJECT We do not accept your spam.
+/^Received:.*getexpertideas.com/ REJECT We do not accept your spam.
+/^Received:.*hostgator.com/ REJECT We do not accept your spam.
+#/^Received:.*house.gov/ REJECT We do not accept your spam.
+/^Received:.*icpbounce.com/ REJECT We do not accept your spam.
+/^Received:.*iipub.com/ REJECT We do not accept your spam.
+/^Received:.*javamag.org/ REJECT We do not accept your spam.
+/^Received:.*jilorion.com/ REJECT We do not accept your spam.
+/^Received:.*kfbcorp.com/ REJECT We do not accept your spam.
+/^Received:.*kisscase.com/ REJECT We do not accept your spam.
+/^Received:.*lexml2.com/ REJECT We do not accept your spam.
+/^Received:.*logicalmc.net/ REJECT We do not accept your spam.
+#/^Received:.*luna.mailgun.net/ REJECT We do not accept your spam.
+/^Received:.*mailengine1.com/ REJECT We do not accept your spam.
+/^Received:.*marketo.org/ REJECT We do not accept your spam.
+/^Received:.*mcdlv.net/ REJECT We do not accept your spam.
+/^Received:.*mcsv.net/ REJECT We do not accept your spam.
+/^Received:.*md02.com/ REJECT We do not accept your spam.
+/^Received:.*mkt3423.com/ REJECT We do not accept your spam.
+/^Received:.*mkt4270.com/ REJECT We do not accept your spam.
+/^Received:.*mktdns.com/ REJECT We do not accept your spam.
+/^Received:.*my-virtual-panel.com/ REJECT We do not accept your spam.
+/^Received:.*net.il/ REJECT We do not accept your spam.
+/^Received:.*nh-serv.co.uk/ REJECT We do not accept your spam.
+/^Received:.*nuance.com/ REJECT We do not accept your spam.
+/^Received:.*originan.com/ REJECT We do not accept your spam.
+/^Received:.*otteman.net/ REJECT We do not accept your spam.
+/^Received:.*pdpworkshops.net/ REJECT We do not accept your spam.
+/^Received:.*perfora.net/ REJECT We do not accept your spam.
+/^Received:.*peritocaligrafojudicial.com/ REJECT We do not accept your spam.
+/^Received:.*permissionswitch.com/ REJECT We do not accept your spam.
+/^Received:.*philcase.com/ REJECT We do not accept your spam.
+/^Received:.*phraekers.com/ REJECT We do not accept your spam.
+/^Received:.*professionalcareertraining.co/ REJECT We do not accept your spam.
+/^Received:.*psnnewsletter.com/ REJECT We do not accept your spam.
+/^Received:.*ptransmail.com/ REJECT We do not accept your spam.
+/^Received:.*rcutwousfranc.info/ REJECT We do not accept your spam.
+/^Received:.*redstoneservers.net/ REJECT We do not accept your spam.
+/^Received:.*registrar-servers.com/ REJECT We do not accept your spam.
+/^Received:.*resourcecourse.com/ REJECT We do not accept your spam.
+/^Received:.*rightonin.com/ REJECT We do not accept your spam.
+/^Received:.*safeerVAIO/ REJECT We do not accept your spam.
+/^Received:.*sailthru.com/ REJECT We do not accept your spam.
+/^Received:.*sakura.ne.jp/ REJECT We do not accept your spam.
+/^Received:.*salsalabs.net/ REJECT We do not accept your spam.
+/^Received:.*schmoozecom.net/ REJECT We do not accept your spam.
+/^Received:.*servetheworld.net/ REJECT We do not accept your spam.
+/^Received:.*sevencircle-bd.com/ REJECT We do not accept your spam.
+/^Received:.*sevtelecom.ru/ REJECT We do not accept your spam.
+/^Received:.*snacleaners.com/ REJECT We do not accept your spam.
+/^Received:.*soccerfitnessdrills.net/ REJECT We do not accept your spam.
+/^Received:.*sprintsheet.com/ REJECT We do not accept your spam.
+/^Received:.*startdedicated.com/ REJECT We do not accept your spam.
+/^Received:.*talentlogic-it.com/ REJECT We do not accept your spam.
+/^Received:.*traceyysmith.com/ REJECT We do not accept your spam.
+/^Received:.*trartstudio.com/ REJECT We do not accept your spam.
+/^Received:.*univ-lyon1.fr/ REJECT We do not accept your spam.
+/^Received:.*verticalresponse.com/ REJECT We do not accept your spam.
+/^Received:.*wmp.cz/ REJECT We do not accept your spam.
+/^Received:.*yahoo.co.jp/ REJECT We do not accept your spam.
+/^Received:.*yammer-email.com/ REJECT We do not accept your spam.
+/^Received:.*yourminehoney.com/ REJECT We do not accept your spam.
+/^Received:.*yourseminars.net/ REJECT We do not accept your spam.
+/^Received:.*yourseminars.org/ REJECT We do not accept your spam.
+/^Received:.*zenbox.pl/ REJECT We do not accept your spam.
+/^Received:.*zoorich-ins.com/ REJECT We do not accept your spam.
+/^Return-Path:.*ideascost/ REJECT We do not accept your spam.
+/^Return-Path:.*knowledgehut/ REJECT We do not accept your spam.
+/^Return-Path:.*mail-return.net/ REJECT We do not accept your spam.
+/^Return-Path:.*talentlogic/ REJECT We do not accept your spam.
+/^X-CLX-Shades:.*?Junk/ REJECT We do not accept your spam.
+/^X-CLX-Spam:.*?true/ REJECT We do not accept your spam.
+/^Received:.*sears.ca/ REJECT We do not accept your spam.
+/^Received:.*puntopy.com/ REJECT We do not accept your spam.
+/^Received:.*gtdinternet.com/ REJECT We do not accept your spam.
+/^From:.*From:.*suntrust.com/ REJECT We do not accept your spam.
+/^From:.*From:.*basinill.rocks/ REJECT We do not accept your spam.
+/^From:.*Received:.*basinill.rocks/ REJECT We do not accept your spam.
+/^Received:.*rsgsv.net/ REJECT We do not accept your spam.
+/^From:.*notifications@zohocorp.com/ REJECT We do not accept your spam.
+/^From:.*vemployee.com/ REJECT We do not accept your spam.
+/^Received:.*jpksummits.com/ REJECT We do not accept your spam.
+/^Received:.*yrtech.*/ REJECT We do not accept your spam.
+/^Received:.*independentamericanparty.org/ REJECT We do not accept your spam.
+/^Received:.*palcomweb.net/ REJECT We do not accept your spam.
+
+
+# Normal Headers
+/^To:/		INFO
+/^From:/	INFO
+/^Subject:/	INFO
+# PWhoIs Milter Headers
+/^X-PWhois-City:/	INFO
+/^X-PWhois-Region:/ INFO
+/^X-PWhois-Country:/ INFO
+/^X-PWhois-Org-Name:/ INFO
+/^X-PWhois-AS-Org-Name:/ INFO
+
+# Forward Spam for analysis
+/^X-Spam-Status: Yes/ BCC spam@{{ domain_email }}
+#/^X-Spam-Status: Yes/ REDIRECT spam@{{ domain_email }}
+
+# EOF

@@ -1,0 +1,27 @@
+# {{ ansible_managed }}
+##
+## Plugin settings
+##
+
+# All wanted plugins must be listed in mail_plugins setting before any of the
+# settings take effect. See <doc/wiki/Plugins.txt> for list of plugins and
+# their configuration. Note that %variable expansion is done for all values.
+
+plugin {
+  push_notification_driver = dlog
+  fts = solr
+  fts_autoindex = yes
+  fts_solr = url=http://localhost:8983/solr/dovecot/ break-imap-search
+  fts_decoder = decode2text
+  #fts_solr = url=http://localhost:8983/solr/dovecot/ break-imap-search debug
+  #setting_name = value
+}
+
+# Index Attachments https://wiki.dovecot.org/Plugins/FTS
+service decode2text {
+  executable = script /usr/lib/dovecot/decode2text.sh
+  user = dovecot
+  unix_listener decode2text {
+  mode = 0666
+  }
+}

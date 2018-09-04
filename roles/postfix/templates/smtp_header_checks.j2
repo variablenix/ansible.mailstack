@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+# Hide the sender's IP and user agent in the Received header
+# This is a privacy concern mostly, if you use Thunderbird and send an email. The received header will contain your LAN and WAN IP and info about the email client you used. What we want to do is remove the Received header from outgoing emails.
+/^\s*(Received: from)[^\n]*(.*)/ REPLACE $1 [127.0.0.1] (localhost [127.0.0.1])$2
+/^Received: .*/       IGNORE
+/^User-Agent: .*/     IGNORE
+/^X-Originating-IP:/  IGNORE
+/^\s*User-Agent/      IGNORE
+/^\s*X-Enigmail/      IGNORE
+/^\s*X-Mailer/        IGNORE

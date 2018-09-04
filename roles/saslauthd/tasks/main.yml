@@ -1,0 +1,34 @@
+---
+# Install cyrus-sasl if not present
+- name: Install Cyrus saslauthd SASL authentication daemon
+  pacman:
+    name: cyrus-sasl
+    state: present
+
+- name: Configure LDAP mail settings
+  template:
+    src: saslauthd.conf.j2
+    dest: "{{ sasldest }}"
+    mode: 0644
+  notify: restart saslauthd
+
+- name: Set Cyrus SASL to use LDAP
+  copy:
+    src: conf.d/saslauthd
+    dest: "{{ sasldest2 }}"
+    mode: 0644
+  notify: restart saslauthd
+
+- name: Push smtpd SASL config
+  copy:
+    src: smtpd.conf
+    dest: "{{ sasldest3 }}"
+    mode: 0644
+  notify: restart saslauthd
+
+- name: Ensure Cyrus saslauthd is enabled
+  systemd:
+    name: saslauthd
+    enabled: yes
+    masked: no
+    state: started

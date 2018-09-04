@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+ldap_servers: ldap://{{ ldap_server_provider }}.{{ domain }} ldap://{{ ldap_server_consumer1 }}.{{ domain }} ldap://{{ ldap_server_consumer2 }}.{{ domain }}
+ldap_version: 3
+ldap_search_base: {{ ldap_mail_search_base }}
+ldap_scope: sub
+ldap_filter: (&(uid=%u)(mailEnabled=TRUE))
+ldap_auth_method: bind
+ldap_timeout: 10
+ldap_time_limit: 10
+ldap_start_tls: yes
+ldap_tls_cacert_file: {{ tls_ca_cert }}

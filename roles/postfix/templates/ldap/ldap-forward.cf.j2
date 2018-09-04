@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+server_host = ldap://{{ ldap_server_provider }}.{{ domain }}
+              ldap://{{ ldap_server_consumer1 }}.{{ domain }}
+              ldap://{{ ldap_server_consumer2 }}.{{ domain }}
+search_base = {{ ldap_mail_search_base }}
+version = 3
+bind = {{ ldap_bind }}
+start_tls = {{ starttls }}
+tls_require_cert = {{ requiretls }}
+tls_ca_cert_file = {{ tls_ca_cert }}
+query_filter = (&(|(mailAlias=%s)(mail=%s))(objectClass=PostfixBookMailForward))
+result_attribute = mailForwardingAddress

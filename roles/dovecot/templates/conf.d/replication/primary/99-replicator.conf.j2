@@ -1,0 +1,56 @@
+# {{ ansible_managed }}
+# Replicator process should be started at startup, so it can start replicating users immediately
+service replicator {
+  process_min_avail = 1
+}
+
+# The mail processes need to have access to the replication-notify fifo and socket.
+service aggregator {
+  fifo_listener replication-notify-fifo {
+    user = vmail
+    mode = 0666
+  }
+  unix_listener replication-notify {
+    user = vmail
+    mode = 0666
+  }
+}
+
+# Enable doveadm replicator commands
+service replicator {
+  unix_listener replicator-doveadm {
+    mode = 0666
+  }
+}
+
+# Create a listener for doveadm-server
+service doveadm {
+  user = vmail
+  inet_listener {
+  port = 4343
+  ssl = yes
+  }
+}
+
+# configure how many dsyncs can be run in parallel (10 by default)
+replication_max_conns = 20
+
+# tell doveadm client to use this port by default
+doveadm_port = 4343
+
+#Both the client and the server also need to have a shared secret
+doveadm_password = {{ doveadm_password }}
+
+# use tcp:hostname as the dsync target
+plugin {
+  replication_full_sync_interval = 1 hours
+  mail_replica = tcps:{{ dovecot_secondary_host }}.{{ domain }}:4343 # use doveadm_port
+  #mail_replica = tcp:anotherhost.example.com:12345 # use port 12345 explicitly
+}
+
+service config {
+  unix_listener config {
+    user = vmail
+  }
+}
+
