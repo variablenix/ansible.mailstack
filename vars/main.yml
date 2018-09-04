@@ -73,7 +73,7 @@ dovecot_lmtp_secondary_address: "WAN_IP LOCAL_IP 127.0.0.1 ::1"
 dovecot_submission_host: "mail.{{ domain }}"
 doveadm_password:
 
-  create:   ansible-vault encrypt_string 'secretpw' --name 'doveadm_password'
+  create with ->  ansible-vault encrypt_string 'secretpw' --name 'doveadm_password'
 
 # SASL
 sasldest: "/etc/saslauthd.conf"
