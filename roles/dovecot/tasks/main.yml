@@ -113,7 +113,7 @@
 - name: Push quota warning script
   copy:
     src: scripts/quota-warning.sh
-    dest: /usr/loca/bin/quota-warning.sh
+    dest: /usr/local/bin/quota-warning.sh
     mode: a+x
   when: inventory_hostname in groups['imap']
   tags: [doveconfig]
