@@ -16,11 +16,11 @@ The [makepkg](https://github.com/gunzy83/ansible-makepkg) Ansible module is used
 
 #### Run Mailstack Playbook in check-diff mode
 ```
-ansible-playbook -i inventory/all.inv main.yml --check --diff
+ansible-playbook main.yml --check --diff
 ```
 #### Run Specific Mailstack role using tags in check-diff mode
 ```
-ansible-playbook -i inventory/all.inv main.yml --check --diff --tags "a,b,c"
+ansible-playbook main.yml --check --diff --tags "a,b,c"
 ```
 #### Tags
 | postfix | postgrey | policyd-spf | pwhois_milter | opendmarc | dovecot | saslauthd   |
@@ -34,7 +34,7 @@ ansible-playbook -i inventory/all.inv main.yml --check --diff --tags "a,b,c"
 
 #### Run Mailstack Playbook
 ```
-ansible-playbook -i inventory/all.inv main.yml --diff
+ansible-playbook main.yml --diff
 ```
 
 ### Dovecot
@@ -44,7 +44,7 @@ This Playbook makes use of Ansible Vault to encrypt and store our dsync replicat
 
 #### Run Mailstack Playbook with Vault for dsync replication
 ```
-ansible-playbook -i inventory/all.inv main.yml --diff --ask-vault
+ansible-playbook main.yml --diff --ask-vault
 ```
 #### MailCrypt plugin
 The default configuration used with this Playbook uses the MailCrypt plugin defined in `10-mail.conf` to encrypt mail store files. The expected public and private [elliptic curve](https://wiki.dovecot.org/Plugins/MailCrypt#EC_key) keys default to the `/etc/dovecot/mcrypt` directory. Both the private and public key files should be encrypted using Vault and `--ask-vault` passed with Playbook
@@ -69,6 +69,7 @@ The supported LDAP mail attributes provisioned with this Playbook require [postf
 
 ### TO DO
 * AutoMX
-* OpenDKIM
-* SpamAssassin
 * ClamAV
+* OpenDKIM
+* Solr
+* SpamAssassin
