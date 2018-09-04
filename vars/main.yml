@@ -58,6 +58,7 @@ opendmarcsock: "unix:/run/opendmarc/opendmarc.sock"
 
 # Dovecot
 dovecot_dir: "/etc/dovecot"
+dovecot_default_fields_home: "/home/vmail"
 dovecot_mcrypt_dir: "/etc/dovecot/mcrypt"
 dovecot_ssl_dir: "/etc/dovecot/ssl"
 dovecot_conf_dir: "/etc/dovecot/conf.d"

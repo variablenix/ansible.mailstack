@@ -26,7 +26,7 @@ userdb {
   args = /etc/dovecot/dovecot-ldap.conf.ext
 
   # Default fields can be used to specify defaults that LDAP may override
-   default_fields = home={{ postfix_virtual_mailbox_base }}/%d/%u
+   default_fields = home={{ dovecot_default_fields_home }}/%d/%u
 }
 
 # If you don't have any user-specific settings, you can avoid the userdb LDAP
