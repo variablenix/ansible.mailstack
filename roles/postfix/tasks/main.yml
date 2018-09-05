@@ -100,6 +100,14 @@
     dest: "{{ smtp_header_checks_config }}"
     mode: 0644
 
+# Configure Postscreen access list
+- name: Configure Postscreen access list
+  tags: [postscreen]
+  template:
+    src: postscreen_access.cidr.j2
+    dest: "{{ postscreen_access_list }}"
+    mode: 0644
+
 
 # LDAP
 - name: Create Postfix LDAP directory
