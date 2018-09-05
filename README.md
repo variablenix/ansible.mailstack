@@ -1,6 +1,13 @@
 # Arch Linux: Mailstack Deployment
 
-This Playbook uses mail roles to automate the installation and configuration of mail services. There are 3 MX hosts used with this mail environment.
+This Playbook uses mail roles to automate the installation and configuration of mail services.
+
+#### Mail Structure
+| IMAP | SMTP | LDAP | Policyd-SPF | PWhois Milter | OpenDMARC | Cyrus SASL |
+|:----:|:----:|:----:|:-----------:|:-------------:|:---------:|:----------:|
+|   a  |   a  |   a  |      a      |       a       |     a     |      a     |
+|   b  |   b  |   b  |      b      |       b       |     b     |      b     |
+|      |   c  |   c  |      c      |       c       |     c     |      c     |
 
 ### Roles
 * [postfix](https://www.archlinux.org/packages/extra/x86_64/postfix/)
