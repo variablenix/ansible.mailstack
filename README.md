@@ -32,7 +32,7 @@ ansible-playbook main.yml --check --diff --tags "postfixconfig,header_checks,dov
 #### Tags
 | postfix | postgrey | policyd-spf | pwhois_milter | opendmarc | dovecot | saslauthd   |
 |--------------------|----------|---|---|---|---|---|
-| postfix            | postgrey           | policyd-spf | pwhois | opendmarc | dovecot      | saslauthd  |
+| postfix            | postgrey           | policyd-spf | pwhois | opendmarc | dovecot      | sasl  |
 | postfixconfig      | postgrey_whitelist | spf         |        |           | doveconfig   |
 | header_checks      |                    |             |        |           | dovecot_ldap
 | sender_access      |
