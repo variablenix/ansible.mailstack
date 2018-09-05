@@ -27,7 +27,7 @@ ansible-playbook main.yml --check --diff
 ```
 #### Run specific Mailstack role using tags in check-diff mode
 ```
-ansible-playbook main.yml --check --diff --tags "a,b,c"
+ansible-playbook main.yml --check --diff --tags "postfixconfig,header_checks,doveconfig"
 ```
 #### Tags
 | postfix | postgrey | policyd-spf | pwhois_milter | opendmarc | dovecot | saslauthd   |
