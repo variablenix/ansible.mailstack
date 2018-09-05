@@ -716,9 +716,11 @@ smtpd_sasl_authenticated_header = yes
 #smtpd_sasl_type = dovecot
 #smtpd_sasl_path = smtpd
 smtpd_helo_required = yes
+smtpd_delay_reject = yes
 disable_vrfy_command = yes
 smtpd_recipient_restrictions =	permit_sasl_authenticated,
         permit_mynetworks,
+        reject_unknown_helo_hostname
         reject_unauth_destination,
         reject_unknown_recipient_domain,
         reject_unverified_recipient,
