@@ -25,7 +25,7 @@ The [makepkg](https://github.com/gunzy83/ansible-makepkg) Ansible module is used
 ```
 ansible-playbook main.yml --check --diff
 ```
-#### Run Specific Mailstack role using tags in check-diff mode
+#### Run specific Mailstack role using tags in check-diff mode
 ```
 ansible-playbook main.yml --check --diff --tags "a,b,c"
 ```
