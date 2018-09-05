@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+# http://www.postfix.org/postconf.5.html#postscreen_access_list
+
+# Rules are evaluated in the order as specified.
+# Blacklist 192.168.* except 192.168.0.1.
+#192.168.0.1         dunno
+#192.168.0.0/16      reject
+#192.168.1.1         permit   
