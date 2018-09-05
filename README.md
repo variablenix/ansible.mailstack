@@ -37,6 +37,7 @@ ansible-playbook main.yml --check --diff --tags "postfixconfig,header_checks,dov
 | header_checks      |                    |             |        |           | dovecot_ldap
 | sender_access      |
 | smtp_header_checks
+| postscreen
 | postfix_ldap
 
 #### Run Mailstack Playbook
