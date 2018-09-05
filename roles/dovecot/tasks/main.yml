@@ -118,7 +118,7 @@
   when: inventory_hostname in groups['imap']
   tags: [doveconfig]
 
-# Trash
+# Trash Plugin
 - name: Configure Trash settings
   copy:
     src: "{{ dovecot_trash }}"
