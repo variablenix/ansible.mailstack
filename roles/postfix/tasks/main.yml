@@ -159,6 +159,14 @@
   notify: reload postfix
   tags: [postfix_ldap]
 
+# Make sure UFW is installed for firewall configuration
+- name: Ensure UFW is installed for Postfix firewall management
+  pacman:
+    name: ufw
+    state: present
+  when: inventory_hostname in groups['smtp']
+  tags: [ufw]
+
 # Set firewall rules for Postfix
 - name: Set Postfix firewall rules
   ufw: rule=allow port={{ item }} proto=tcp
