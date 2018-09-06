@@ -43,7 +43,7 @@ ansible-playbook main.yml --check --diff --tags "postfixconfig,header_checks,dov
 
 #### Run Mailstack Playbook
 ```
-ansible-playbook main.yml --diff
+ansible-playbook main.yml --diff --ask-vault
 ```
 
 ### Dovecot
