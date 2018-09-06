@@ -47,6 +47,7 @@
 - name: Create new Solr core for Dovecot
   become: yes
   become_user: solr
+  ignore_errors: yes
   command: /bin/bash -c '{{ solrhome }}/bin/solr create_core -c dovecot'
   args:
     chdir: "{{ solrhome }}"
