@@ -16,6 +16,7 @@ This Playbook uses mail roles to automate the installation and configuration of 
 * [pwhois_milter](https://aur.archlinux.org/packages/pwhois_milter/)
 * [opendmarc](https://www.archlinux.org/packages/community/x86_64/opendmarc/)
 * [dovecot](https://www.archlinux.org/packages/community/x86_64/dovecot/)
+* [solr](https://aur.archlinux.org/packages/solr/)
 * [saslauthd](https://www.archlinux.org/packages/extra/x86_64/cyrus-sasl/)
 
 #### Arch User Repository (AUR)
@@ -80,5 +81,4 @@ The supported LDAP mail attributes provisioned with this Playbook require [postf
 * AutoMX
 * ClamAV
 * OpenDKIM
-* Solr
 * SpamAssassin
