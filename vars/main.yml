@@ -77,6 +77,9 @@ doveadm_password:
 
   create with ->  ansible-vault encrypt_string 'secretpw' --name 'doveadm_password'
 
+# Solr Full Text Search Indexing
+solrhome: "/opt/solr"
+
 # SASL
 sasldest: "/etc/saslauthd.conf"
 sasldest2: "/etc/conf.d/saslauthd"

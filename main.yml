@@ -35,4 +35,5 @@
     - { role: pwhois_milter, tags: [ 'pwhois' ] }
     - { role: opendmarc, tags: [ 'opendmarc' ] }
     - { role: dovecot, tags: [ 'dovecot' ] }
+    - { role: solr, tags: [ 'solr' ] }
     - { role: saslauthd, tags: [ 'sasl' ] }
