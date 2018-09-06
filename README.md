@@ -19,7 +19,7 @@ This Playbook uses mail roles to automate the installation and configuration of 
 * [saslauthd](https://www.archlinux.org/packages/extra/x86_64/cyrus-sasl/)
 
 #### Arch User Repository (AUR)
-The [makepkg](https://github.com/gunzy83/ansible-makepkg) Ansible module is used for AUR package installs
+The [makepkg](https://github.com/gunzy83/ansible-makepkg) Ansible module is used for AUR package installs.
 
 #### Run Mailstack Playbook in check-diff mode
 ```
@@ -56,10 +56,10 @@ This Playbook makes use of Ansible Vault to encrypt and store our dsync replicat
 ansible-playbook main.yml --diff --ask-vault
 ```
 #### MailCrypt plugin
-The default configuration used with this Playbook uses the MailCrypt plugin defined in `10-mail.conf` to encrypt mail store files. The expected public and private [elliptic curve](https://wiki.dovecot.org/Plugins/MailCrypt#EC_key) keys default to the `/etc/dovecot/mcrypt` directory. Both the private and public key files should be encrypted using Vault and `--ask-vault` passed with Playbook
+The default configuration used with this Playbook uses the MailCrypt plugin defined in `10-mail.conf` to encrypt mail store files. The expected public and private [elliptic curve](https://wiki.dovecot.org/Plugins/MailCrypt#EC_key) keys default to the `/etc/dovecot/mcrypt` directory. Both the private and public key files should be encrypted using Vault and `--ask-vault` passed with Playbook.
 
 ### LDAP
-The supported LDAP mail attributes provisioned with this Playbook require [postfix-book.schema](https://github.com/variablenix/ldap-mail-schema/blob/master/postfix-book.schema) to be loaded with an LDAP backend server such as OpenLDAP
+The supported LDAP mail attributes provisioned with this Playbook require [postfix-book.schema](https://github.com/variablenix/ldap-mail-schema/blob/master/postfix-book.schema) to be loaded with an LDAP backend server such as OpenLDAP.
 
 |       objectClass      | attributes               |
 |:----------------------:|--------------------------|
