@@ -1,0 +1,81 @@
+---
+# Install GnuPG and import valid Solr signing key for AUR build
+- name: Install GnuPG
+  pacman:
+    name: gnupg
+    state: present
+  when: inventory_hostname in groups['imap']
+
+- name: Import valid GPG code signing key - Adrien Grand <jpountz@apache.org>
+  shell: "{{ item }}"
+  with_items:
+    - gpg --recv-key E6E21FFCDCEA14C95910EA65051A0FAF76BC6507
+  when: inventory_hostname in groups['imap']
+
+# Install Apache Ant
+- name: Install Apache Ant
+  pacman:
+    name: apache-ant
+    state: present
+  when: inventory_hostname in groups['imap']
+
+- name: Install Solr indexing server
+  makepkg:
+    name: solr
+    state: present
+    as_deps: true
+  when: inventory_hostname in groups['imap']
+
+- name: Copy custom systemd solr.service file with limit options to /etc/systemd/system/
+  copy: >
+    src=solr.service
+    dest=/etc/systemd/system/solr.service
+    mode=644
+  notify: reload systemd
+  when: inventory_hostname in groups['imap']
+
+# Ensure Solr is running
+- name: Enable Solr
+  systemd:
+    name: solr
+    enabled: yes
+    masked: no
+    state: started
+  when: inventory_hostname in groups['imap']
+
+# This task only runs if core does not already exist
+- name: Create new Solr core for Dovecot
+  become: yes
+  become_user: solr
+  command: /bin/bash -c '{{ solrhome }}/bin/solr create_core -c dovecot'
+  args:
+    chdir: "{{ solrhome }}"
+    creates: "{{ solrhome }}/server/solr/dovecot"
+  notify: restart solr
+  when: inventory_hostname in groups['imap']
+
+- name: Sync Solr configs for Dovecot
+  copy:
+    src: "{{ item }}"
+    dest: "{{ solrhome }}/server/solr/dovecot/conf"
+    owner: solr
+    group: solr
+  with_items:
+    - schema.xml
+    - solrconfig.xml
+  when: inventory_hostname in groups['imap']
+
+# Use grep to determine if managed-schema contains our dovecot string
+- name: Check if managed-schema is ready for Dovecot
+  shell: grep dovecot "{{ solrhome }}/server/solr/dovecot/conf/managed-schema" | cat
+  register: dovecot_out
+  check_mode: no
+  when: inventory_hostname in groups['imap']
+
+- name: Remove default managed-schema if schema is not Dovecot ready
+  file:
+    state: absent
+    path: "{{ solrhome }}/server/solr/dovecot/conf/managed-schema"
+  when: (inventory_hostname in groups ['imap']) and
+        (dovecot_out.stdout != 'dovecot')
+  notify: restart solr
