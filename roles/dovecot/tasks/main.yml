@@ -157,6 +157,14 @@
   notify: reload dovecot
   tags: [dovecot_ldap,doveconfig]
 
+# Set firewall rules for Dovecot
+- name: Set Dovecot firewall rules
+  ufw: rule=allow port={{ item }} proto=tcp
+  with_items:
+    - imap
+    - imaps
+  when: inventory_hostname in groups['imap']
+  tags: [ufw]
 
 # Finally ensure Dovecot is running
 - name: Enable Dovecot

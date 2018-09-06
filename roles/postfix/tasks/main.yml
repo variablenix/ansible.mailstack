@@ -159,6 +159,14 @@
   notify: reload postfix
   tags: [postfix_ldap]
 
+# Set firewall rules for Postfix
+- name: Set Postfix firewall rules
+  ufw: rule=allow port={{ item }} proto=tcp
+  with_items:
+    - smtp
+    - submission
+  when: inventory_hostname in groups['smtp']
+  tags: [ufw]
 
 # Finally ensure Postfix is running
 - name: Enable Postfix
