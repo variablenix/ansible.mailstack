@@ -80,5 +80,6 @@ The supported LDAP mail attributes provisioned with this Playbook require [postf
 ### TO DO
 * AutoMX
 * ClamAV
+* ClamSMTP
 * OpenDKIM
 * SpamAssassin
