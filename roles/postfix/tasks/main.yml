@@ -14,51 +14,6 @@
   notify: reload postfix
   tags: [postfixconfig]
 
-- name: Set mynetworks
-  lineinfile:
-    path: "{{ postfix_config_file }}"
-    regexp: '^mynetworks = 127\.0\.0\.0'
-    line: "mynetworks = {{ postfix_networks_host1 }}"
-    owner: root
-    group: root
-    mode: 0644
-  tags: [postfixconfig]
-  when: inventory_hostname == "host1"
-
-- name: Set mynetworks
-  lineinfile:
-    path: "{{ postfix_config_file }}"
-    regexp: '^mynetworks = 127\.0\.0\.0'
-    line: "mynetworks = {{ postfix_networks_host2 }}"
-    owner: root
-    group: root
-    mode: 0644
-  tags: [postfixconfig]
-  when: inventory_hostname == "host2"
-
-- name: Set mynetworks
-  lineinfile:
-    path: "{{ postfix_config_file }}"
-    regexp: '^mynetworks \= 127\.0\.0\.0'
-    line: "mynetworks = {{ postfix_networks_host3 }}"
-    owner: root
-    group: root
-    mode: 0644
-  tags: [postfixconfig]
-  when: inventory_hostname == "host3"
-
-# Use when Dovecot is not on same host as MX
-- name: Ensure virtual_transport points to primary LMTP node address
-  lineinfile:
-    path: "{{ postfix_config_file }}"
-    regexp: '^virtual_transport'
-    line: "virtual_transport = lmtp:192.168.1.x:24"
-    owner: root
-    group: root
-    mode: 0644
-  tags: [postfixconfig]
-  when: inventory_hostname == "host3"
-
 # Configure master.cf
 - name: Configure Postfix master.cf
   template:
@@ -67,7 +22,6 @@
     mode: 0644
   notify: reload postfix
   tags: [postfixconfig]
-
 
 # Configure Postfix header_checks
 - name: Configure Postfix header_checks

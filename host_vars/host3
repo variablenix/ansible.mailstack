@@ -1,0 +1,7 @@
+---
+# Postfix
+postfix_mynetworks: []
+postfix_virtual_transport: lmtp:192.x.x.x:24
+
+# SpmaAssassin
+spamassassin_trusted_networks: []
