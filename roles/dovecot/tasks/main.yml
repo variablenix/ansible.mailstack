@@ -54,44 +54,6 @@
     - auth-static.conf.ext
     - auth-system.conf.ext
 
-# Set dsync replication
-- name: Set replication on primary node
-  template:
-    src: "conf.d/replication/primary/99-replicator.conf.j2"
-    dest: "{{ dovecot_conf_dir }}/99-replicator.conf"
-    backup: no
-  when: inventory_hostname == "host1"
-  notify: reload dovecot
-  tags: [doveconfig]
-
-- name: Set replication host on secondary node
-  template:
-    src: "conf.d/replication/secondary/99-replicator.conf.j2"
-    dest: "{{ dovecot_conf_dir }}/99-replicator.conf"
-    backup: no
-  when: inventory_hostname == "host2"
-  notify: reload dovecot
-  tags: [doveconfig]
-
-# Set LMTP address for primary and secondary nodes
-- name: Set LMTP address on primary node
-  template:
-    src: "conf.d/lmtp/primary/20-lmtp.conf.j2"
-    dest: "{{ dovecot_conf_dir }}/20-lmtp.conf"
-    backup: no
-  when: inventory_hostname == "host1"
-  notify: reload dovecot
-  tags: [doveconfig]
-
-- name: Set LMTP address on secondary node
-  template:
-    src: "conf.d/lmtp/secondary/20-lmtp.conf.j2"
-    dest: "{{ dovecot_conf_dir }}/20-lmtp.conf"
-    backup: no
-  when: inventory_hostname == "host2"
-  notify: reload dovecot
-  tags: [doveconfig]
-
 - name: Create MailCrypt directory
   file:
     path: "{{ dovecot_mcrypt_dir }}"
@@ -99,6 +61,7 @@
     owner: "{{ global_owner }}"
     group: "{{ global_group }}"
     mode: 0755
+  when: inventory_hostname in groups['imap']
   tags: [doveconfig]
 
 - name: Push MailCrypt private/public keys
@@ -183,3 +146,4 @@
     enabled: yes
     masked: no
     state: started
+  when: inventory_hostname in groups['imap']
