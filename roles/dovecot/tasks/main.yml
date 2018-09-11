@@ -35,6 +35,7 @@
     - 15-lda.conf
     - 15-mailboxes.conf
     - 20-imap.conf
+    - 20-lmtp.conf
     - 20-managesieve.conf
     - 20-pop3.conf
     - 20-submission.conf
@@ -43,6 +44,7 @@
     - 90-quota.conf
     - 90-sieve-extprograms.conf
     - 90-sieve.conf
+    - 99-replicator.conf
     - auth-checkpassword.conf.ext
     - auth-deny.conf.ext
     - auth-dict.conf.ext
