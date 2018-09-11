@@ -29,7 +29,7 @@ protocols = imap lmtp
 service lmtp {
 user = vmail
 inet_listener lmtp {
-address = {{ dovecot_lmtp_secondary_address }}
+address = {{ dovecot_lmtp_address }}
 port = 24
 }
 

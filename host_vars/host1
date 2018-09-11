@@ -5,3 +5,7 @@ postfix_virtual_transport: lmtp:unix:private/dovecot-lmtp
 
 # SpmaAssassin
 spamassassin_trusted_networks: []
+
+# Dovecot
+dovecot_lmtp_address: []
+dovecot_replication_host: host2

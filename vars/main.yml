@@ -65,10 +65,6 @@ dovecot_ldap_conf: "dovecot-ldap.conf.ext"
 dovecot_ldap_master: "dovecot-ldap-masteruser.conf.ext"
 dovecot_ldap_symlink: "dovecot-ldap-userdb.conf.ext"
 dovecot_ldap_tls: "yes"
-dovecot_primary_host: "host1"
-dovecot_secondary_host: "host2"
-dovecot_lmtp_primary_address: "WAN_IP LOCAL_IP 127.0.0.1 ::1"
-dovecot_lmtp_secondary_address: "WAN_IP LOCAL_IP 127.0.0.1 ::1"
 dovecot_submission_host: "mail.{{ domain }}"
 doveadm_password:
 

@@ -44,7 +44,7 @@ doveadm_password = {{ doveadm_password }}
 # use tcp:hostname as the dsync target
 plugin {
   replication_full_sync_interval = 1 hours
-  mail_replica = tcps:{{ dovecot_primary_host }}.{{ domain }}:4343 # use doveadm_port
+  mail_replica = tcps:{{ dovecot_replication_host }}.{{ domain }}:4343 # use doveadm_port
   #mail_replica = tcp:anotherhost.example.com:12345 # use port 12345 explicitly
 }
 
