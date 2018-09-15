@@ -1,0 +1,12 @@
+[Unit]
+Description=clamav daemon
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/run/clamav/clamd.pid
+ExecStart=/usr/bin/clamd
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

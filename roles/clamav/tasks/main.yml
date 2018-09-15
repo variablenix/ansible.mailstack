@@ -1,0 +1,62 @@
+---
+# Install ClamAV if not present
+- name: Install ClamAV
+  pacman:
+    name: clamav
+    state: present
+  when: inventory_hostname in groups['smtp']
+
+- name: Copy custom systemd clamd.service file to /etc/systemd/system/
+  copy: >
+    src=systemd/clamd.service
+    dest=/etc/systemd/system/clamd.service
+    mode=644
+  notify: reload systemd daemon
+  when: inventory_hostname in groups['smtp']
+
+# Update virus definitions with freshclam
+- name: Do initial freshclam virus definition update
+  shell: /usr/bin/freshclam
+  when: inventory_hostname in groups['smtp']
+
+- name: Ensure clamav-freshclam is enabled
+  systemd:
+    name: clamav-freshclam
+    enabled: yes
+    masked: no
+    state: started
+  when: inventory_hostname in groups['smtp']
+
+- name: Sync ClamAV configuration files
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/clamav/{{ item }}"
+    backup: no
+  when: inventory_hostname in groups['smtp']
+  notify: restart clamd
+  with_items:
+    - clamd.conf
+    - freshclam.conf
+
+- name: Set up clamav-unofficial-sigs
+  makepkg:
+    name: clamav-unofficial-sigs
+    state: present
+    as_deps: true
+  when: inventory_hostname in groups['smtp']
+
+- name: Ensure clamav-unofficial-sigs is enabled
+  systemd:
+    name: clamav-unofficial-sigs.timer
+    enabled: yes
+    masked: no
+    state: started
+  when: inventory_hostname in groups['smtp']
+
+- name: Ensure ClamAV is enabled
+  systemd:
+    name: clamd
+    enabled: yes
+    masked: no
+    state: started
+  when: inventory_hostname in groups['smtp']
