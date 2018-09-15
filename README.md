@@ -34,11 +34,11 @@ ansible-playbook main.yml --check --diff --tags "postfixconfig,header_checks,dov
 | postfix | postgrey | policyd-spf | pwhois_milter | opendmarc | spamd | dovecot | solr | saslauthd
 |--------------------|----------|---|---|---|---|---|---|---|
 | postfix            | postgrey           | policyd-spf | pwhois | opendmarc | spamd           | dovecot      | solr  | sasl
-| postfixconfig      | postgrey_whitelist | spf         |        |           | spamdconfig     | doveconfig   |       |
-| header_checks      |                    |             |        |           | razor           | dovecot_ldap |       |       |      |
-| sender_access      |                    |             |        |           | spamd_whitelist |              |       | ufw   |      |
+| postfixconfig      | postgrey_whitelist | spf         |        |           | spamdconfig     | doveconfig   |       |       |  |
+| header_checks      |                    |             |        |           | razor           | dovecot_ldap |       |       |  |
+| sender_access      |                    |             |        |           | spamd_whitelist | ufw          |       |       |  |
 | smtp_header_checks |                    |             |        |           | spamd_blacklist |              |       |
-| postscreen         |                    |             |        |           |                 |              |
+| postscreen         |                    |             |        |           | ufw             |              |
 | postfix_ldap       |                    |             |        |           |                 |              |
 | ufw                |                    |             |        |           |                 |              |
 
