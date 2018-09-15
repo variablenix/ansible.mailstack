@@ -31,20 +31,20 @@ ansible-playbook main.yml --check --diff
 ansible-playbook main.yml --check --diff --tags "postfixconfig,header_checks,doveconfig"
 ```
 #### Tags
-| postfix | postgrey | policyd-spf | pwhois_milter | opendmarc | dovecot | solr | saslauthd 
-|--------------------|----------|---|---|---|---|---|---|
-| postfix            | postgrey           | policyd-spf | pwhois | opendmarc | dovecot      | solr  | sasl
-| postfixconfig      | postgrey_whitelist | spf         |        |           | doveconfig   |       |
-| header_checks      |                    |             |        |           | dovecot_ldap |       |
-| sender_access      |                    |             |        |           | ufw          |       |
-| smtp_header_checks |                    |             |        |           |              |       |
-| postscreen         |                    |             |        |           |              |       |
-| postfix_ldap       |                    |             |        |           |              |       |
-| ufw                |                    |             |        |           |              |       |
+| postfix | postgrey | policyd-spf | pwhois_milter | opendmarc | spamd | dovecot | solr | saslauthd
+|--------------------|----------|---|---|---|---|---|---|---|
+| postfix            | postgrey           | policyd-spf | pwhois | opendmarc | spamd           | dovecot      | solr  | sasl
+| postfixconfig      | postgrey_whitelist | spf         |        |           | spamdconfig     | doveconfig   |       |
+| header_checks      |                    |             |        |           | razor           | dovecot_ldap |       |       |      |
+| sender_access      |                    |             |        |           | spamd_whitelist |              |       | ufw   |      |
+| smtp_header_checks |                    |             |        |           | spamd_blacklist |              |       |
+| postscreen         |                    |             |        |           |                 |              |
+| postfix_ldap       |                    |             |        |           |                 |              |
+| ufw                |                    |             |        |           |                 |              |
 
 #### Run Mailstack Playbook
 ```
-ansible-playbook main.yml --diff --ask-vault
+ansible-playbook main.yml --diff
 ```
 
 ### Dovecot
@@ -57,7 +57,7 @@ This Playbook makes use of Ansible Vault to encrypt and store our dsync replicat
 ansible-playbook main.yml --diff --ask-vault
 ```
 #### MailCrypt plugin
-The default configuration used with this Playbook uses the MailCrypt plugin defined in `10-mail.conf` to encrypt mail store files. The expected public and private [elliptic curve](https://wiki.dovecot.org/Plugins/MailCrypt#EC_key) keys default to the `/etc/dovecot/mcrypt` directory. Both the private and public key files should be encrypted using Vault and `--ask-vault` passed with Playbook.
+The default configuration used with this Playbook uses the MailCrypt plugin defined in `10-mail.conf` to encrypt mail store files. The expected public and private [elliptic curve](https://wiki.dovecot.org/Plugins/MailCrypt#EC_key) keys default to the `/etc/dovecot/mcrypt` directory. Both the private and public key files should be encrypted using Vault and `--ask-vault` passed with Playbook
 
 ### LDAP
 The supported LDAP mail attributes provisioned with this Playbook require [postfix-book.schema](https://github.com/variablenix/ldap-mail-schema/blob/master/postfix-book.schema) to be loaded with an LDAP backend server such as OpenLDAP.
@@ -82,4 +82,4 @@ The supported LDAP mail attributes provisioned with this Playbook require [postf
 * ClamAV
 * ClamSMTP
 * OpenDKIM
-* SpamAssassin
+
