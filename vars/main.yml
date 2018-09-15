@@ -76,6 +76,21 @@ spamassassin_bayes_sql_password:
 spamassassin_whitelist: []
 spamassassin_blacklist: []
 
+# ClamAV
+clamd_logfile: "/var/log/clamav/clamd.log"
+clamd_logtime: "yes"
+clamd_logverbose: "no"
+clamd_pidfile: "/run/clamav/clamd.pid"
+clamd_tmpdir: "/tmp"
+clamd_localsocket: "/var/lib/clamav/clamd.sock"
+clamd_user: "clamav"
+clamd_scanmail: "yes"
+# This value should match Postfix MTA postfix_message_size_limit
+clamd_stream_maxlength: "25M"
+freshclam_logfile: "/var/log/clamav/freshclam.log"
+freshclam_pidfile: "/run/clamav/freshclam.pid"
+freshclam_notifyclamd: "/etc/clamav/clamd.conf"
+
 # Dovecot
 dovecot_dir: "/etc/dovecot"
 dovecot_default_fields_home: "/home/vmail"
@@ -95,7 +110,7 @@ doveadm_password:
 # Solr Full Text Search Indexing
 solrhome: "/opt/solr"
 
-# SASL
+# CyrusSasl
 sasldest: "/etc/saslauthd.conf"
 sasldest2: "/etc/conf.d/saslauthd"
 sasldest3: "/usr/lib/sasl2/smtpd.conf"

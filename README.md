@@ -16,6 +16,7 @@ This Playbook uses mail roles to automate the installation and configuration of 
 * [pwhois_milter](https://aur.archlinux.org/packages/pwhois_milter/)
 * [opendmarc](https://www.archlinux.org/packages/community/x86_64/opendmarc/)
 * [spamassassin](https://www.archlinux.org/packages/extra/x86_64/spamassassin/)
+* [clamav](https://www.archlinux.org/packages/?name=clamav/)
 * [dovecot](https://www.archlinux.org/packages/community/x86_64/dovecot/)
 * [solr](https://aur.archlinux.org/packages/solr/)
 * [saslauthd](https://www.archlinux.org/packages/extra/x86_64/cyrus-sasl/)
@@ -32,16 +33,16 @@ ansible-playbook main.yml --check --diff
 ansible-playbook main.yml --check --diff --tags "postfixconfig,header_checks,doveconfig"
 ```
 #### Tags
-| postfix | postgrey | policyd-spf | pwhois_milter | opendmarc | spamd | dovecot | solr | saslauthd
+| postfix | postgrey | policyd-spf | pwhois_milter | opendmarc | spamd | clamav | dovecot | solr | saslauthd
 |--------------------|----------|---|---|---|---|---|---|---|
-| postfix            | postgrey           | policyd-spf | pwhois | opendmarc | spamd           | dovecot      | solr  | sasl
-| postfixconfig      | postgrey_whitelist | spf         |        |           | spamdconfig     | doveconfig   |       |       |  |
-| header_checks      |                    |             |        |           | razor           | dovecot_ldap |       |       |  |
-| sender_access      |                    |             |        |           | spamd_whitelist | ufw          |       |       |  |
-| smtp_header_checks |                    |             |        |           | spamd_blacklist |              |       |
-| postscreen         |                    |             |        |           | ufw             |              |
-| postfix_ldap       |                    |             |        |           |                 |              |
-| ufw                |                    |             |        |           |                 |              |
+| postfix            | postgrey           | policyd-spf | pwhois | opendmarc | spamd           | clamd | dovecot      | solr  | sasl
+| postfixconfig      | postgrey_whitelist | spf         |        |           | spamdconfig     |       | doveconfig   |       |       |  |
+| header_checks      |                    |             |        |           | razor           |       | dovecot_ldap |       |       |  |
+| sender_access      |                    |             |        |           | spamd_whitelist |       | ufw          |       |       |  |
+| smtp_header_checks |                    |             |        |           | spamd_blacklist |       |              |       |
+| postscreen         |                    |             |        |           | ufw             |       |              |
+| postfix_ldap       |                    |             |        |           |                 |       |              |
+| ufw                |                    |             |        |           |                 |       |              |
 
 #### Run Mailstack Playbook
 ```
@@ -80,6 +81,5 @@ The supported LDAP mail attributes provisioned with this Playbook require [postf
 
 ### TO DO
 * AutoMX
-* ClamAV
 * OpenDKIM
 
