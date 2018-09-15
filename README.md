@@ -4,7 +4,7 @@ This Playbook uses mail roles to automate the installation and configuration of 
 
 #### Mail Structure
 | IMAP | SMTP | LDAP | Policyd-SPF | PWhois Milter | OpenDMARC | SpamAssassin | ClamAV     | Cyrus-Sasl    |
-|:----:|:----:|:----:|:-----------:|:-------------:|:---------:|:------------:|:----------:|--------------:|
+|:----:|:----:|:----:|:-----------:|:-------------:|:---------:|:------------:|:----------:|:-------------:|
 |   a  |   a  |   a  |      a      |       a       |     a     |      a       |      a     |      a        |
 |   b  |   b  |   b  |      b      |       b       |     b     |      b       |      b     |      b        |
 |      |   c  |   c  |      c      |       c       |     c     |      c       |      c     |      c        |
