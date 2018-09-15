@@ -1,0 +1,135 @@
+---
+# Ensure spamassassin and mysql-python for sa_bayes database is installed
+- name: Ensure SpamAssassin and mysql-python are installed
+  pacman:
+    name: spamassassin,mysql-python
+    state: present
+  when: inventory_hostname in groups['smtp']
+
+# Copy spamassassin systemd service files
+- name: Copy custom systemd spamassassin files to /etc/systemd/system/
+  copy:
+    src: "{{ item }}"
+    dest: /etc/systemd/system
+    mode: 0644
+  with_items:
+    - systemd/spamassassin.service
+    - systemd/spamassassin-update.service
+    - systemd/spamassassin-update.timer
+  notify: reload systemd
+  when: inventory_hostname in groups['smtp']
+
+ # Ensure spamassassin-update.timer is enabled
+- name: Enable spamassassin-update.timer
+  systemd:
+    name: spamassassin-update.timer
+    enabled: yes
+    masked: no
+    state: started
+  when: inventory_hostname in groups['smtp']
+
+# Do an initial SpamAssassin rule update and compile them
+- name: Run initial SpamAssassin rule update and compile
+  command: "{{ item }} chdir={{ spamd_dir }}"
+  with_items:
+    - "{{ spamd_bin }}/sa-update"
+    - "{{ spamd_bin }}/sa-compile"
+  when: inventory_hostname in groups['smtp']
+
+# Call ClamAV Plugin from SpamAssassin
+- name: Ensure perl-cpanplus is installed
+  pacman:
+    name: perl-cpanplus
+    state: present 
+  when: inventory_hostname in groups['smtp']
+
+- name: Ensure perl-cpanplus-dist-arch is installed
+  makepkg:
+    name: perl-cpanplus-dist-arch
+    state: present
+    as_deps: true
+  when: inventory_hostname in groups['smtp']
+
+- name: Install the ClamAV perl library
+  command:  "{{ spamd_bin }}/cpanp -i File::Scan::ClamAV"
+  when: inventory_hostname in groups['smtp']
+
+- name: Copy ClamAV plugin files to {{ spamd_dir }}/
+  copy: src={{ item }} dest={{ spamd_dir }}
+  with_items:
+    - clamav.cf
+    - clamav.pm
+  notify: restart spamd
+  when: inventory_hostname in groups['smtp']
+  tags: [spamdconfig]
+
+- name: Copy local.cf to {{ spamd_dir }}/
+  template:
+    src: "local.cf.j2"
+    dest: "{{ spamd_dir }}/local.cf"
+  notify: restart spamd
+  tags: [spamdconfig]
+  when: inventory_hostname in groups['smtp']
+
+- name: Copy SpamAssassin plugin files to {{ spamd_dir }}/
+  copy:
+    src: "{{ item }}"
+    dest: "{{ spamd_dir }}"
+  with_items:
+    - init.pre
+    - v310.pre
+    - v312.pre
+    - v320.pre
+    - v330.pre
+    - v340.pre
+    - v341.pre
+  when: inventory_hostname in groups['smtp']
+
+- name: Ensure SpamAssassin whitelist is current
+  template:
+    src: whitelist.cf.j2
+    dest: "{{ spamd_dir }}/whitelist.cf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart spamd
+  tags: [spamd_whitelist]
+  when: inventory_hostname in groups['smtp']
+
+- name: Ensure SpamAssassin blacklist is current
+  template:
+    src: blacklist.cf.j2
+    dest: "{{ spamd_dir }}/blacklist.cf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart spamd
+  tags: [spamd_blacklist]
+  when: inventory_hostname in groups['smtp']
+
+# Razor
+- include: razor.yml
+  when: (spamassassin_enable_razor) and
+        (inventory_hostname in groups['smtp'])
+  tags: [razor]
+
+# Pyzor
+- include: pyzor.yml
+  when: (spamassassin_enable_pyzor) and
+        (inventory_hostname in groups['smtp'])
+  tags: [pyzor]
+
+# Bayes SQL
+#- include: spamassassin_bayes.yml
+#  tags: [bayes_sql]
+#  when: inventory_hostname in groups['smtp']
+
+# Ensure SpamAssassin is running
+- name: Enable SpamAssassin
+  systemd:
+    name: spamassassin
+    enabled: yes
+    masked: no
+    state: started
+  when: inventory_hostname in groups['smtp']
+

@@ -1,0 +1,25 @@
+---
+- name: start spamd
+  systemd:
+    name: spamassassin
+    enabled: yes
+    state: started
+  become: yes
+
+- name: stop spamd
+  systemd:
+    name: spamassassin
+    enabled: yes
+    state: stopped
+  become: yes
+
+- name: restart spamd
+  systemd:
+    name: spamassassin
+    enabled: yes
+    state: restarted
+  become: yes
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes

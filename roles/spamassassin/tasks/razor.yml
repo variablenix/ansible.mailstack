@@ -1,0 +1,37 @@
+---
+# Ensure Razor is installed
+- name: Ensure Razor installed
+  pacman:
+    name: razor
+    state: present
+  when: inventory_hostname in groups['smtp']
+
+- name: Create Razor directory
+  file:
+    path: "{{ spamd_dir }}/razor"
+    state: directory
+    owner: spamd
+    group: spamd
+    mode: 0755
+  when: inventory_hostname in groups['smtp']
+
+- name: Register with Razor
+  become: yes
+  become_user: spamd
+  ignore_errors: yes
+  command: "{{ item }}"
+  args:
+    chdir: "{{ spamd_dir }}/razor"
+  with_items:
+    - "{{ spamd_bin }}/razor-admin -home={{ spamd_dir }}/razor -register"
+    - "{{ spamd_bin }}/razor-admin -home={{ spamd_dir }}/razor -create"
+    - "{{ spamd_bin }}/razor-admin -home={{ spamd_dir }}/razor -discover"
+  notify: restart spamd
+  when: inventory_hostname in groups['smtp']
+
+- name: Add razorhome location to razor-agent.conf
+  lineinfile:
+    path: "{{ spamd_dir }}/razor/razor-agent.conf"
+    line: "razorhome = {{ spamd_dir }}/razor/"
+  when: inventory_hostname in groups['smtp']
+  notify: restart spamd

@@ -1,0 +1,23 @@
+---
+# Ensure Pyzor is installed
+- name: Ensure Pyzor is installed
+  makepkg:
+    name: pyzor
+    state: present
+    as_deps: true
+  when: inventory_hostname in groups['smtp']
+
+# Make sure UFW is installed for firewall configuration
+- name: Ensure UFW is installed for firewall management
+  pacman:
+    name: ufw
+    state: present
+  when: inventory_hostname in groups['smtp']
+  tags: [ufw]
+
+# Set firewall rule to open UDP for Pyzor
+- name: Port forward Pyzor UDP port 24441
+  ufw: rule=allow port=24441 proto=udp
+  when: inventory_hostname in groups['smtp']
+  tags: [ufw]
+

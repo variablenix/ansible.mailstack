@@ -1,0 +1,149 @@
+# {{ ansible_managed }}
+# This is the right place to customize your installation of SpamAssassin.
+#
+# See 'perldoc Mail::SpamAssassin::Conf' for details of what can be
+# tweaked.
+#
+# Docs: https://spamassassin.apache.org/full/3.1.x/doc/Mail_SpamAssassin_Conf.html
+#
+# Only a small subset of options are listed below
+#
+###########################################################################
+
+#   Add *****SPAM***** to the Subject header of spam e-mails
+#
+rewrite_header Subject {{ spamassassin_rewrite_header }}
+
+
+#   Save spam messages as a message/rfc822 MIME attachment instead of
+#   modifying the original message (0: off, 2: use text/plain instead)
+#
+report_safe {{ spamassassin_report_safe }}
+
+
+#   Set which networks or hosts are considered 'trusted' by your mail
+#   server (i.e. not spammers)
+#
+trusted_networks {{ spamassassin_trusted_networks }}
+
+report_contact {{ spamassassin_report_contact }}
+
+#   Set file-locking method (flock is not safe over NFS, but is faster)
+#
+lock_method flock
+
+
+#   Set the threshold at which a message is considered spam (default: 5.0)
+#
+required_score {{ spamassassin_required_score }}
+
+
+#   Use Bayesian classifier (default: 1)
+#
+use_bayes {{ spamassassin_use_bayes }}
+
+
+#   Bayesian classifier auto-learning (default: 1)
+#
+bayes_auto_learn 1
+bayes_auto_learn_threshold_nonspam -0.001
+bayes_auto_learn_threshold_spam 9.0
+bayes_auto_expire  1
+
+# Store bayesian data in MySQL
+bayes_store_module Mail::SpamAssassin::BayesStore::MySQL
+bayes_sql_dsn      {{ spamassassin_bayes_sql_dsn }}
+
+bayes_sql_username {{ spamassassin_bayes_sql_username }}
+bayes_sql_password {{ spamassassin_bayes_sql_password }}
+
+#   Set headers which may provide inappropriate cues to the Bayesian
+#   classifier
+#
+# bayes_ignore_header X-Bogosity
+# bayes_ignore_header X-Spam-Flag
+# bayes_ignore_header X-Spam-Status
+
+# Enable or disable network checks
+{% if spamassassin_enable_rbl %}
+skip_rbl_checks 0
+{% else %}
+skip_rbl_checks 1
+{% endif %}
+
+# Razor config
+{% if spamassassin_enable_razor %}
+use_razor2 1
+{% else %}
+use_razor2 0
+{% endif %}
+
+# Pyzor config
+{% if spamassassin_enable_pyzor %}
+use_pyzor 1
+{% else %}
+use_pyzor 0
+{% endif %}
+pyzor_timeout           {{ spamassassin_pyzor_timeout }}
+pyzor_options --homedir {{ spamd_dir }}
+
+# Mail using languages used in these country codes will not be marked
+# as being possibly spam in a foreign language.
+ok_languages            en
+
+# Mail using locales used in these country codes will not be marked
+# as being possibly spam in a foreign language.
+ok_locales              en
+
+# TXRep (Reputation
+#header         TXREP   eval:check_senders_reputation()
+#describe       TXREP   Score normalizing based on sender's reputation
+#tflags         TXREP   userconf noautolearn
+#priority       TXREP   1000
+
+
+#   Whether to decode non- UTF-8 and non-ASCII textual parts and recode
+#   them to UTF-8 before the text is given over to rules processing.
+#
+normalize_charset 1
+
+#   Some shortcircuiting, if the plugin is enabled
+# 
+ifplugin Mail::SpamAssassin::Plugin::Shortcircuit
+#
+#   default: strongly-whitelisted mails are *really* whitelisted now, if the
+#   shortcircuiting plugin is active, causing early exit to save CPU load.
+#   Uncomment to turn this on
+#
+shortcircuit USER_IN_WHITELIST       on
+shortcircuit USER_IN_DEF_WHITELIST   on
+shortcircuit USER_IN_ALL_SPAM_TO     on
+shortcircuit SUBJECT_IN_WHITELIST    on
+
+# Whitelist important senders
+include whitelist.cf
+
+# Blacklist spammers
+include blacklist.cf
+
+#   the opposite; blacklisted mails can also save CPU
+#
+shortcircuit USER_IN_BLACKLIST       on
+shortcircuit USER_IN_BLACKLIST_TO    on
+shortcircuit SUBJECT_IN_BLACKLIST    on
+
+#   if you have taken the time to correctly specify your "trusted_networks",
+#   this is another good way to save CPU
+#
+shortcircuit ALL_TRUSTED             on
+
+#   and a well-trained bayes DB can save running rules, too
+#
+shortcircuit BAYES_99                spam
+shortcircuit BAYES_00                ham
+
+# Razor
+razor_config {{ spamd_dir }}/razor/razor-agent.conf
+
+endif # Mail::SpamAssassin::Plugin::Shortcircuit
+

@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+# manual whitelisting
+
+{% for pattern in spamassassin_whitelist %}
+whitelist_from {{ pattern }}
+{% endfor %}
