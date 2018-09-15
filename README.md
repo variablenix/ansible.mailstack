@@ -3,11 +3,11 @@
 This Playbook uses mail roles to automate the installation and configuration of mail services.
 
 #### Mail Structure
-| IMAP | SMTP | LDAP | Policyd-SPF | PWhois Milter | OpenDMARC | SpamAssassin | ClamAV     | Cyrus-Sasl    |
-|:----:|:----:|:----:|:-----------:|:-------------:|:---------:|:------------:|:----------:|:-------------:|
-|   a  |   a  |   a  |      a      |       a       |     a     |      a       |      a     |      a        |
-|   b  |   b  |   b  |      b      |       b       |     b     |      b       |      b     |      b        |
-|      |   c  |   c  |      c      |       c       |     c     |      c       |      c     |      c        |
+| IMAP | SMTP | LDAP | Policyd-SPF | PWhois Milter | OpenDMARC | SpamAssassin | ClamAV     | Sasl    |
+|:----:|:----:|:----:|:-----------:|:-------------:|:---------:|:------------:|:----------:|:-------:|
+|   a  |   a  |   a  |      a      |       a       |     a     |      a       |      a     |      a  |
+|   b  |   b  |   b  |      b      |       b       |     b     |      b       |      b     |      b  |
+|      |   c  |   c  |      c      |       c       |     c     |      c       |      c     |      c  |
  
 ### Roles
 * [postfix](https://www.archlinux.org/packages/extra/x86_64/postfix/)
