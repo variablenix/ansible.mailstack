@@ -45,7 +45,7 @@ use_bayes {{ spamassassin_use_bayes }}
 
 #   Bayesian classifier auto-learning (default: 1)
 #
-bayes_auto_learn 1
+bayes_auto_learn {{ spamassassin_bayes_auto_learn }}
 bayes_auto_learn_threshold_nonspam -0.001
 bayes_auto_learn_threshold_spam 9.0
 bayes_auto_expire  1
