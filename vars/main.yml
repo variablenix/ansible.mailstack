@@ -54,6 +54,27 @@ opendmarc_dir: "/etc/opendmarc"
 authserverid: "{{ inventory_hostname }}"
 opendmarcsock: "unix:/run/opendmarc/opendmarc.sock"
 
+# SpamAssassin
+spamd_bin: "/usr/bin/vendor_perl"
+spamd_dir: "/etc/mail/spamassassin"
+spamassassin_enable_rbl: True
+spamassassin_enable_razor: True
+spamassassin_enable_pyzor: True
+spamassassin_pyzor_timeout: "20"
+spamassassin_rewrite_header: "*****SPAM*****"
+spamassassin_report_contact: "postmaster@domain.email"
+spamassassin_required_score: "5.0"
+spamassassin_report_safe: "1"
+spamassassin_use_bayes: "1"
+spamassassin_bayes_sql_username: "sa_user"
+spamassassin_bayes_sql_password:
+
+  create with ->  ansible-vault encrypt_string 'secretpw' --name 'spamassassin_bayes_sql_password:'
+
+# manual white/blacklists: /etc/mail/spamassassin/{whitelist,blacklist}.cf
+spamassassin_whitelist: []
+spamassassin_blacklist: []
+
 # Dovecot
 dovecot_dir: "/etc/dovecot"
 dovecot_default_fields_home: "/home/vmail"
