@@ -30,7 +30,7 @@ report_contact {{ spamassassin_report_contact }}
 
 #   Set file-locking method (flock is not safe over NFS, but is faster)
 #
-lock_method flock
+lock_method {{ spamassassin_lock_method }}
 
 
 #   Set the threshold at which a message is considered spam (default: 5.0)
@@ -63,6 +63,9 @@ bayes_sql_password {{ spamassassin_bayes_sql_password }}
 # bayes_ignore_header X-Bogosity
 # bayes_ignore_header X-Spam-Flag
 # bayes_ignore_header X-Spam-Status
+{% for header in spamassassin_bayes_ignore_header %}
+bayes_ignore_header {{ header }}
+{% endfor %}
 
 # Enable or disable network checks
 {% if spamassassin_enable_rbl %}
@@ -74,6 +77,7 @@ skip_rbl_checks 1
 # Razor config
 {% if spamassassin_enable_razor %}
 use_razor2 1
+razor_config {{ spamd_dir }}/razor/razor-agent.conf
 {% else %}
 use_razor2 0
 {% endif %}
@@ -108,7 +112,7 @@ ok_locales              en
 normalize_charset 1
 
 #   Some shortcircuiting, if the plugin is enabled
-# 
+#
 ifplugin Mail::SpamAssassin::Plugin::Shortcircuit
 #
 #   default: strongly-whitelisted mails are *really* whitelisted now, if the
@@ -119,12 +123,6 @@ shortcircuit USER_IN_WHITELIST       on
 shortcircuit USER_IN_DEF_WHITELIST   on
 shortcircuit USER_IN_ALL_SPAM_TO     on
 shortcircuit SUBJECT_IN_WHITELIST    on
-
-# Whitelist important senders
-include whitelist.cf
-
-# Blacklist spammers
-include blacklist.cf
 
 #   the opposite; blacklisted mails can also save CPU
 #
@@ -142,8 +140,10 @@ shortcircuit ALL_TRUSTED             on
 shortcircuit BAYES_99                spam
 shortcircuit BAYES_00                ham
 
-# Razor
-razor_config {{ spamd_dir }}/razor/razor-agent.conf
-
 endif # Mail::SpamAssassin::Plugin::Shortcircuit
 
+# Whitelist important senders
+include whitelist.cf
+
+# Blacklist spammers
+include blacklist.cf
