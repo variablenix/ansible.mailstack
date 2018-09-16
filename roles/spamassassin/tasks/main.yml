@@ -120,9 +120,9 @@
   tags: [pyzor]
 
 # Bayes SQL
-#- include: spamassassin_bayes.yml
-#  tags: [bayes_sql]
-#  when: inventory_hostname in groups['smtp']
+- include: spamassassin_bayes.yml
+  tags: [bayes_sql]
+  when: inventory_hostname in groups['smtp']
 
 # Ensure SpamAssassin is running
 - name: Enable SpamAssassin
