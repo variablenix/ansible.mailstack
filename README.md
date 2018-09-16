@@ -179,7 +179,7 @@ The Dovecot role is configured to use the [Solr plugin](https://wiki.dovecot.org
 | sasl |
 |:----:|
 
-This simple role will install `cyrus-sasl` and configure SASL to use LDAP with TLS. The current SASL environment uses 3 replicated LDAP hosts defined in `saslauthd.conf` and can be easily configured for other LDAP environments.
+This simple role will install [cyrus-sasl](https://www.archlinux.org/packages/extra/x86_64/cyrus-sasl/) and configure SASL to use LDAP with TLS. The current SASL environment uses 3 replicated LDAP hosts defined in `saslauthd.conf` and can be easily configured for other LDAP environments.
 
 ### TO DO
 * AutoMX
