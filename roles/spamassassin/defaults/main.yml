@@ -7,10 +7,15 @@ spamassassin_enable_pyzor: True
 spamassassin_pyzor_timeout: "20"
 spamassassin_rewrite_header: "*****SPAM*****"
 spamassassin_report_contact: "postmaster@domain.email"
+spamassassin_lock_method: "flock"
 spamassassin_required_score: "5.0"
 spamassassin_report_safe: "1"
 spamassassin_use_bayes: "1"
 spamassassin_bayes_auto_learn: "1"
+spamassassin_bayes_ignore_header:
+  - X-Bogosity
+  - X-Spam-Flag
+  - X-Spam-Status
 spamassassin_bayes_sql_username: "sa_user"
 spamassassin_bayes_sql_password:
 
