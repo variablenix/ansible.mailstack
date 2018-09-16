@@ -14,10 +14,21 @@
   notify: reload systemd daemon
   when: inventory_hostname in groups['smtp']
 
-# Update virus definitions with freshclam
-- name: Do initial freshclam virus definition update
-  shell: /usr/bin/freshclam
+# Check if clamav-freshclam.service is already running
+- name: Check if clamav-freshclam.service is already running
+  shell: systemctl status clamav-freshclam >/dev/null
+  changed_when: false
+  ignore_errors: true
+  register: freshclam_status
+  check_mode: no
   when: inventory_hostname in groups['smtp']
+
+# Do initial update of virus definitions with freshclam
+- name: Do initial freshclam virus definitions update
+  shell: freshclam
+  ignore_errors: true
+  when: (inventory_hostname in groups['smtp']) and
+        (freshclam_status.rc not in [0])
 
 - name: Ensure clamav-freshclam is enabled
   systemd:
