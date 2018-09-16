@@ -1,2 +1,60 @@
 ---
+# Create the sa_bayes DB and user on the primary MySQL host and let it replicate
+- name: Create sa_bayes database to store Bayesian data
+  mysql_db:
+    name: sa_bayes
+    state: present
+    login_user: "{{ spamassassin_sql_login_user }}"
+    login_password: "{{ spamassassin_sql_login_pass }}"
+  notify: restart spamd
+  when: inventory_hostname == "host1"
 
+- name: Check if sa_user exists
+  mysql_user:
+    name: sa_user
+    login_user: "{{ spamassassin_sql_login_user }}"
+    login_password: "{{ spamassassin_sql_login_pass }}"
+    state: present
+  register: bayes_user_created
+  when: inventory_hostname == "host1"
+
+- name: Create the sa_user for Bayesian data
+  mysql_user:
+    name: sa_user
+    state: present
+    password: "{{ spamassassin_bayes_sql_password }}"
+    login_user: "{{ spamassassin_sql_login_user }}"
+    login_password: "{{ spamassassin_sql_login_pass }}"
+    priv: "sa_bayes.*:ALL"
+  notify: restart spamd
+  when: (inventory_hostname == "host1") and
+        (bayes_user_created.changed)
+
+- name: Sync Bayes SQL tables to remote host
+  copy:
+    src: sa_bayes_sql/bayes_mysql.sql
+    dest: /tmp/bayes_mysql.sql
+    mode: 0644
+  changed_when: false
+  when: inventory_hostname == "host1"
+
+- name: Check if database tables exist
+  mysql_db:
+    name: sa_bayes
+    login_user: "{{ spamassassin_sql_login_user }}"
+    login_password: "{{ spamassassin_sql_login_pass }}"
+    state: present
+    target: /tmp/bayes_mysql.sql
+  register: tables_created
+  when: inventory_hostname == "host1"
+
+- name: Import tables for the sa_bayes database if they do not exist
+  mysql_db:
+    state: import
+    name: sa_bayes
+    login_user: "{{ spamassassin_sql_login_user }}"
+    login_password: "{{ spamassassin_sql_login_pass }}"
+    target: /tmp/bayes_mysql.sql
+  notify: restart spamd
+  when: (inventory_hostname == "host1") and
+        (tables_created.changed )
