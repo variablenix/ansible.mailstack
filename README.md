@@ -101,7 +101,7 @@ By default the Postfix role configures SpamAssassin to be used as a transport in
 * Razor/Pyzor/RBL
 
 #### Bayesian SQL
-The SpamAssassin role will create the Bayes database and user and import the Bayes MySQL tables if they are not present.
+The SpamAssassin role will create the Bayes database and user. The Bayes MySQL tables will be imported if they are not present.
 
 ##### Tags
 |      spamd      |
