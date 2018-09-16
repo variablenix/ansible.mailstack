@@ -172,7 +172,7 @@ The supported LDAP mail attributes provisioned with this role require [postfix-b
 | solr |
 |:----:|
 
-The Dovecot role is configurd to use the [Solr plugin](https://wiki.dovecot.org/Plugins/FTS/Solr) for full text search indexing. The Solr role will install, configure and create the Dovecot core if it does not already exist. The default managed schema will be replaced with our Dovecot schema if it is not already loaded.
+The Dovecot role is configured to use the [Solr plugin](https://wiki.dovecot.org/Plugins/FTS/Solr) for full text search indexing. The Solr role will install, configure and create the Dovecot core if it does not already exist. The default managed schema will be replaced with our Dovecot schema if it is not already loaded.
 
 ### CyrusSasl
 ##### Tags
