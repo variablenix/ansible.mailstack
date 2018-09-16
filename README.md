@@ -57,33 +57,29 @@ Other configurations include Postscreen, header checks, sender access, SMTP head
 |         ufw        |
 
 ### Postgrey
+By default the Postfix role is configured to use Postgrey. In addition to using Postscreen with Postfix, this role adds another line of defense against spammers. The role will install and configure a local whitelist for Postgrey clients and recipients that should not be greylisted. 
+
 ##### Tags
 |      postgrey      |
 |:------------------:|
 | postgrey_whitelist |
 
-By default the Postfix role is configured to use Postgrey. In addition to using Postscreen with Postfix, this role adds another line of defense against spammers. The role will install and configure a local whitelist for Postgrey clients and recipients that should not be greylisted. 
-
 ### Policyd-SPF
+This role syncs our Postfix SPF policy configuration to all Postfix MTA hosts. The default Postfix role includes SPF policy checks.
+
 ##### Tags
 | policyd-spf |
 |:-----------:|
 |     spf     |
 
-This role syncs our Postfix SPF policy configuration to all Postfix MTA hosts. The default Postfix role includes SPF policy checks.
-
 ### Pwhois Milter
+The Prefix WhoIs Milter is a mail filter for Postfix to query Prefix WhoIs (whois.pwhois.org by default) about the originating IP address found in the final Received or X-Originating-IP mail headers. By default the Postfix role defines the PWhois headers in the Postfix `header_checks` file.
+
 ##### Tags
 | pwhois |
 |:------:|
 
-The Prefix WhoIs Milter is a mail filter for Postfix to query Prefix WhoIs (whois.pwhois.org by default) about the originating IP address found in the final Received or X-Originating-IP mail headers. By default the Postfix role defines the PWhois headers in the Postfix `header_checks` file.
-
 ### OpenDMARC
-##### Tags
-| opendmarc |
-|:---------:|
-
 The OpenDMARC role will install and sync our OpenDMARC configuration for all Postfix MTA hosts. The Postfix role includes the necessary DMARC configuration inside the `main.cf` file.
 
 In order for DMARC to work note the following requirements for each mail domain served.
@@ -92,7 +88,20 @@ In order for DMARC to work note the following requirements for each mail domain 
 2. OpenDKIM with a domain key TXT DNS record
 3. DMARC TXT DNS record. See the [DMARC Guide](https://dmarcguide.globalcyberalliance.org/#/dmarc) for step by step assistance in configuring a DMARC TXT record
 
+##### Tags
+| opendmarc |
+|:---------:|
+
 ### SpamAssassin
+By default the Postfix role configures SpamAssassin to be used as a transport inside the `master.cf` file. This allows spamd to continuously process spam mail checks. The SpamAssassin role will perform several tasks such as enabling regular rule updates with a systemd timer and utilizing the ClamAV plugin in addition to configuring the following
+
+* SpamAssassin config file
+* SpamAssassin plugin config files 
+* SpamAssassin whitelist/blacklist
+* Razor/Pyzor/RBL
+
+to do: MariaDB/MySQL config for Bayes database
+
 ##### Tags
 |      spamd      |
 |:---------------:|
@@ -103,30 +112,14 @@ In order for DMARC to work note the following requirements for each mail domain 
 | spamd_blacklist |
 |       ufw       |
 
-By default the Postfix role configures SpamAssassin to be used as a transport inside the `master.cf` file. This allows spamd to continuously process spam mail checks. The SpamAssassin role will perform several tasks such as enabling regular rule updates with a systemd timer and utilizing the ClamAV plugin in addition to configuring the following
-
-* SpamAssassin config file
-* SpamAssassin plugin config files 
-* SpamAssassin whitelist/blacklist
-* Razor/Pyzor/RBL
-
-to do: MariaDB/MySQL config for Bayes database
-
 ### ClamAV
+This role will install and configure ClamAV on each of our Postfix MTA hosts that SpamAssassin will also leverage using the ClamAV plugin. The ClamAV freshclam service is enabled and configured so virus definitions are always being updated. This role includes the [clamav-unofficial-sigs](https://aur.archlinux.org/packages/clamav-unofficial-sigs/) package for even more database signatures to check for.
+
 ##### Tags
 | clamd |
 |:-----:|
 
-This role will install and configure ClamAV on each of our Postfix MTA hosts that SpamAssassin will also leverage using the ClamAV plugin. The ClamAV freshclam service is enabled and configured so virus definitions are always being updated. This role includes the [clamav-unofficial-sigs](https://aur.archlinux.org/packages/clamav-unofficial-sigs/) package for even more database signatures to check for.
-
 ### Dovecot
-##### Tags
-|    dovecot   |
-|:------------:|
-|  doveconfig  |
-| dovecot_ldap |
-|      ufw     |
-
 This Playbook makes use of Ansible Vault to encrypt and store our dsync replication password string in a variable named `doveadm_password`. The following can be used to create the encrypted variable string.
 
 `ansible-vault encrypt_string 'secretpw' --name 'doveadm_password'`
@@ -167,21 +160,27 @@ The supported LDAP mail attributes provisioned with this role require [postfix-b
 |                        | `mailSieveRuleSource`    |
 |                        | `mailForwardingAddress`  |
 
+##### Tags
+|    dovecot   |
+|:------------:|
+|  doveconfig  |
+| dovecot_ldap |
+|      ufw     |
+
 ### Solr
+The Dovecot role is configured to use the [Solr plugin](https://wiki.dovecot.org/Plugins/FTS/Solr) for full text search indexing. The Solr role will install, configure and create the Dovecot core if it does not already exist. The default managed schema will be replaced with our Dovecot schema if it is not already loaded.
+
 ##### Tags
 | solr |
 |:----:|
 
-The Dovecot role is configured to use the [Solr plugin](https://wiki.dovecot.org/Plugins/FTS/Solr) for full text search indexing. The Solr role will install, configure and create the Dovecot core if it does not already exist. The default managed schema will be replaced with our Dovecot schema if it is not already loaded.
-
 ### CyrusSasl
+This simple role will install [cyrus-sasl](https://www.archlinux.org/packages/extra/x86_64/cyrus-sasl/) and configure SASL to use LDAP with TLS. The current SASL environment uses 3 replicated LDAP hosts defined in `saslauthd.conf` and can be easily configured for other LDAP environments.
+
 ##### Tags
 | sasl |
 |:----:|
 
-This simple role will install [cyrus-sasl](https://www.archlinux.org/packages/extra/x86_64/cyrus-sasl/) and configure SASL to use LDAP with TLS. The current SASL environment uses 3 replicated LDAP hosts defined in `saslauthd.conf` and can be easily configured for other LDAP environments.
-
 ### TO DO
 * AutoMX
 * OpenDKIM
-
