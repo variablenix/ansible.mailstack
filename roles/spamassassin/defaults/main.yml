@@ -16,6 +16,12 @@ spamassassin_bayes_sql_password:
 
   create with ->  ansible-vault encrypt_string 'secretpw' --name 'spamassassin_bayes_sql_password:'
 
+# Used to create sa_bayes DB if it does not already exist
+spamassassin_sql_login_user: ""
+spamassassin_sql_login_pass:
+
+  create with ->  ansible-vault encrypt_string 'secretpw' --name 'spamassassin_sql_login_pass'
+
 # manual white/blacklists: /etc/mail/spamassassin/{whitelist,blacklist}.cf
 spamassassin_whitelist: []
 spamassassin_blacklist: []
