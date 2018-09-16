@@ -85,11 +85,11 @@ use_razor2 0
 # Pyzor config
 {% if spamassassin_enable_pyzor %}
 use_pyzor 1
+pyzor_timeout           {{ spamassassin_pyzor_timeout }}
+pyzor_options --homedir {{ spamd_dir }}
 {% else %}
 use_pyzor 0
 {% endif %}
-pyzor_timeout           {{ spamassassin_pyzor_timeout }}
-pyzor_options --homedir {{ spamd_dir }}
 
 # Mail using languages used in these country codes will not be marked
 # as being possibly spam in a foreign language.
