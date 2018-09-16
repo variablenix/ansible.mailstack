@@ -237,14 +237,14 @@ mail_plugins = $mail_plugins mailbox_alias acl quota trash old_stats mail_log no
 
 # Trash Plugin
 plugin {
-  trash = /etc/dovecot/dovecot-trash.conf.ext
+  trash = {{ dovecot_dir }}/{{ dovecot_trash }}
 }
 
 ## MailCrypt
 # https://wiki2.dovecot.org/Plugins/MailCrypt
 plugin {
-    mail_crypt_global_private_key = </etc/dovecot/mcrypt/ecprivkey.pem
-    mail_crypt_global_public_key = </etc/dovecot/mcrypt/ecpubkey.pem
+    mail_crypt_global_private_key = <{{ dovecot_mcrypt_dir }}/ecprivkey.pem
+    mail_crypt_global_public_key = <{{ dovecot_mcrypt_dir }}/ecpubkey.pem
     mail_crypt_save_version = 2
     mail_crypt_curve = prime256v1
 }
