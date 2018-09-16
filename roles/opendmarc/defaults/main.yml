@@ -1,0 +1,4 @@
+---
+opendmarc_dir: "/etc/opendmarc"
+authserverid: "{{ inventory_hostname }}"
+opendmarcsock: "unix:/run/opendmarc/opendmarc.sock"

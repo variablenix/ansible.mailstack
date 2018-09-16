@@ -1,0 +1,14 @@
+---
+clamd_logfile: "/var/log/clamav/clamd.log"
+clamd_logtime: "yes"
+clamd_logverbose: "no"
+clamd_pidfile: "/run/clamav/clamd.pid"
+clamd_tmpdir: "/tmp"
+clamd_localsocket: "/var/lib/clamav/clamd.sock"
+clamd_user: "clamav"
+clamd_scanmail: "yes"
+# This value should match Postfix MTA postfix_message_size_limit
+clamd_stream_maxlength: "25M"
+freshclam_logfile: "/var/log/clamav/freshclam.log"
+freshclam_pidfile: "/run/clamav/freshclam.pid"
+freshclam_notifyclamd: "/etc/clamav/clamd.conf"

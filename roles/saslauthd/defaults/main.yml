@@ -1,0 +1,4 @@
+---
+sasldest: "/etc/saslauthd.conf"
+sasldest2: "/etc/conf.d/saslauthd"
+sasldest3: "/usr/lib/sasl2/smtpd.conf"

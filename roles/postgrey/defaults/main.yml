@@ -1,0 +1,3 @@
+---
+postgrey_whitelist_clients: "{{ postfix_conf_dir }}/postgrey_whitelist_clients.local"
+postgrey_whitelist_recipients: "{{ postfix_conf_dir }}/postgrey_whitelist_recipients.local"

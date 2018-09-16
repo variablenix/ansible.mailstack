@@ -1,0 +1,21 @@
+---
+dovecot_dir: "/etc/dovecot"
+dovecot_default_fields_home: "/home/vmail"
+dovecot_mcrypt_dir: "/etc/dovecot/mcrypt"
+dovecot_ssl_dir: "/etc/dovecot/ssl"
+dovecot_conf_dir: "/etc/dovecot/conf.d"
+dovecot_trash: "dovecot-trash.conf.ext"
+dovecot_ldap_conf: "dovecot-ldap.conf.ext"
+dovecot_ldap_master: "dovecot-ldap-masteruser.conf.ext"
+dovecot_ldap_symlink: "dovecot-ldap-userdb.conf.ext"
+dovecot_ldap_tls: "yes"
+dovecot_submission_host: "mail.{{ domain }}"
+dovecot_error_log: "/var/log/mail/mail.err"
+dovecot_mail_log: "/var/log/mail/mail.log"
+dovecot_auth_verbose: "yes"
+dovecot_auth_debug: "no"
+dovecot_mail_debug: "no"
+dovecot_verbose_ssl: "no"
+doveadm_password:
+
+  create with ->  ansible-vault encrypt_string 'secretpw' --name 'doveadm_password'
