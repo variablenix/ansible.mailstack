@@ -172,14 +172,14 @@ The supported LDAP mail attributes provisioned with this role require [postfix-b
 | solr |
 |:----:|
 
-The Dovecot role is configurd to use the [Solr plugin](https://wiki.dovecot.org/Plugins/FTS/Solr) for full text search indexing.
+The Dovecot role is configurd to use the [Solr plugin](https://wiki.dovecot.org/Plugins/FTS/Solr) for full text search indexing. The Solr role will install, configure and create the Dovecot core if it does not already exist. The default managed schema will be replaced with our Dovecot schema if it is not already loaded.
 
 ### CyrusSasl
 ##### Tags
 | sasl |
 |:----:|
 
-
+This simple role will install `cyrus-sasl` and configure SASL to use LDAP with TLS. The current SASL environment uses 3 replicated LDAP hosts defined in `saslauthd.conf` and can be easily configured for other LDAP environments.
 
 ### TO DO
 * AutoMX
