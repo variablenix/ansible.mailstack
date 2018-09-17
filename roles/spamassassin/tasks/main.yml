@@ -123,6 +123,7 @@
 - include: spamassassin_bayes.yml
   tags: [bayes_sql]
   when: inventory_hostname in groups['smtp']
+  ignore_errors: yes
 
 # Ensure SpamAssassin is running
 - name: Enable SpamAssassin
