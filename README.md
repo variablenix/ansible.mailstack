@@ -3,11 +3,11 @@
 This Playbook uses mail roles to automate the installation and configuration of mail services for [Arch Linux](https://www.archlinux.org/) servers.
 
 #### Mail Structure
-| IMAP | SMTP | LDAP | Policyd-SPF | PWhois Milter | OpenDMARC | SpamAssassin | ClamAV     | CyrusSasl |
-|:----:|:----:|:----:|:-----------:|:-------------:|:---------:|:------------:|:----------:|:---------:|
-|   a  |   a  |   a  |      a      |       a       |     a     |      a       |      a     |      a    |
-|   b  |   b  |   b  |      b      |       b       |     b     |      b       |      b     |      b    |
-|      |   c  |   c  |      c      |       c       |     c     |      c       |      c     |      c    |
+| IMAP | SMTP | LDAP | Policyd-SPF | PWhois Milter | OpenDKIM  | OpenDMARC   | SpamAssassin | ClamAV    | CyrusSasl |
+|:----:|:----:|:----:|:-----------:|:-------------:|:---------:|:-----------:|:------------:|:---------:|:---------:|
+|   a  |   a  |   a  |      a      |       a       |     a     |      a      |      a       |      a    |      a    |
+|   b  |   b  |   b  |      b      |       b       |     b     |      b      |      b       |      b    |      b    |
+|      |   c  |   c  |      c      |       c       |     c     |      c      |      c       |      c    |      c    |
 
 ### Roles
 * [postfix](https://www.archlinux.org/packages/extra/x86_64/postfix/)
@@ -88,6 +88,12 @@ The OpenDKIM role will automate the following tasks for a multi-domain environme
 * Create domain directories
 * Configure KeyTable and SigningTable for DKIM domains
 * Generate signing key for domains if needed
+
+Note that for DKIM to work a TXT DNS record is required for each DKIM domain.
+
+#### Verify
+1. `host -t TXT mail._domainkey.example.com`
+2. [DKIM Core](https://dkimcore.org/tools/)
 
 ##### Tags
 |    dkim     |

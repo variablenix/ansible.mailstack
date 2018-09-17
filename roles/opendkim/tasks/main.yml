@@ -4,6 +4,13 @@
     name: opendkim
     state: present
 
+- name: Copy custom systemd opendkim.service file to /etc/systemd/system/
+  copy: >
+    src=systemd/opendkim.service
+    dest=/etc/systemd/system/opendkim.service
+    mode=644
+  notify: reload systemd daemon
+
 - name: Sync main config file
   template:
     src: opendkim.conf.j2

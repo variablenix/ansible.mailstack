@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenDKIM daemon
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+User=opendkim
+Group=postfix
+ExecStart=/usr/bin/opendkim -x /etc/opendkim/opendkim.conf
+
+[Install]
+WantedBy=multi-user.target
