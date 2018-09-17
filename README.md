@@ -14,6 +14,7 @@ This Playbook uses mail roles to automate the installation and configuration of 
 * [postgrey](https://www.archlinux.org/packages/community/any/postgrey/)
 * [policyd-spf](https://aur.archlinux.org/packages/python-postfix-policyd-spf/)
 * [pwhois_milter](https://aur.archlinux.org/packages/pwhois_milter/)
+* [opendkim](https://www.archlinux.org/packages/community/x86_64/opendkim/)
 * [opendmarc](https://www.archlinux.org/packages/community/x86_64/opendmarc/)
 * [spamassassin](https://www.archlinux.org/packages/extra/x86_64/spamassassin/)
 * [clamav](https://www.archlinux.org/packages/extra/x86_64/clamav/)
@@ -78,6 +79,20 @@ The Prefix WhoIs Milter is a mail filter for Postfix to query Prefix WhoIs (whoi
 ##### Tags
 | pwhois |
 |:------:|
+
+### OpenDKIM
+The OpenDKIM role will automate the following tasks for a multi-domain environment.
+
+* Install OpenDKIM
+* Sync config and TrustedHosts
+* Create domain directories
+* Configure KeyTable and SigningTable for DKIM domains
+* Generate signing key for domains if needed
+
+##### Tags
+|    dkim     |
+|:-----------:|
+| dkimconfig  |
 
 ### OpenDMARC
 The OpenDMARC role will install and sync our OpenDMARC configuration for all Postfix MTA hosts. The Postfix role includes the necessary DMARC configuration inside the `main.cf` file.
