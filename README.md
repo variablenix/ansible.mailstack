@@ -89,7 +89,7 @@ The OpenDKIM role will automate the following tasks for a multi-domain environme
 * Configure KeyTable and SigningTable for DKIM domains
 * Generate signing key for domains if needed
 
-Note that for DKIM to work a TXT DNS record is required for each DKIM domain.
+Note that for DKIM to work a [TXT DNS record](https://support.dnsimple.com/articles/dkim-record/) is required for each DKIM domain.
 
 #### Verify
 1. `host -t TXT mail._domainkey.example.com`
