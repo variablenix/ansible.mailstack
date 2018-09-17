@@ -33,6 +33,7 @@
     - { role: postgrey, tags: [ 'postgrey' ] }
     - { role: policyd-spf, tags: [ 'spf' ] }
     - { role: pwhois_milter, tags: [ 'pwhois' ] }
+    - { role: opendkim, tags: [ 'dkim' ] }
     - { role: opendmarc, tags: [ 'opendmarc' ] }
     - { role: spamassassin, tags: [ 'spamd' ] }
     - { role: clamav, tags: [ 'clamd' ] }
