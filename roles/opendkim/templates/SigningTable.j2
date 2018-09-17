@@ -1,0 +1,3 @@
+{% for domain in opendkim_domains %}
+*@{{ domain }} {{ opendkim_selector }}._domainkey.{{ domain }}
+{% endfor %}

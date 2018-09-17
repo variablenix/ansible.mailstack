@@ -1,0 +1,25 @@
+---
+- name: start opendkim
+  systemd:
+    name: opendkim
+    enabled: yes
+    state: started
+  become: yes
+
+- name: stop opendkim
+  systemd:
+    name: opendkim
+    enabled: yes
+    state: stopped
+  become: yes
+
+- name: restart opendkim
+  systemd:
+    name: opendkim
+    enabled: yes
+    state: restarted
+  become: yes
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes

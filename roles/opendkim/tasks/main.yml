@@ -1,0 +1,70 @@
+---
+- name: Install OpenDKIM
+  pacman:
+    name: opendkim
+    state: present
+
+- name: Sync main config file
+  template:
+    src: opendkim.conf.j2
+    dest: "{{ opendkim_home }}/opendkim.conf"
+    owner: opendkim
+    group: mail
+    mode: 0644
+  notify: restart opendkim
+  tags: [dkimconfig]
+
+- name: Copy OpenDKIM host files to {{ opendkim_home }}/
+  copy:
+    src: "{{ item }}"
+    dest: "{{ opendkim_home }}/{{ item }}"
+    owner: opendkim
+    group: mail
+    mode: 0644
+  with_items:
+    - TrustedHosts
+    - ExternalIgnoreList
+    - InternalHosts
+  notify: restart opendkim
+  tags: [dkimconfig]
+
+- name: Ensure keys directory exists for our domains
+  file:
+    path: "{{ opendkim_home }}/keys/{{ item }}"
+    state: directory
+    owner: opendkim
+    group: mail
+    mode: 0755
+  with_items:
+    - "{{ opendkim_domains }}"
+  tags: [dkimconfig]
+
+- name: Ensure KeyTable is configured for our domains
+  template:
+    src: KeyTable.j2
+    dest: "{{ opendkim_home }}/KeyTable"
+    owner: opendkim
+    group: mail
+    mode: 0644
+  notify: restart opendkim
+  tags: [dkimconfig]
+
+- name: Ensure SigningTable is configured for our domains
+  template:
+    src: SigningTable.j2
+    dest: "{{ opendkim_home }}/SigningTable"
+    owner: opendkim
+    group: mail
+    mode: 0644
+  notify: restart opendkim
+  tags: [dkimconfig]
+
+- name: Generate signing key for our domains if they do not exist
+  shell: "opendkim-genkey -r -s {{ opendkim_selector }} -b 2048 -d {{ item }} -D {{ opendkim_home }}/keys/{{ item }}"
+  args:
+    chdir: "{{ opendkim_home }}/keys/{{ item }}"
+    creates: "{{ opendkim_selector }}.private"
+  with_items:
+    - "{{ opendkim_domains }}"
+  notify: restart opendkim
+  tags: [dkimconfig]

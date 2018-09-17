@@ -1,0 +1,15 @@
+---
+opendkim_home: "/etc/opendkim"
+opendkim_selector: "mail"
+opendkim_syslog: "yes"
+opendkim_userid: "opendkim"
+opendkim_tempdir: "/run/opendkim/"
+opendkim_dnstimeout: "5"
+opendkim_logwhy: "yes"
+opendkim_minimumkeybits: "1024"
+opendkim_signature_algorithm: "rsa-sha256"
+opendkim_socket: "inet:8891@localhost"
+opendkim_domains:
+  - domain1
+  - domain2
+
