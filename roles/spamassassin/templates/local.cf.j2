@@ -100,11 +100,10 @@ ok_languages            en
 ok_locales              en
 
 # TXRep (Reputation
-#header         TXREP   eval:check_senders_reputation()
-#describe       TXREP   Score normalizing based on sender's reputation
-#tflags         TXREP   userconf noautolearn
-#priority       TXREP   1000
-
+header         TXREP   eval:check_senders_reputation()
+describe       TXREP   Score normalizing based on sender's reputation
+tflags         TXREP   userconf noautolearn
+priority       TXREP   1000
 
 #   Whether to decode non- UTF-8 and non-ASCII textual parts and recode
 #   them to UTF-8 before the text is given over to rules processing.
