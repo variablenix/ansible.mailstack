@@ -83,6 +83,7 @@
     - v330.pre
     - v340.pre
     - v341.pre
+  tags: [spamdconfig]
   when: inventory_hostname in groups['smtp']
 
 - name: Ensure SpamAssassin whitelist is current
