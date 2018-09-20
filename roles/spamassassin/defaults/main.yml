@@ -12,6 +12,7 @@ spamassassin_required_score: "5.0"
 spamassassin_report_safe: "1"
 spamassassin_use_bayes: "1"
 spamassassin_bayes_auto_learn: "1"
+spamassassin_tmp_sql_bayes_dir: "/tmp/bayes_sql"
 spamassassin_bayes_ignore_header:
   - X-Bogosity
   - X-Spam-Flag

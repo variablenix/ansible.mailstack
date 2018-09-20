@@ -30,10 +30,17 @@
   when: (inventory_hostname == "host1") and
         (bayes_user_created.changed)
 
+- name: Create tmp directory to store SQL files
+  file:
+    path: "{{ spamassassin_tmp_sql_bayes_dir }}"
+    state: directory
+    mode: 0755
+  when: inventory_hostname == "host1"
+
 - name: Sync Bayes SQL tables to remote host
   copy:
     src: sa_bayes_sql/bayes_mysql.sql
-    dest: /tmp/bayes_mysql.sql
+    dest: "{{ spamassassin_tmp_sql_bayes_dir }}/bayes_mysql.sql"
     mode: 0644
   changed_when: false
   when: inventory_hostname == "host1"
@@ -44,8 +51,8 @@
     login_user: "{{ spamassassin_sql_login_user }}"
     login_password: "{{ spamassassin_sql_login_pass }}"
     state: present
-    target: /tmp/bayes_mysql.sql
-  register: tables_created
+    target: "{{ spamassassin_tmp_sql_bayes_dir }}/bayes_mysql.sql"
+  register: bayes_tables_created
   when: inventory_hostname == "host1"
 
 - name: Import tables for the sa_bayes database if they do not exist
@@ -54,7 +61,37 @@
     name: sa_bayes
     login_user: "{{ spamassassin_sql_login_user }}"
     login_password: "{{ spamassassin_sql_login_pass }}"
-    target: /tmp/bayes_mysql.sql
+    target: "{{ spamassassin_tmp_sql_bayes_dir }}/bayes_mysql.sql"
   notify: restart spamd
   when: (inventory_hostname == "host1") and
-        (tables_created.changed )
+        (bayes_tables_created.changed )
+
+# TxtRep Plugin
+- name: Sync TxtRep SQL tables to remote host
+  copy:
+    src: sa_bayes_sql/txtrep_mysql.sql
+    dest: "{{ spamassassin_tmp_sql_bayes_dir }}/txtrep_mysql.sql"
+    mode: 0644
+  changed_when: false
+  when: inventory_hostname == "host1"
+
+- name: Check if database tables exist
+  mysql_db:
+    name: sa_bayes
+    login_user: "{{ spamassassin_sql_login_user }}"
+    login_password: "{{ spamassassin_sql_login_pass }}"
+    state: present
+    target: "{{ spamassassin_tmp_sql_bayes_dir }}/bayes_mysql.sql"
+  register: txtrep_tables_created
+  when: inventory_hostname == "host1"
+
+- name: Import TxRep plugin tables for the sa_bayes database if they do not exist
+  mysql_db:
+    state: import
+    name: sa_bayes
+    login_user: "{{ spamassassin_sql_login_user }}"
+    login_password: "{{ spamassassin_sql_login_pass }}"
+    target: "{{ spamassassin_tmp_sql_bayes_dir }}/txtrep_mysql.sql"
+  notify: restart spamd
+  when: (inventory_hostname == "host1") and
+        (txtrep_tables_created.changed )
