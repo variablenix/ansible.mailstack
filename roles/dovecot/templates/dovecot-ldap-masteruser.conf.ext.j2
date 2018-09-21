@@ -1,5 +1,5 @@
 # {{ ansible_managed }}
-hosts = {{ ldap_server_provider }}.{{ domain }} {{ ldap_server_consumer1 }}.{{ domain }} {{ ldap_server_consumer2 }}.{{ domain }}
+hosts = {{ dovecot_ldap_hosts }}
 auth_bind = yes
 ldap_version = 3
 base = {{ ldap_mail_search_base }}
