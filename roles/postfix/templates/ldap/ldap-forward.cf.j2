@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
-server_host = ldap://{{ ldap_server_provider }}.{{ domain }}
-              ldap://{{ ldap_server_consumer1 }}.{{ domain }}
-              ldap://{{ ldap_server_consumer2 }}.{{ domain }}
+server_host = {% for domain in ldap_servers %}
+              ldap://{{ domain }}
+{% endfor %}
 search_base = {{ ldap_mail_search_base }}
 version = 3
 bind = {{ ldap_bind }}
