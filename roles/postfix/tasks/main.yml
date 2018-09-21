@@ -75,7 +75,7 @@
 
 - name: Configure virtual LDAP mailbox
   template:
-    src: ../templates/ldap/{{ ldap_vmailbox }}.j2
+    src: ldap/{{ ldap_vmailbox }}.j2
     dest: "{{ postfix_ldap_dir }}/{{ ldap_vmailbox }}"
     mode: 0644
   notify: reload postfix
@@ -83,7 +83,7 @@
 
 - name: Configure virtual LDAP mail aliases
   template:
-    src: ../templates/ldap/{{ ldap_aliases }}.j2
+    src: ldap/{{ ldap_aliases }}.j2
     dest: "{{ postfix_ldap_dir }}/{{ ldap_aliases }}"
     mode: 0644
   notify: reload postfix
@@ -91,7 +91,7 @@
 
 - name: Configure virtual LDAP mail domains
   template:
-    src: ../templates/ldap/{{ ldap_domains }}.j2
+    src: ldap/{{ ldap_domains }}.j2
     dest: "{{ postfix_ldap_dir }}/{{ ldap_domains }}"
     mode: 0644
   notify: reload postfix
@@ -99,7 +99,7 @@
 
 - name: Configure virtual LDAP mail forwarding
   template:
-    src: ../templates/ldap/{{ ldap_forward }}.j2
+    src: ldap/{{ ldap_forward }}.j2
     dest: "{{ postfix_ldap_dir }}/{{ ldap_forward }}"
     mode: 0644
   notify: reload postfix
@@ -107,7 +107,7 @@
 
 - name: Configure virtual LDAP mail distribution groups
   template:
-    src: ../templates/ldap/{{ ldap_groups }}.j2
+    src: ldap/{{ ldap_groups }}.j2
     dest: "{{ postfix_ldap_dir }}/{{ ldap_groups }}"
     mode: 0644
   notify: reload postfix
