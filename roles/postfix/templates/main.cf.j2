@@ -163,7 +163,7 @@ inet_interfaces = {{ postfix_inet_interfaces }}
 #proxy_interfaces = 1.2.3.4
 
 #virtual_transport = dovecot
-virtual_transport = lmtp:unix:private/dovecot-lmtp
+virtual_transport = {{ postfix_virtual_transport }}
 
 # The mydestination parameter specifies the list of domains that this
 # machine considers itself the final destination for.
@@ -299,7 +299,7 @@ unknown_local_recipient_reject_code = 550
 #mynetworks = 168.100.189.0/28, 127.0.0.0/8
 #mynetworks = $config_directory/mynetworks
 #mynetworks = hash:/etc/postfix/network_table
-mynetworks = 127.0.0.0/8 10.8.0.0/24 192.168.1.x WAN_IP [::1]/128 [2600:3c01::]/64 [fe80::]/64
+mynetworks = {{ postfix_mynetworks }}
 
 # The relay_domains parameter restricts what destinations this system will
 # relay mail to.  See the smtpd_recipient_restrictions description in
