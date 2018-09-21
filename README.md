@@ -165,7 +165,7 @@ Since replication password is encrypted using Ansible vault, passing `--ask-vaul
 `ansible-playbook main.yml --check --diff --ask-vault-pass --tags "doveconfig"`
 
 #### MailCrypt plugin
-The default configuration used with this role uses the MailCrypt plugin defined in `10-mail.conf` to encrypt mail store files. The expected public and private [elliptic curve](https://wiki.dovecot.org/Plugins/MailCrypt#EC_key) keys default to the `/etc/dovecot/mcrypt` directory. Both the private and public key files should be encrypted using Ansible Vault and `--ask-vault-pass` passed for the required decryption.
+The default configuration used with this role uses the MailCrypt plugin defined in `10-mail.conf` to encrypt mail store files. The expected public and private [elliptic curve](https://wiki.dovecot.org/Plugins/MailCrypt#EC_key) keys default to the `/etc/dovecot/mcrypt` directory.
 
 ### LDAP
 The supported LDAP mail attributes provisioned with this role require [postfix-book.schema](https://github.com/variablenix/ldap-mail-schema/blob/master/postfix-book.schema) to be loaded with an LDAP backend server such as OpenLDAP.
