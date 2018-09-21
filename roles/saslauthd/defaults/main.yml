@@ -1,5 +1,5 @@
 ---
-sasl_ldap_hosts: "ldap1.domain.tld ldap2.domain.tld ldap3.domain.tld"
+sasl_ldap_hosts: "ldap://ldap1.domain.tld ldap://ldap2.domain.tld ldap://ldap3.domain.tld"
 sasldest: "/etc/saslauthd.conf"
 sasldest2: "/etc/conf.d/saslauthd"
 sasldest3: "/usr/lib/sasl2/smtpd.conf"
