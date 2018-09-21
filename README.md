@@ -21,6 +21,7 @@ This Playbook uses mail roles to automate the installation and configuration of 
 * [dovecot](https://www.archlinux.org/packages/community/x86_64/dovecot/)
 * [solr](https://aur.archlinux.org/packages/solr/)
 * [saslauthd](https://www.archlinux.org/packages/extra/x86_64/cyrus-sasl/)
+* [automx](https://github.com/sys4/automx/)
 
 #### Arch User Repository (AUR)
 The [makepkg](https://github.com/gunzy83/ansible-makepkg) Ansible module is used for AUR package installs.
