@@ -25,6 +25,10 @@ host3 ansible_host=host3.domain.tld ansible_user=deploy
 host1 ansible_host=host1.domain.tld ansible_user=deploy
 host2 ansible_host=host2.domain.tld ansible_user=deploy
 
+[automx]
+host1 ansible_host=host1.domain.tld ansible_user=deploy
+host3 ansible_host=host3.domain.tld ansible_user=deploy
+
 [all:vars]
 ansible_python_interpreter=/usr/bin/python2
 
