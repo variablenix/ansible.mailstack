@@ -1,0 +1,11 @@
+---
+- name: reload httpd
+  systemd:
+    name: httpd
+    enabled: yes
+    state: restarted
+  become: yes
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes

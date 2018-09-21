@@ -1,0 +1,89 @@
+# {{ ansible_managed }}
+#
+# file: /etc/automx.conf
+
+[automx]
+provider = {{ automx_provider }}
+domains = *
+
+debug = {{ automx_debug }}
+logfile = {{ automx_logfile }}
+
+# Protect against DoS
+{% if automx_enable_memcached %}
+memcache = 127.0.0.1:11211
+memcache_ttl = 600
+client_error_limit = 20
+rate_limit_exception_networks = 127.0.0.0/8, ::1/128
+{% else %}
+#memcache = 127.0.0.1:11211
+#memcache_ttl = 600
+#client_error_limit = 20
+#rate_limit_exception_networks = 127.0.0.0/8, ::1/128
+{% endif %}
+
+# The DEFAULT section is always merged into each other section. Each section
+# can overwrite settings done here.
+[DEFAULT]
+account_type = {{ automx_account_type }}
+account_name = {{ automx_account_name }}
+account_name_short = {{ automx_account_name_short }}
+
+
+# If a domain is listed in the automx section, it may have its own section. If
+# none is found here, the global section is used.
+[global]
+#backend = static
+backend = {{ automx_backend }}
+action = settings
+account_name = ${cn} {{ automx_account_name }} Inc.
+display_name = ${givenName} ${sn}
+
+# If you want to sign mobileconfig profiles, enable these options. Make sure
+# that your webserver has proper privileges to read the key. The cert file
+# must contain the server certificate and all intermediate certificates. You
+# can simply concatenate these certificates.
+#sign_mobileconfig = yes
+#sign_cert = /some/path/to/cert.ca-bundle
+#sign_key = /some/path/to/key.pem
+
+smtp = {{ automx_smtp }}
+smtp_server = {{ automx_smtp_server }}
+smtp_port = {{ automx_smtp_port }}
+smtp_encryption = {{ automx_smtp_encryption }}
+smtp_auth = {{ automx_smtp_auth }}
+smtp_refresh_ttl = {{ automx_smtp_refresh_ttl }}
+smtp_default = {{ automx_smtp_default }}
+smtp_auth_identity = {{ automx_smtp_auth_identity }}
+
+imap = {{ automx_imap }}
+imap_server = {{ automx_imap_server }}
+imap_port = {{ automx_imap_port }}
+imap_encryption = {{ automx_imap_encryption }}
+imap_auth = {{ automx_imap_auth }}
+imap_refresh_ttl = {{ automx_imap_refresh_ttl }}
+imap_auth_identity = {{ automx_imap_auth_identity }}
+
+#pop = no
+#pop_server = mail.example.com
+#pop_port = 110
+#pop_encryption = none
+#pop_auth = plaintext
+#pop_refresh_ttl = 6
+
+# LDAP
+host = {{ automx_ldap_hosts }}
+base = {{ automx_ldap_base }}
+result_attrs = {{ automx_ldap_result_attrs }}
+scope = sub
+#filter = (&(objectClass=*)(|(mail=%s)(mailAlias=%s)))
+filter = {{ automx_ldap_filter }}
+bindmethod = {{ automx_bindmethod }}
+#binddn =
+#bindpw =
+saslmech = {{ automx_saslmech }}
+usetls = {{ automx_usetls }}
+reqcert = {{ automx_reqcert }}
+#cert = /some/path/to/cert.ca-bundle
+#key = /some/path/to/key.pem
+cacert = {{ automx_ldap_cacert }}

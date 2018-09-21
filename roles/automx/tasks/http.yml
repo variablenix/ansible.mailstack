@@ -1,0 +1,28 @@
+---
+- name: Create directory for automx Apache virtualhost files
+  file:
+    path: "{{ automx_apache_vhost }}"
+    state: directory
+    mode: 0755
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+  when: inventory_hostname in groups['automx']
+
+- name: Sync Apache virtualhost files to {{ automx_apache_vhost }}
+  copy:
+    src: "apache-mail-autoconfig/{{ item }}"
+    dest: "{{ automx_apache_vhost }}/{{ item }}"
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+  with_items:
+    - "{{ automx_apache_vhost_conf }}"
+  when: inventory_hostname in groups['automx']
+  notify: reload httpd
+
+- name: Ensure automx virtualhosts are included in httpd.conf
+  blockinfile:
+    path: /etc/httpd/conf/httpd.conf
+    block: "{{ lookup('file', 'http-vhosts-autoconfig.txt') }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: automx"
+  when: inventory_hostname in groups['automx']
+  notify: reload httpd

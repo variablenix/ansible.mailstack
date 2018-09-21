@@ -1,0 +1,136 @@
+---
+- name: Ensure automx dependencies are installed
+  pacman:
+    name: mod_wsgi,python-dateutil,python-lxml,python-ldap,python-m2crypto
+    state: present
+  when: inventory_hostname in groups['automx']
+
+- name: Ensure python-ipaddress dependency is installed
+  makepkg:
+    name: python-ipaddress
+    state: present
+    as_deps: true
+  when: inventory_hostname in groups['automx']
+
+- name: Install memcached to rate limit connections to automx
+  pacman:
+    name: memcached
+    state: present
+  when: (automx_enable_memcached) and
+        (inventory_hostname in groups ['automx'])
+
+- name: Enable Memcached
+  systemd:
+    name: memcached
+    enabled: yes
+    masked: no
+    state: started
+  when: (automx_enable_memcached) and
+        (inventory_hostname in groups ['automx'])
+
+- name: Clone automx master branch
+  git:
+    repo: https://github.com/sys4/automx.git
+    dest: "{{ automx_clone_tmpdir }}"
+    clone: yes
+    update: yes
+  when: inventory_hostname in groups['automx']
+
+- name: Create directory for the automx program
+  file:
+    path: "{{ automx_home }}"
+    state: directory
+    owner: http
+    group: http
+    mode: 0755
+  when: inventory_hostname in groups['automx']
+
+- name: Sync automx_wsgi.py to {{ automx_home }}
+  copy:
+    remote_src: True
+    src: "{{ automx_clone_tmpdir }}/src/automx_wsgi.py" 
+    dest: "{{ automx_home }}/automx_wsgi.py"
+    owner: http
+    group: http
+    mode: a+x
+  when: inventory_hostname in groups['automx']
+
+- name: Create directory for automx-specific libraries
+  file:
+    path: "{{ automx_python_home }}"
+    state: directory
+    mode: 0755
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+  when: inventory_hostname in groups['automx']
+
+- name: Sync automx-specific libraries to {{ automx_python_home }}
+  copy:
+    remote_src: True
+    src: "{{ automx_clone_tmpdir }}/src/automx/{{ item }}"
+    dest: "{{ automx_python_home }}/{{ item }}"
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+  with_items:
+    - "config.py"
+    - "__init__.py"
+    - "view.py"
+  when: inventory_hostname in groups['automx']
+
+- name: Sync automx-test to {{ automx_test }}
+  copy:
+    remote_src: True
+    src: "{{ automx_clone_tmpdir }}/src/automx-test"
+    dest: "{{ automx_test }}"
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+    mode: a+x
+  when: inventory_hostname in groups['automx']
+
+- name: Create automx man page directories if they don't exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+    mode: 0755
+  with_items:
+    - /usr/local/man/man1
+    - /usr/local/man/man5
+  when: inventory_hostname in groups['automx']
+
+- name: Sync automx-test man page
+  copy:
+    remote_src: True
+    src: "{{ automx_clone_tmpdir }}/doc/man/man1/automx-test.1"
+    dest: /usr/local/man/man1/automx-test.1
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+  when: inventory_hostname in groups['automx']
+
+- name: Sync remaining automx man pages
+  copy:
+    remote_src: True
+    src: "{{ automx_clone_tmpdir }}/doc/man/man5/{{ item }}"
+    dest: "/usr/local/man/man5/{{ item }}"
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+  with_items:
+    - "automx.conf.5"
+    - "automx_ldap.5"
+    - "automx_script.5"
+    - "automx_sql.5"
+  when: inventory_hostname in groups['automx']
+
+- name: Configure automx.conf
+  template:
+    src: automx.conf.j2
+    dest: "{{ automx_conf }}"
+    mode: 0644
+  when: inventory_hostname in groups['automx']
+
+# Apache config
+- include: http.yml
+  tags: [automx_http]
+  when: inventory_hostname in groups['automx']
+  ignore_errors: yes

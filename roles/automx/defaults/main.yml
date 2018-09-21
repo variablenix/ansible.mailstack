@@ -1,0 +1,48 @@
+---
+automx_home: "/usr/lib/automx"
+automx_python_home: "/usr/lib/python3.7/automx"
+automx_clone_tmpdir: "/tmp/automx"
+automx_test: "/usr/bin/automx-test"
+automx_conf: "/etc/automx.conf"
+automx_cacert: "/etc/ssl/certs/ca-certificates.crt"
+# automx.conf
+automx_provider: "domain.tld"
+automx_debug: "no"
+automx_logfile: "/var/log/automx/automx.log"
+automx_enable_memcached: True
+automx_account_type: "email"
+automx_account_name: "MyOrg Mail"
+automx_account_name_short: "MyOrg"
+automx_backend: "ldap"
+# smtp settings
+automx_smtp: "yes"
+automx_smtp_server: "mail.domain.tld"
+automx_smtp_port: 587
+automx_smtp_encryption: "starttls"
+automx_smtp_auth: "plaintext"
+automx_smtp_refresh_ttl: 0
+automx_smtp_default: "yes"
+automx_smtp_auth_identity: "%u"
+# imap settings
+automx_imap: "yes"
+automx_imap_server: "mail.domain.tld"
+automx_imap_port: 993
+automx_imap_encryption: "ssl"
+automx_imap_auth: "plaintext"
+automx_imap_refresh_ttl: 0
+automx_imap_auth_identity: "%u"
+# ldap settings
+automx_ldap_hosts: "ldap://ldap.domain.tld, ldap://ldap2.domain.tld, ldap://ldap3.domain.tld"
+automx_ldap_base: "ou=Mail,dc=domain,dc=tld"
+automx_ldap_result_attrs: "mail, uid, givenName, sn"
+automx_ldap_filter: "(&(objectClass=*)(mail=%s))"
+automx_bindmethod: "simple"
+automx_saslmech: "none"
+automx_usetls: "yes"
+automx_reqcert: "demand"
+automx_ldap_cacert: "/etc/ssl/certs/ca-certificates.crt"
+# http settings
+automx_apache_vhost: "/etc/httpd/conf/extra/mail-autoconfig"
+automx_apache_vhost_conf:
+  - vhost1-autoconfig.conf
+  - vhost2-autoconfig.conf 

@@ -1,0 +1,2 @@
+Include conf/extra/mail-autoconfig/vhost1-autoconfig.conf
+Include conf/extra/mail-autoconfig/vhost2-autoconfig.conf
