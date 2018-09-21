@@ -62,18 +62,23 @@
     group: "{{ global_group }}"
     mode: 0755
   when: inventory_hostname in groups['imap']
-  tags: [doveconfig]
+  tags: [dovecrypt]
 
-- name: Push MailCrypt private/public keys
-  copy:
-    src: "mcrypt/{{ item }}"
-    dest: "{{ dovecot_mcrypt_dir }}/{{ item }}"
-  when: inventory_hostname in groups['imap']
+- name: Create global MailCrypt private key
+  shell: "openssl ecparam -name prime256v1 -genkey | openssl pkey -out ecprivkey.pem"
+  args:
+    chdir: "{{ dovecot_mcrypt_dir }}"
+    creates: "ecprivkey.pem"
   notify: reload dovecot
-  tags: [doveconfig]
-  with_items:
-    - ecprivkey.pem
-    - ecpubkey.pem
+  tags: [dovecrypt]
+
+- name: Create global MailCrypt public key
+  shell: "openssl pkey -in ecprivkey.pem -pubout -out ecpubkey.pem"
+  args:
+    chdir: "{{ dovecot_mcrypt_dir }}"
+    creates: "ecpubkey.pem"
+  notify: reload dovecot
+  tags: [dovecrypt]
 
 - name: Push quota warning script
   copy:
@@ -83,7 +88,7 @@
   when: inventory_hostname in groups['imap']
   tags: [doveconfig]
 
-# Trash Plugin
+# Trash
 - name: Configure Trash settings
   copy:
     src: "{{ dovecot_trash }}"
