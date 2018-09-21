@@ -204,6 +204,21 @@ This simple role will install [cyrus-sasl](https://www.archlinux.org/packages/ex
 | sasl |
 |:----:|
 
+### AutoMX
+The [automx](https://github.com/sys4/automx) role uses `ldap` as the default backend, but can instead be changed to `static`. Apache is the HTTP server used with this role and will configure the necessary automx virtualhost configs for any number of domains. DNS must be configured for each domain that will be using automx. See the [DNS Configuration](https://github.com/sys4/automx/blob/master/INSTALL) section for more info. 
+
+The following automx man pages are available.
+* `automx-test`
+* `automx.conf`
+* `automx_ldap`
+* `automx_script`
+* `automx_sql`
+
+##### Tags
+|    automx   |
+|:------------:|
+|  automx_http  |
+
+
 ### TO DO
-* AutoMX
 * Roundcubemail
