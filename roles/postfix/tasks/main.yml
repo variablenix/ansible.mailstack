@@ -39,12 +39,14 @@
     src: sender_access.j2
     dest: "{{ sender_access_config }}"
     mode: 0644
+  register: postfix_sender_access
 
 # Run postmap to hash sender_access and reload Postfix
 - name: Hash sender_access with postmap
   shell: postmap "{{ sender_access_config }}"
   notify: reload postfix
   tags: [sender_access]
+  when: postfix_sender_access.changed
 
 # Configure SMTP header checks
 - name: Configure Postfix SMTP header checks
