@@ -189,6 +189,7 @@ The supported LDAP mail attributes provisioned with this role require [postfix-b
 |:------------:|
 |  doveconfig  |
 | dovecot_ldap |
+|   dovecrypt  |
 |      ufw     |
 
 ### Solr
