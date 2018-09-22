@@ -1,6 +1,7 @@
 ---
 spamd_bin: "/usr/bin/vendor_perl"
 spamd_dir: "/etc/mail/spamassassin"
+spamassassin_enable_bayes_sql: True
 spamassassin_enable_rbl: True
 spamassassin_enable_razor: True
 spamassassin_enable_pyzor: True

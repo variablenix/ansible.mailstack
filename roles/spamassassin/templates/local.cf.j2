@@ -51,11 +51,13 @@ bayes_auto_learn_threshold_spam 9.0
 bayes_auto_expire  1
 
 # Store bayesian data in MySQL
+{% if spamassassin_enable_bayes_sql %}
 bayes_store_module Mail::SpamAssassin::BayesStore::MySQL
 bayes_sql_dsn      {{ spamassassin_bayes_sql_dsn }}
 
 bayes_sql_username {{ spamassassin_bayes_sql_username }}
 bayes_sql_password {{ spamassassin_bayes_sql_password }}
+{% endif %}
 
 #   Set headers which may provide inappropriate cues to the Bayesian
 #   classifier
@@ -99,7 +101,7 @@ ok_languages            en
 # as being possibly spam in a foreign language.
 ok_locales              en
 
-# TXRep (Reputation
+# TXRep (Reputation)
 header         TXREP   eval:check_senders_reputation()
 describe       TXREP   Score normalizing based on sender's reputation
 tflags         TXREP   userconf noautolearn

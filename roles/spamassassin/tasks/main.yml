@@ -1,8 +1,7 @@
 ---
-# Ensure spamassassin and mysql-python for sa_bayes database is installed
-- name: Ensure SpamAssassin and mysql-python are installed
+- name: Install SpamAssassin
   pacman:
-    name: spamassassin,mysql-python
+    name: spamassassin
     state: present
   when: inventory_hostname in groups['smtp']
 
@@ -123,7 +122,8 @@
 # Bayes SQL
 - include: spamassassin_bayes.yml
   tags: [bayes_sql]
-  when: inventory_hostname in groups['smtp']
+  when: (spamassassin_enable_bayes_sql) and
+        (inventory_hostname in groups['smtp'])
   ignore_errors: yes
 
 # Ensure SpamAssassin is running
