@@ -144,16 +144,11 @@ This role will install and configure ClamAV on each of our Postfix MTA hosts tha
 |:-----:|
 
 ### Dovecot
-This Playbook makes use of Ansible Vault to encrypt and store our dsync replication password string in a variable named `doveadm_password`. The following can be used to create the encrypted variable string.
+The Dovecot role configures LDAP authentication and [dsync](https://wiki2.dovecot.org/Tools/Doveadm/Sync) for [replication](https://wiki.dovecot.org/Replication) between 2 IMAP hosts. Ansible Vault is used to encrypt and store the dsync replication password string in a variable named `doveadm_password`. The following can be used to create the encrypted variable string.
 
 `ansible-vault encrypt_string 'secretpw' --name 'doveadm_password'`
 
-#### Replication
-By default this role uses [dsync](https://wiki2.dovecot.org/Tools/Doveadm/Sync) for [replication](https://wiki.dovecot.org/Replication) between 2 Dovecot hosts. The role makes use of Ansible Vault to encrypt and store our dsync replication password string in a variable named `doveadm_password`. The following can be used to create the encrypted variable string.
-
-`ansible-vault encrypt_string 'secretpw' --name 'doveadm_password'`
-
-Since replication password is encrypted using Ansible vault, passing `--ask-vault-pass` is required.
+Since the replication password is encrypted using Ansible Vault, passing `--ask-vault-pass` is required.
 
 ##### Run Playbook with Ansible Vault for dsync replication (verify with check-diff mode first)
 `ansible-playbook main.yml --check --diff --ask-vault-pass`
