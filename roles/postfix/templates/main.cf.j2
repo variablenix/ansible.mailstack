@@ -729,7 +729,7 @@ smtpd_recipient_restrictions =	permit_sasl_authenticated,
         check_policy_service unix:private/policy-spf
         check_sender_access hash:{{ sender_access_config }}
         {% for rbl_client in postfix_reject_rbl_client %}
-        {{ rbl_client }},
+        reject_rbl_client {{ rbl_client }},
         {% endfor %}
         permit
 unverified_recipient_reject_reason = Address lookup failed
