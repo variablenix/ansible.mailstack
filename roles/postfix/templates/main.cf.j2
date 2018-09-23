@@ -728,13 +728,9 @@ smtpd_recipient_restrictions =	permit_sasl_authenticated,
         check_policy_service inet:127.0.0.1:10030
         check_policy_service unix:private/policy-spf
         check_sender_access hash:{{ sender_access_config }}
-        reject_rbl_client b.barracudacentral.org,
-        reject_rbl_client bl.spamcop.net,
-        reject_rbl_client ix.dnsbl.manitu.net,
-        reject_rbl_client pbl.spamhaus.org,
-        reject_rbl_client sbl.spamhaus.org,
-        reject_rbl_client xbl.spamhaus.org,
-        reject_rbl_client zen.spamhaus.org,
+        {% for rbl_client in postfix_reject_rbl_client %}
+        {{ rbl_client }},
+        {% endfor %}
         permit
 unverified_recipient_reject_reason = Address lookup failed
 policy-spf_time_limit = 3600s
@@ -789,18 +785,14 @@ postscreen_greet_banner = Spammers may now talk
 postscreen_dnsbl_action = enforce
 postscreen_dnsbl_threshold = 2
 postscreen_dnsbl_sites =
-        zen.spamhaus.org*2
-        xbl.spamhaus.org*2
-        sbl.spamhaus.org*2
-        pbl.spamhaus.org*2
-        ix.dnsbl.manitu.net*1
-        bl.spamcop.net*1
-        b.barracudacentral.org*1
+        {% for postscreen_dnsbl in postscreen_dnsbl_list %}
+        {{ postscreen_dnsbl }}
+        {% endfor %}
 
 # Avoid DDoS attacks
 smtpd_client_new_tls_session_rate_limit = 10
 
-# New settings
+# shlib/meta directory settings
 shlib_directory = /usr/lib/postfix
 meta_directory = /etc/postfix
 
