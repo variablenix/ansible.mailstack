@@ -10,9 +10,25 @@ header_checks_config: "{{ postfix_conf_dir }}/header_checks"
 sender_access_config: "{{ postfix_conf_dir }}/sender_access"
 smtp_header_checks_config: "{{ postfix_conf_dir }}/smtp_header_checks"
 postscreen_access_list: "{{ postfix_conf_dir }}/postscreen_access.cidr"
+postscreen_dnsbl_list:
+  - zen.spamhaus.org*2
+  - xbl.spamhaus.org*2
+  - sbl.spamhaus.org*2
+  - pbl.spamhaus.org*2
+  - ix.dnsbl.manitu.net*1
+  - bl.spamcop.net*1
+  - b.barracudacentral.org*1
 postfix_inet_interfaces: "all"
 postfix_message_size_limit: "20480000"
 postfix_virtual_mailbox_base: "/home/vmail/"
+postfix_reject_rbl_client:
+  - b.barracudacentral.org
+  - bl.spamcop.net
+  - ix.dnsbl.manitu.net
+  - pbl.spamhaus.org
+  - sbl.spamhaus.org
+  - xbl.spamhaus.org
+  - zen.spamhaus.org
 
 # LDAP
 postfix_ldap_dir: "{{ postfix_conf_dir }}/ldap"
