@@ -49,9 +49,18 @@
     as_deps: true
   when: inventory_hostname in groups['smtp']
 
-- name: Install the ClamAV perl library
-  command:  "{{ spamd_bin }}/cpanp -i File::Scan::ClamAV"
+- name: Check if the ClamAV perl library is installed
+  shell: locate ClamAV.pm >/dev/null
+  changed_when: false
+  ignore_errors: true
+  register: clamavlib_status
+  check_mode: no
   when: inventory_hostname in groups['smtp']
+
+- name: Install the ClamAV perl library
+  command: "{{ spamd_bin }}/cpanp -i File::Scan::ClamAV"
+  when: (inventory_hostname in groups['smtp']) and
+        (clamavlib_status.rc not in [0])
 
 - name: Copy ClamAV plugin files to {{ spamd_dir }}/
   copy: src={{ item }} dest={{ spamd_dir }}
