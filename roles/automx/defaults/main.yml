@@ -40,7 +40,7 @@ automx_bindmethod: "simple"
 automx_saslmech: "none"
 automx_usetls: "yes"
 automx_reqcert: "demand"
-automx_ldap_cacert: "/etc/ssl/certs/ca-certificates.crt"
+automx_ldap_cacert: "{{ tls_ca_cert }}"
 # http settings
 automx_apache_vhost: "/etc/httpd/conf/extra/mail-autoconfig"
 automx_apache_vhost_conf:
