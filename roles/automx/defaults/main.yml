@@ -4,7 +4,7 @@ automx_python_home: "/usr/lib/python3.7/automx"
 automx_clone_tmpdir: "/tmp/automx"
 automx_test: "/usr/bin/automx-test"
 automx_conf: "/etc/automx.conf"
-automx_cacert: "/etc/ssl/certs/ca-certificates.crt"
+automx_cacert: "{{ tls_ca_cert }}"
 # automx.conf
 automx_provider: "domain.tld"
 automx_debug: "no"
