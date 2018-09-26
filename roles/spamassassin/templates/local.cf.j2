@@ -101,7 +101,10 @@ ok_languages            en
 # as being possibly spam in a foreign language.
 ok_locales              en
 
-# TXRep (Reputation)
+# TXRep (Reputation) http://truxoft.com/resources/txrep.htm
+{% if spamassassin_enable_txrep %}
+use_txrep 1
+{% endif %}
 header         TXREP   eval:check_senders_reputation()
 describe       TXREP   Score normalizing based on sender's reputation
 tflags         TXREP   userconf noautolearn
