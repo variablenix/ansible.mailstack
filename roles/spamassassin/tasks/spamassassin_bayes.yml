@@ -87,7 +87,7 @@
     login_user: "{{ spamassassin_sql_login_user }}"
     login_password: "{{ spamassassin_sql_login_pass }}"
     state: present
-    target: "{{ spamassassin_tmp_sql_bayes_dir }}/bayes_mysql.sql"
+    target: "{{ spamassassin_tmp_sql_bayes_dir }}/txtrep_mysql.sql"
   register: txtrep_tables_created
   when: inventory_hostname == "host1"
 
