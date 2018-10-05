@@ -41,6 +41,20 @@ postfix_reject_rbl_client:
   - xbl.spamhaus.org
   - zen.spamhaus.org
 
+postfix_smtpd_tls_exclude_ciphers:
+  - aNULL
+  - eNULL
+  - EXPORT
+  - DES
+  - RC4
+  - MD5
+  - PSK
+  - aECDH
+  - EDH-DSS-DES-CBC3-SHA
+  - EDH-RSA-DES-CDC3-SHA
+  - KRB5-DE5
+  - CBC3-SHA
+
 # LDAP
 postfix_ldap_dir: "{{ postfix_conf_dir }}/ldap"
 ldap_vmailbox: "ldap-vmailbox.cf"

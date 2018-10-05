@@ -751,8 +751,10 @@ smtp_tls_mandatory_protocols=!SSLv2,!SSLv3
 smtpd_tls_protocols=!SSLv2,!SSLv3
 smtp_tls_protocols=!SSLv2,!SSLv3
 
-# Deny some TLS-Ciphers
-smtpd_tls_exclude_ciphers = aNULL, eNULL, EXPORT, DES, RC4, MD5, PSK, aECDH, EDH-DSS-DES-CBC3-SHA, EDH-RSA-DES-CDC3-SHA, KRB5-DE5, CBC3-SHA
+# Deny bad TLS-Ciphers
+smtpd_tls_exclude_ciphers = {% for cipher in postfix_smtpd_tls_exclude_ciphers %}
+  {{ cipher }},
+  {% endfor %}
 
 # dhparam
 smtpd_tls_dh1024_param_file = ${config_directory}/ssl/dh-2048.pem
