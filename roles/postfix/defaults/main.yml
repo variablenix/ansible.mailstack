@@ -1,6 +1,6 @@
 ---
 postfix_conf_dir: "/etc/postfix"
-postfix_ssl_dir: "/etc/postfix/ssl"
+postfix_ssl_dir: "{{ postfix_conf_dir }}/ssl"
 postfix_ssl_cert: "{{ tls_cert }}"
 postfix_ssl_key: "{{ tls_key_cert }}"
 postfix_ssl_chain: "{{ tls_chain_cert }}"
