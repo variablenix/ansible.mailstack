@@ -1,6 +1,5 @@
 ---
-# Install Dovecot and Pigeonhole
-- name: Install Dovecot and Pigeonhole
+- name: Install Dovecot MDA and Pigeonhole
   pacman:
     name: dovecot,pigeonhole
     state: present
@@ -26,33 +25,7 @@
   notify: reload dovecot
   tags: [doveconfig]
   with_items:
-    - 10-auth.conf
-    - 10-director.conf
-    - 10-logging.conf
-    - 10-mail.conf
-    - 10-master.conf
-    - 10-ssl.conf
-    - 15-lda.conf
-    - 15-mailboxes.conf
-    - 20-imap.conf
-    - 20-lmtp.conf
-    - 20-managesieve.conf
-    - 20-pop3.conf
-    - 20-submission.conf
-    - 90-acl.conf
-    - 90-plugin.conf
-    - 90-quota.conf
-    - 90-sieve-extprograms.conf
-    - 90-sieve.conf
-    - 99-replicator.conf
-    - auth-checkpassword.conf.ext
-    - auth-deny.conf.ext
-    - auth-dict.conf.ext
-    - auth-ldap.conf.ext
-    - auth-master.conf.ext
-    - auth-passwdfile.conf.ext
-    - auth-static.conf.ext
-    - auth-system.conf.ext
+    - "{{ dovecot_conf_files }}"
 
 - name: Create MailCrypt directory
   file:
@@ -99,48 +72,12 @@
   tags: [doveconfig]
 
 # LDAP
-- name: Configure LDAP auth
-  template:
-    src: "{{ dovecot_ldap_conf }}.j2"
-    dest: "{{ dovecot_dir }}/{{ dovecot_ldap_conf }}"
-    mode: 0640
+- include: ldap.yml
   when: inventory_hostname in groups['imap']
-  notify: reload dovecot
-  tags: [dovecot_ldap,doveconfig]
+  tags: [dovecot_ldap]
 
-- name: Create dovecot-ldap.conf.ext symlink
-  file:
-    src: "{{ dovecot_dir }}/{{ dovecot_ldap_conf }}"
-    dest: "{{ dovecot_dir }}/{{ dovecot_ldap_symlink }}"
-    state: link
-    owner: "{{ global_owner }}"
-    group: "{{ global_group }}"
-  when: inventory_hostname in groups['imap']
-  tags: [dovecot_ldap,doveconfig]
-
-- name: Configure LDAP master user
-  template:
-    src: "{{ dovecot_ldap_master }}.j2"
-    dest: "{{ dovecot_dir }}/{{ dovecot_ldap_master }}"
-    mode: 0640
-  when: inventory_hostname in groups['imap']
-  notify: reload dovecot
-  tags: [dovecot_ldap,doveconfig]
-
-# Make sure UFW is installed for firewall configuration
-- name: Ensure UFW is installed for Dovecot firewall management
-  pacman:
-    name: ufw
-    state: present
-  when: inventory_hostname in groups['imap']
-  tags: [ufw]
-
-# Set firewall rules for Dovecot
-- name: Set Dovecot firewall rules
-  ufw: rule=allow port={{ item }} proto=tcp
-  with_items:
-    - imap
-    - imaps
+# UFW
+- include: ufw.yml
   when: inventory_hostname in groups['imap']
   tags: [ufw]
 
