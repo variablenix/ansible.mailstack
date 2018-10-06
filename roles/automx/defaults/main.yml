@@ -4,7 +4,6 @@ automx_python_home: "/usr/lib/python3.7/automx"
 automx_clone_tmpdir: "/tmp/automx"
 automx_test: "/usr/bin/automx-test"
 automx_conf: "/etc/automx.conf"
-automx_cacert: "/etc/ssl/certs/ca-certificates.crt"
 # automx.conf
 automx_provider: "domain.tld"
 automx_debug: "no"
@@ -40,7 +39,7 @@ automx_bindmethod: "simple"
 automx_saslmech: "none"
 automx_usetls: "yes"
 automx_reqcert: "demand"
-automx_ldap_cacert: "/etc/ssl/certs/ca-certificates.crt"
+automx_ldap_cacert: "{{ tls_ca_cert }}"
 # http settings
 automx_apache_vhost: "/etc/httpd/conf/extra/mail-autoconfig"
 automx_apache_vhost_conf:

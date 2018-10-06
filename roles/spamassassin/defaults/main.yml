@@ -1,9 +1,11 @@
 ---
 spamd_bin: "/usr/bin/vendor_perl"
 spamd_dir: "/etc/mail/spamassassin"
+spamassassin_enable_bayes_sql: True
 spamassassin_enable_rbl: True
 spamassassin_enable_razor: True
 spamassassin_enable_pyzor: True
+spamassassin_enable_txrep: True
 spamassassin_pyzor_timeout: "20"
 spamassassin_rewrite_header: "*****SPAM*****"
 spamassassin_report_contact: "postmaster@domain.email"

@@ -718,24 +718,13 @@ smtpd_sasl_authenticated_header = yes
 smtpd_helo_required = yes
 smtpd_delay_reject = yes
 disable_vrfy_command = yes
-smtpd_recipient_restrictions =	permit_sasl_authenticated,
-        permit_mynetworks,
-        reject_unknown_helo_hostname
-        reject_unauth_destination,
-        reject_unknown_recipient_domain,
-        reject_unverified_recipient,
-        check_policy_service inet:mail.{{ domain }}:12340
-        check_policy_service inet:127.0.0.1:10030
-        check_policy_service unix:private/policy-spf
-        check_sender_access hash:{{ sender_access_config }}
-        reject_rbl_client b.barracudacentral.org,
-        reject_rbl_client bl.spamcop.net,
-        reject_rbl_client ix.dnsbl.manitu.net,
-        reject_rbl_client pbl.spamhaus.org,
-        reject_rbl_client sbl.spamhaus.org,
-        reject_rbl_client xbl.spamhaus.org,
-        reject_rbl_client zen.spamhaus.org,
-        permit
+smtpd_recipient_restrictions = {% for smtpd_restrict in postfix_smtpd_recipient_restrictions %}
+  {{ smtpd_restrict}},
+  {% endfor %}
+{% for rbl_client in postfix_reject_rbl_client %}
+  reject_rbl_client {{ rbl_client }},
+  {% endfor %}
+  permit
 unverified_recipient_reject_reason = Address lookup failed
 policy-spf_time_limit = 3600s
 smtpd_reject_unlisted_sender = no
@@ -762,8 +751,10 @@ smtp_tls_mandatory_protocols=!SSLv2,!SSLv3
 smtpd_tls_protocols=!SSLv2,!SSLv3
 smtp_tls_protocols=!SSLv2,!SSLv3
 
-# Deny some TLS-Ciphers
-smtpd_tls_exclude_ciphers = aNULL, eNULL, EXPORT, DES, RC4, MD5, PSK, aECDH, EDH-DSS-DES-CBC3-SHA, EDH-RSA-DES-CDC3-SHA, KRB5-DE5, CBC3-SHA
+# Deny bad TLS-Ciphers
+smtpd_tls_exclude_ciphers = {% for cipher in postfix_smtpd_tls_exclude_ciphers %}
+  {{ cipher }},
+  {% endfor %}
 
 # dhparam
 smtpd_tls_dh1024_param_file = ${config_directory}/ssl/dh-2048.pem
@@ -789,18 +780,14 @@ postscreen_greet_banner = Spammers may now talk
 postscreen_dnsbl_action = enforce
 postscreen_dnsbl_threshold = 2
 postscreen_dnsbl_sites =
-        zen.spamhaus.org*2
-        xbl.spamhaus.org*2
-        sbl.spamhaus.org*2
-        pbl.spamhaus.org*2
-        ix.dnsbl.manitu.net*1
-        bl.spamcop.net*1
-        b.barracudacentral.org*1
+        {% for postscreen_dnsbl in postscreen_dnsbl_list %}
+        {{ postscreen_dnsbl }}
+        {% endfor %}
 
 # Avoid DDoS attacks
 smtpd_client_new_tls_session_rate_limit = 10
 
-# New settings
+# shlib/meta directory settings
 shlib_directory = /usr/lib/postfix
 meta_directory = /etc/postfix
 
