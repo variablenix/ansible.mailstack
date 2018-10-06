@@ -6,7 +6,6 @@
   when: inventory_hostname in groups['imap']
   tags: [doveconfig]
 
-# Configure Dovecot
 - name: Configure dovecot.conf
   copy:
     src: dovecot.conf
