@@ -1,13 +1,4 @@
 ---
-# Make sure UFW is installed for firewall configuration
-- name: Ensure UFW is installed for Dovecot firewall management
-  pacman:
-    name: ufw
-    state: present
-  when: inventory_hostname in groups['imap']
-  tags: [ufw]
-
-# Set firewall rules for Dovecot
 - name: Set Dovecot firewall rules
   ufw: rule=allow port={{ item }} proto=tcp
   with_items:
