@@ -1,0 +1,28 @@
+---
+- name: Add virtual mail group
+  group:
+    name: vmail
+    state: present
+    gid: 5000
+    system: yes
+
+- name: Add virtual mail user
+  user:
+    name: vmail
+    shell: /usr/bin/nologin
+    home: /home/vmail
+    create_home: True
+    uid: 5000
+    group: 5000
+    system: yes
+
+- name: Sync pacman database
+  pacman:
+    update_cache: yes
+
+- name: Install dependencies
+  pacman:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - icu
