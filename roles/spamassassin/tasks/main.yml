@@ -143,4 +143,3 @@
     masked: no
     state: started
   when: inventory_hostname in groups['smtp']
-
