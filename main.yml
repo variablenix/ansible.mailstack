@@ -28,6 +28,13 @@
       pacman:
         update_cache: yes
 
+    - name: Install dependencies
+      pacman:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - icu
+
   roles:
     - { role: postfix, tags: [ 'postfix' ] }
     - { role: postgrey, tags: [ 'postgrey' ] }
