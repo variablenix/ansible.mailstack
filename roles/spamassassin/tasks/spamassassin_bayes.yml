@@ -3,7 +3,7 @@
   pacman:
     name: mysql-python
     state: present
-  when: (inventory_hostname in groups['smtp']
+  when: inventory_hostname in groups['smtp']
 
 # Create the sa_bayes DB and user on the primary MySQL host and let it replicate
 - name: Create sa_bayes database to store Bayesian data
