@@ -1,17 +1,4 @@
 ---
-# Install GnuPG and import valid Solr signing key for AUR build
-- name: Install GnuPG
-  pacman:
-    name: gnupg
-    state: present
-  when: inventory_hostname in groups['imap']
-
-- name: Import valid GPG code signing key - Adrien Grand <jpountz@apache.org>
-  shell: "{{ item }}"
-  with_items:
-    - gpg --recv-key E6E21FFCDCEA14C95910EA65051A0FAF76BC6507
-  when: inventory_hostname in groups['imap']
-
 - name: Install dependencies
   pacman:
     name: "{{ item }}"
@@ -26,6 +13,19 @@
     - nss
     - jre10-openjdk-headless
     - apache-ant
+  when: inventory_hostname in groups['imap']
+
+# Install GnuPG and import valid Solr signing key for AUR build
+- name: Install GnuPG
+  pacman:
+    name: gnupg
+    state: present
+  when: inventory_hostname in groups['imap']
+
+- name: Import valid GPG code signing key - Adrien Grand <jpountz@apache.org>
+  shell: "{{ item }}"
+  with_items:
+    - gpg --recv-key E6E21FFCDCEA14C95910EA65051A0FAF76BC6507
   when: inventory_hostname in groups['imap']
 
 - name: Install Solr indexing server
