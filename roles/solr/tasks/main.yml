@@ -12,11 +12,20 @@
     - gpg --recv-key E6E21FFCDCEA14C95910EA65051A0FAF76BC6507
   when: inventory_hostname in groups['imap']
 
-# Install Apache Ant
-- name: Install Apache Ant
+- name: Install dependencies
   pacman:
-    name: apache-ant
+    name: "{{ item }}"
     state: present
+  with_items:
+    - java-runtime-common
+    - lcms2
+    - libjpeg-turbo
+    - libnet
+    - libtiff
+    - nspr
+    - nss
+    - jre10-openjdk-headless
+    - apache-ant
   when: inventory_hostname in groups['imap']
 
 - name: Install Solr indexing server

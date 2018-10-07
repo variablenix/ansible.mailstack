@@ -1,8 +1,29 @@
 ---
-- name: Install SpamAssassin
+- name: Install SpamAssassin and dependencies
   pacman:
-    name: spamassassin
+    name: "{{ item }}"
     state: present
+  with_items:
+    - perl-crypt-openssl-bignum
+    - perl-crypt-openssl-random
+    - perl-crypt-openssl-rsa
+    - perl-crypt-ssleay
+    - perl-digest-hmac
+    - perl-digest-sha1
+    - perl-io-socket-inet6
+    - perl-io-socket-ssl
+    - perl-lwp-protocol-https
+    - perl-mail-dkim
+    - perl-mail-spf
+    - perl-net-dns
+    - perl-net-dns-resolver-mock
+    - perl-net-ip
+    - perl-net-ssleay
+    - perl-path-class
+    - perl-socket6
+    - perl-yaml-libyaml
+    - re2c
+    - spamassassin
   when: inventory_hostname in groups['smtp']
 
 # Copy spamassassin systemd service files
