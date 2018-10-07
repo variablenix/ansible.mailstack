@@ -3,6 +3,9 @@
 domain: "domain.tld"
 domain_email: "domain.email"
 
+# Mail Log Directory
+mail_log_dir: "/var/log/mail"
+
 # Permissions
 global_owner: "root"
 global_group: "root"

@@ -16,6 +16,14 @@
     group: 5000
     system: yes
 
+- name: Ensure mail log directory exists
+  file:
+    path: "{{ mail_log_dir }}"
+    state: directory
+    owner: "{{ global_owner }}"
+    group: "{{ global_group }}"
+    mode: 0755
+
 - name: Sync pacman database
   pacman:
     update_cache: yes
