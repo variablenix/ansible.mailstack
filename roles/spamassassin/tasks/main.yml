@@ -55,6 +55,7 @@
     - "{{ spamd_bin }}/sa-update"
     - "{{ spamd_bin }}/sa-compile"
   when: inventory_hostname in groups['smtp']
+  changed_when: false
   ignore_errors: yes
 
 # Call ClamAV Plugin from SpamAssassin
