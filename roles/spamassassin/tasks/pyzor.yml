@@ -1,10 +1,9 @@
 ---
 # Ensure Pyzor is installed
 - name: Ensure Pyzor is installed
-  makepkg:
+  aur:
     name: pyzor
-    state: present
-    as_deps: true
+    user: "{{ ansible_user_id }}"
   when: inventory_hostname in groups['smtp']
 
 # Set firewall rule to open UDP for Pyzor
@@ -12,4 +11,5 @@
   ufw: rule=allow port=24441 proto=udp
   when: inventory_hostname in groups['smtp']
   tags: [ufw]
+  ignore_errors: yes
 
