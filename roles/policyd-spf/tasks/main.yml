@@ -8,10 +8,9 @@
     - python2-urllib3
 
 - name: Ensure Python Postfix SPF is installed
-  makepkg:
+  aur:
     name: "{{ item }}"
-    state: present
-    as_deps: true
+    user: "{{ ansible_user_id }}"
   with_items:
     - python-pydns
     - python-pyspf

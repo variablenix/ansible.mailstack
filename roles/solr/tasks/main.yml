@@ -29,10 +29,9 @@
   when: inventory_hostname in groups['imap']
 
 - name: Install Solr indexing server
-  makepkg:
+  aur:
     name: solr
-    state: present
-    as_deps: true
+    user: "{{ ansible_user_id }}"
   when: inventory_hostname in groups['imap']
 
 - name: Copy custom systemd solr.service file with limit options to /etc/systemd/system/
@@ -86,6 +85,6 @@
   file:
     state: absent
     path: "{{ solrhome }}/server/solr/dovecot/conf/managed-schema"
-  when: (inventory_hostname in groups ['imap']) and
+  when: (inventory_hostname in groups['imap']) and
         (dovecot_out.stdout != 'dovecot')
   notify: restart solr

@@ -50,10 +50,9 @@
     - freshclam.conf
 
 - name: Set up clamav-unofficial-sigs
-  makepkg:
+  aur:
     name: clamav-unofficial-sigs
-    state: present
-    as_deps: true
+    user: "{{ ansible_user_id }}"
   when: inventory_hostname in groups['smtp']
 
 - name: Ensure clamav-unofficial-sigs is enabled

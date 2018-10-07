@@ -6,10 +6,9 @@
   when: inventory_hostname in groups['automx']
 
 - name: Ensure python-ipaddress dependency is installed
-  makepkg:
+  aur:
     name: python-ipaddress
-    state: present
-    as_deps: true
+    user: "{{ ansible_user_id }}"
   when: inventory_hostname in groups['automx']
 
 - name: Install memcached to rate limit connections to automx
