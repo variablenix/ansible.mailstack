@@ -1,6 +1,6 @@
 ---
 # Ensure Razor is installed
-- name: Ensure Razor installed
+- name: Ensure Razor is installed
   pacman:
     name: razor
     state: present
