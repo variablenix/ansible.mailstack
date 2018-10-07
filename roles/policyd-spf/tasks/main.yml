@@ -8,13 +8,14 @@
     - python2-urllib3
 
 - name: Ensure Python Postfix SPF is installed
+  become: yes
+  become_user: aur_builder
   aur:
-    name: "{{ item }}"
-    user: "{{ ansible_user_id }}"
-  with_items:
-    - python-pydns
-    - python-pyspf
-    - python-postfix-policyd-spf
+    skip_installed: true
+    name:
+      - python-pydns
+      - python-pyspf
+      - python-postfix-policyd-spf
 
 - name: Sync policyd-spf configuration
   copy:

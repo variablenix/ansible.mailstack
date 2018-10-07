@@ -5,9 +5,9 @@
     state: present
 
 - name: Ensure Prefix WhoIs Milter is installed
-  aur:
-    name: pwhois_milter
-    user: "{{ ansible_user_id }}"
+  become: yes
+  become_user: aur_builder
+  aur: name=pwhois_milter skip_installed=true
   notify: restart pwhois_milter
 
 - name: Create PWhois directory

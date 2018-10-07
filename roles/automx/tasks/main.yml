@@ -6,9 +6,9 @@
   when: inventory_hostname in groups['automx']
 
 - name: Ensure python-ipaddress dependency is installed
-  aur:
-    name: python-ipaddress
-    user: "{{ ansible_user_id }}"
+  aur: name=python-ipaddress skip_installed=true
+  become: yes
+  become_user: aur_builder
   when: inventory_hostname in groups['automx']
 
 - name: Install memcached to rate limit connections to automx

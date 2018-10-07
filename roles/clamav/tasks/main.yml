@@ -50,9 +50,9 @@
     - freshclam.conf
 
 - name: Set up clamav-unofficial-sigs
-  aur:
-    name: clamav-unofficial-sigs
-    user: "{{ ansible_user_id }}"
+  aur: name=clamav-unofficial-sigs skip_installed=true
+  become: yes
+  become_user: aur_builder
   when: inventory_hostname in groups['smtp']
 
 - name: Ensure clamav-unofficial-sigs is enabled

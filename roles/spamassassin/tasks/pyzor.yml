@@ -1,9 +1,9 @@
 ---
 # Ensure Pyzor is installed
 - name: Ensure Pyzor is installed
-  aur:
-    name: pyzor
-    user: "{{ ansible_user_id }}"
+  aur: name=pyzor skip_installed=true
+  become: yes
+  become_user: aur_builder
   when: inventory_hostname in groups['smtp']
 
 # Set firewall rule to open UDP for Pyzor
