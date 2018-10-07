@@ -1,9 +1,21 @@
 ---
+- name: Install Python dependencies
+  pacman:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-urllib3
+    - python2-urllib3
+
 - name: Ensure Python Postfix SPF is installed
   makepkg:
-    name: python-postfix-policyd-spf
+    name: "{{ item }}"
     state: present
     as_deps: true
+  with_items:
+    - python-pydns
+    - python-pyspf
+    - python-postfix-policyd-spf
 
 - name: Sync policyd-spf configuration
   copy:
