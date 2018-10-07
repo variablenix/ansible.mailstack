@@ -1,16 +1,12 @@
 ---
-- name: Install dependencies to generate DMARC reports
+- name: Install OpenDMARC and dependencies to generate DMARC reports
   pacman:
     name: "{{ item }}"
     state: present
   with_items:
+    - opendmarc
     - perl-switch
     - perl-libwww
-
-- name: Install OpenDMARC if needed
-  pacman:
-    name: opendmarc
-    state: present
 
 - name: Copy custom systemd opendmarc.service file to /etc/systemd/system/
   copy: >
@@ -29,10 +25,12 @@
   template:
     src: opendmarc.conf.j2
     dest: "{{ opendmarc_dir }}/opendmarc.conf"
+    owner: opendmarc
+    group: mail
     mode: 0640
   notify: restart opendmarc
   tags: [opendmarc]
-  
+
 - name: Ensure OpenDMARC is enabled
   systemd:
     name: opendmarc
