@@ -3,7 +3,7 @@
   hosts: all
   remote_user: deploy
   become: yes
-  gather_facts: no
+  gather_facts: yes
   vars_files:
     - vars/main.yml
   pre_tasks:

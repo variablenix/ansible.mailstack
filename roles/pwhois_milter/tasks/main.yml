@@ -1,9 +1,13 @@
 ---
-- name: Ensure Prefix WhoIs Milter is installed
-  makepkg:
-    name: pwhois_milter
+- name: Install milter dependency
+  pacman:
+    name: libmilter
     state: present
-    as_deps: true
+
+- name: Ensure Prefix WhoIs Milter is installed
+  aur:
+    name: pwhois_milter
+    user: "{{ ansible_user_id }}"
   notify: restart pwhois_milter
 
 - name: Create PWhois directory

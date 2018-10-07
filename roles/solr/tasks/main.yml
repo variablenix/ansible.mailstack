@@ -1,17 +1,4 @@
 ---
-# Install GnuPG and import valid Solr signing key for AUR build
-- name: Install GnuPG
-  pacman:
-    name: gnupg
-    state: present
-  when: inventory_hostname in groups['imap']
-
-- name: Import valid GPG code signing key - Adrien Grand <jpountz@apache.org>
-  shell: "{{ item }}"
-  with_items:
-    - gpg --recv-key E6E21FFCDCEA14C95910EA65051A0FAF76BC6507
-  when: inventory_hostname in groups['imap']
-
 - name: Install dependencies
   pacman:
     name: "{{ item }}"
@@ -28,11 +15,23 @@
     - apache-ant
   when: inventory_hostname in groups['imap']
 
-- name: Install Solr indexing server
-  makepkg:
-    name: solr
+# Install GnuPG and import valid Solr signing key for AUR build
+- name: Install GnuPG
+  pacman:
+    name: gnupg
     state: present
-    as_deps: true
+  when: inventory_hostname in groups['imap']
+
+- name: Import valid GPG code signing key - Adrien Grand <jpountz@apache.org>
+  shell: "{{ item }}"
+  with_items:
+    - gpg --recv-key E6E21FFCDCEA14C95910EA65051A0FAF76BC6507
+  when: inventory_hostname in groups['imap']
+
+- name: Install Solr indexing server
+  aur:
+    name: solr
+    user: "{{ ansible_user_id }}"
   when: inventory_hostname in groups['imap']
 
 - name: Copy custom systemd solr.service file with limit options to /etc/systemd/system/
@@ -86,6 +85,6 @@
   file:
     state: absent
     path: "{{ solrhome }}/server/solr/dovecot/conf/managed-schema"
-  when: (inventory_hostname in groups ['imap']) and
+  when: (inventory_hostname in groups['imap']) and
         (dovecot_out.stdout != 'dovecot')
   notify: restart solr

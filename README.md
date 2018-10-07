@@ -24,7 +24,7 @@ This Playbook uses mail roles to automate the installation and configuration of 
 * [automx](https://github.com/sys4/automx/)
 
 #### Arch User Repository (AUR)
-The [makepkg](https://github.com/gunzy83/ansible-makepkg) Ansible module is used for AUR package installs.
+The Ansible [AUR](https://github.com/pigmonkey/ansible-aur) module is used for AUR package installs.
 
 ## Deploying
 ##### Run Mailstack Playbook with required Ansible Vault pass for decryption (verify with check-diff mode first)
