@@ -1,5 +1,12 @@
 ---
-# Install OpenDMARC if not present
+- name: Install dependencies to generate DMARC reports
+  pacman:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - perl-switch
+    - perl-libwww
+
 - name: Install OpenDMARC if needed
   pacman:
     name: opendmarc
