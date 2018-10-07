@@ -55,19 +55,23 @@
     - "{{ spamd_bin }}/sa-update"
     - "{{ spamd_bin }}/sa-compile"
   when: inventory_hostname in groups['smtp']
+  ignore_errors: yes
 
 # Call ClamAV Plugin from SpamAssassin
-- name: Ensure perl-cpanplus is installed
+- name: Ensure plugin dependencies are installed
   pacman:
-    name: perl-cpanplus
-    state: present 
-  when: inventory_hostname in groups['smtp']
-
-- name: Ensure perl-cpanplus-dist-arch is installed
-  makepkg:
-    name: perl-cpanplus-dist-arch
+    name: "{{ item }}"
     state: present
-    as_deps: true
+  with_items:
+    - perl-archive-extract
+    - perl-cpanplus
+    - perl-log-message
+    - perl-log-message-simple
+    - perl-module-pluggable
+    - perl-object-accessor
+    - perl-package-constants
+    - perl-term-ui
+    - perl-cpanplus-dist-arch
   when: inventory_hostname in groups['smtp']
 
 - name: Check if the ClamAV perl library is installed
