@@ -35,4 +35,5 @@
     path: "{{ spamd_dir }}/razor/razor-agent.conf"
     line: "razorhome = {{ spamd_dir }}/razor/"
   when: inventory_hostname in groups['smtp']
+  changed_when: false
   notify: restart spamd
