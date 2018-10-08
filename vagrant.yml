@@ -1,0 +1,25 @@
+---
+- name: Mail Stack Deployment
+  hosts: all
+  remote_user: vagrant
+  become: yes
+  gather_facts: yes
+  vars_files:
+    - vars/main.yml
+  pre_tasks:
+    - { include: tasks/init.yml }
+    - { include: tasks/ufw.yml, tags: ['ufw'] }
+
+  roles:
+    - { role: postfix, tags: [ 'postfix' ] }
+    - { role: postgrey, tags: [ 'postgrey' ] }
+    - { role: policyd-spf, tags: [ 'spf' ] }
+    - { role: pwhois_milter, tags: [ 'pwhois' ] }
+    - { role: opendkim, tags: [ 'dkim' ] }
+    - { role: opendmarc, tags: [ 'opendmarc' ] }
+    - { role: spamassassin, tags: [ 'spamd' ] }
+    - { role: clamav, tags: [ 'clamd' ] }
+    - { role: dovecot, tags: [ 'dovecot' ] }
+    - { role: solr, tags: [ 'solr' ] }
+    - { role: saslauthd, tags: [ 'sasl' ] }
+    - { role: automx, tags: [ 'automx' ] }
