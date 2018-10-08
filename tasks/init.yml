@@ -28,7 +28,7 @@
   pacman:
     update_cache: yes
 
-- name: Ensure our AUR builder exists
+- name: Ensure aur_builder exists
   user:
     name: aur_builder
     group: wheel
