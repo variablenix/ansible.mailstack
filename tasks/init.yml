@@ -33,7 +33,8 @@
     name: aur_builder
     group: wheel
 
-- lineinfile:
+- name: Add aur_builder to sudo file for AUR tasks
+  lineinfile:
     path: /etc/sudoers.d/11-install-aur_builder
     line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
     create: yes
