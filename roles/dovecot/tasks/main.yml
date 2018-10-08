@@ -42,6 +42,7 @@
     chdir: "{{ dovecot_mcrypt_dir }}"
     creates: "ecprivkey.pem"
   notify: reload dovecot
+  when: inventory_hostname in groups['imap']
   tags: [dovecrypt]
 
 - name: Create global MailCrypt public key
@@ -50,6 +51,7 @@
     chdir: "{{ dovecot_mcrypt_dir }}"
     creates: "ecpubkey.pem"
   notify: reload dovecot
+  when: inventory_hostname in groups['imap']
   tags: [dovecrypt]
 
 - name: Push quota warning script
