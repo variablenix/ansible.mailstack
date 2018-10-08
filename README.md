@@ -3,7 +3,7 @@
 This Playbook uses mail roles to automate the installation and configuration of mail services for [Arch Linux](https://www.archlinux.org/) servers. The end result is an idempotent virtual mail environment using an LDAP backend for authentication.
 
 #### Example Mail Structure
-| IMAP | SMTP | LDAP | Policyd-SPF | PWhois Milter | OpenDKIM  | OpenDMARC   | SpamAssassin | ClamAV    | CyrusSasl |
+| IMAP | SMTP | LDAP | Policyd-SPF | PWhois Milter | OpenDKIM  | OpenDMARC   | SpamAssassin | ClamAV    | CyrusSASL |
 |:----:|:----:|:----:|:-----------:|:-------------:|:---------:|:-----------:|:------------:|:---------:|:---------:|
 |   a  |   a  |   a  |      a      |       a       |     a     |      a      |      a       |      a    |      a    |
 |   b  |   b  |   b  |      b      |       b       |     b     |      b      |      b       |      b    |      b    |
@@ -204,7 +204,7 @@ The Dovecot role is configured to use the [Solr plugin](https://wiki.dovecot.org
 | solr |
 |:----:|
 
-### CyrusSasl
+### CyrusSASL
 This simple role will install [cyrus-sasl](https://www.archlinux.org/packages/extra/x86_64/cyrus-sasl/) and configure SASL to use LDAP with TLS.
 
 ##### Tags
