@@ -24,7 +24,10 @@ This Playbook uses mail roles to automate the installation and configuration of 
 * [automx](https://github.com/sys4/automx/)
 
 #### Arch User Repository (AUR)
-The Ansible [AUR](https://github.com/pigmonkey/ansible-aur) module is used for AUR package installs.
+The [ansible-aur](https://github.com/kewlfft/ansible-aur) module is used for AUR package installs. As noted from the module's README:
+> While Ansible expects to SSH as root, AUR helpers do not allow executing operations as root, they all fail with "you cannot perform this operation as root". It is therefore recommended to create a user, that we will call for example aur_builder, that has no need for password with pacman in sudoers. This can be done in Ansible with the following actions:
+
+This deploy uses a task from `tasks/init.yml` to create the `aur_builder` sudo user so that AUR package builds succeed.
 
 ## Deploying
 ##### Run Mailstack Playbook with required Ansible Vault pass for decryption (verify with check-diff mode first)
