@@ -12,7 +12,6 @@
     masked: no
     state: started
 
-- name: Set default policy and ensure UFW status is active
+- name: Ensure UFW status is active
   ufw:
     state: enabled
-    policy: deny
