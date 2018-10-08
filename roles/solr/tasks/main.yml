@@ -27,6 +27,7 @@
   with_items:
     - gpg --recv-keys --keyserver hkp://pgp.mit.edu 051A0FAF76BC6507
   when: inventory_hostname in groups['imap']
+  changed_when: false
 
 - name: Install Solr indexing server
   aur: name=solr skip_installed=true
