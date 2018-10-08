@@ -1,13 +1,22 @@
 # Arch Linux: Mailstack Deployment
 
-This Playbook uses mail roles to automate the installation and configuration of mail services for [Arch Linux](https://www.archlinux.org/) servers.
+This Playbook uses mail roles to automate the installation and configuration of mail services for [Arch Linux](https://www.archlinux.org/) servers. The end result is an idempotent virtual mail environment using an LDAP backend for authentication.
 
-#### Mail Structure
+#### Example Mail Structure
 | IMAP | SMTP | LDAP | Policyd-SPF | PWhois Milter | OpenDKIM  | OpenDMARC   | SpamAssassin | ClamAV    | CyrusSasl |
 |:----:|:----:|:----:|:-----------:|:-------------:|:---------:|:-----------:|:------------:|:---------:|:---------:|
 |   a  |   a  |   a  |      a      |       a       |     a     |      a      |      a       |      a    |      a    |
 |   b  |   b  |   b  |      b      |       b       |     b     |      b      |      b       |      b    |      b    |
 |      |   c  |   c  |      c      |       c       |     c     |      c      |      c       |      c    |      c    |
+
+### Pretasks
+* Add a virtual mail user and group named `vmail`
+* Ensure mail log directory exists
+* Sync pacman package database
+* Add `aur_builder` sudo user for AUR package builds
+* Ensure UFW is installed for traffic management
+
+The default UFW policy is set to DENY and both the Postfix (25,587) and Dovecot (143,993) roles forward their respective ports. The Pyzor task used with the SpamAssassin role forwards UDP port 24441 needed for [spam reports](https://pyzor.readthedocs.io/en/release-1-0-0/client.html).
 
 ### Roles
 * [postfix](https://www.archlinux.org/packages/extra/x86_64/postfix/)
@@ -26,8 +35,6 @@ This Playbook uses mail roles to automate the installation and configuration of 
 #### Arch User Repository (AUR)
 The [ansible-aur](https://github.com/kewlfft/ansible-aur) module is used for AUR package installs. As noted from the module's README.
 > While Ansible expects to SSH as root, AUR helpers do not allow executing operations as root, they all fail with "you cannot perform this operation as root". It is therefore recommended to create a user, that we will call for example aur_builder, that has no need for password with pacman in sudoers. This can be done in Ansible with the following actions:
-
-This deploy uses a task from `tasks/init.yml` to create the `aur_builder` sudo user so that AUR package builds succeed.
 
 ## Deploying
 ##### Run Mailstack Playbook with required Ansible Vault pass for decryption (verify with check-diff mode first)
