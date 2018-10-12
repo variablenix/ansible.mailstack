@@ -101,8 +101,12 @@ protocol lda {
 plugin {
   #quota = dirsize:User quota
   quota = maildir:User quota
+  quota = count:User quota
   #quota = dict:User quota::proxy::quota
   #quota = fs:User quota
+
+  # This is required - it uses "virtual sizes" rather than "physical sizes" for quota counting:
+  quota_vsizes = yes
 }
 
 # Multiple quota roots are also possible, for example this gives each user
