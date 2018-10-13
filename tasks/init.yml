@@ -39,3 +39,5 @@
     line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
     create: yes
     validate: 'visudo -cf %s'
+
+- { include: ufw.yml, tags: ['ufw'], ignore_errors: yes }

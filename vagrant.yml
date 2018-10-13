@@ -8,7 +8,6 @@
     - vars/main.yml
   pre_tasks:
     - { include: tasks/init.yml }
-    - { include: tasks/ufw.yml, tags: ['ufw'] }
 
   roles:
     - { role: postfix, tags: [ 'postfix' ] }
