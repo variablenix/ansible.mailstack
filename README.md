@@ -37,6 +37,11 @@ The [ansible-aur](https://github.com/kewlfft/ansible-aur) module is used for AUR
 > While Ansible expects to SSH as root, AUR helpers do not allow executing operations as root, they all fail with "you cannot perform this operation as root". It is therefore recommended to create a user, that we will call for example aur_builder, that has no need for password with pacman in sudoers. This can be done in Ansible with the following actions:
 
 ## Deploying
+### Prepare
+Create the mailstack virtualenv.
+
+`mkvirtualenv mailstack; pip install -r requirements.txt`
+
 ##### Run Mailstack Playbook with required Ansible Vault pass for decryption (verify with check-diff mode first)
 `ansible-playbook main.yml --check --diff --ask-vault-pass`
 
