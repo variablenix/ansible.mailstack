@@ -49,6 +49,7 @@ bayes_auto_learn {{ spamassassin_bayes_auto_learn }}
 bayes_auto_learn_threshold_nonspam -0.001
 bayes_auto_learn_threshold_spam 9.0
 bayes_auto_expire  1
+bayes_path {{ spamassassin_bayes_path }}
 
 # Store bayesian data in MySQL
 {% if spamassassin_enable_bayes_sql %}
