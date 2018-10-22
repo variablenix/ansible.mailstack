@@ -19,7 +19,7 @@ postscreen_dnsbl_list:
   - bl.spamcop.net*1
   - b.barracudacentral.org*1
 postfix_inet_interfaces: "all"
-postfix_message_size_limit: "20480000"
+postfix_message_size_limit: "50000000"
 postfix_virtual_mailbox_base: "/home/vmail/"
 postfix_smtpd_recipient_restrictions:
   - permit_sasl_authenticated
