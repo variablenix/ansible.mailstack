@@ -9,3 +9,8 @@ spamassassin_trusted_networks: []
 # Dovecot
 dovecot_lmtp_address: []
 dovecot_replication_host: host2
+# Dovecot High-performance mode https://wiki.dovecot.org/LoginProcess
+dovecot_default_vsz_limit: 1G
+dovecot_service_count: 0
+dovecot_process_min_avail: 4 # number of CPU cores
+
