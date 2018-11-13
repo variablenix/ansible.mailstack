@@ -38,6 +38,12 @@ dovecot_ldap_conf: "dovecot-ldap.conf.ext"
 dovecot_ldap_master: "dovecot-ldap-masteruser.conf.ext"
 dovecot_ldap_symlink: "dovecot-ldap-userdb.conf.ext"
 dovecot_ldap_tls: "yes"
+dovecot_ldap_auth_bind: "no"
+dovecot_ldap_password_lookup_dn: "uid=dovecot,ou=something,dc=domain,dc=tld"
+dovecot_ldap_password_lookup_dnpass:
+
+  create with ->  ansible-vault encrypt_string 'secretpw' --name 'dovecot_ldap_password_lookup_dnpass'
+
 dovecot_submission_host: "mail.{{ domain }}"
 dovecot_error_log: "{{ mail_log_dir }}/mail.err"
 dovecot_mail_log: "{{ mail_log_dir }}/mail.log"
