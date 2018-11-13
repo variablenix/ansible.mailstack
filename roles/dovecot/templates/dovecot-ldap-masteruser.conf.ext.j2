@@ -1,6 +1,8 @@
 # {{ ansible_managed }}
 hosts = {{ dovecot_ldap_hosts }}
-auth_bind = yes
+auth_bind = {{ dovecot_ldap_auth_bind }}
+dn = {{ dovecot_ldap_password_lookup_dn }}
+dnpass = {{ dovecot_ldap_password_lookup_dnpass }}
 ldap_version = 3
 base = {{ ldap_mail_search_base }}
 deref = never
