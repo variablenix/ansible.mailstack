@@ -108,13 +108,13 @@ def check_packages(module, packages):
 
     if would_be_changed:
         status = True
-        if (len(packages) > 1):
-            message = '%s package(s) would be installed' % str(len(would_be_changed))
+        if len(packages) > 1:
+            message = '{} package(s) would be installed'.format(len(would_be_changed))
         else:
             message = 'package would be installed'
     else:
         status = False
-        if (len(packages) > 1):
+        if len(packages) > 1:
             message = 'all packages are already installed'
         else:
             message = 'package is already installed'
@@ -129,7 +129,7 @@ def install_with_makepkg(module, package):
     f = open_url('https://aur.archlinux.org/rpc/?v=5&type=info&arg={}'.format(package))
     result = json.loads(f.read().decode('utf8'))
     if result['resultcount'] != 1:
-        return (1, '', 'package not found')
+        return (1, '', 'package {} not found'.format(package))
     result = result['results'][0]
     f = open_url('https://aur.archlinux.org/{}'.format(result['URLPath']))
     current_path = os.getcwd()
@@ -184,10 +184,7 @@ def install_packages(module, packages, use, skip_installed, aur_only):
 
         changed_iter = changed_iter or not (out == '' or '-- skipping' in out or 'nothing to do' in out)
 
-    if changed_iter:
-        message = 'installed package(s)'
-    else:
-        message = 'package(s) already installed'
+    message = 'installed package(s)' if changed_iter else 'package(s) already installed'
 
     module.exit_json(
         changed=changed_iter,
@@ -209,7 +206,7 @@ def main():
             },
             'use': {
                 'default': 'auto',
-                'choices': ['auto', 'aurman', 'pacaur', 'trizen', 'pikaur', 'yaourt', 'yay', 'makepkg'],
+                'choices': ['auto'] + list(use_cmd.keys()),
             },
             'skip_installed': {
                 'default': False,
@@ -237,7 +234,7 @@ def main():
         use = 'makepkg'
         # auto: select the first helper for which the bin is found
         for k in use_cmd:
-            if module.get_bin_path(k, False):
+            if module.get_bin_path(k):
                 use = k
                 break
     else:
