@@ -161,7 +161,8 @@ mail_privileged_group = mail
 
 # Dictionary for key=value mailbox attributes. Currently used by URLAUTH, but
 # soon intended to be used by METADATA as well.
-#mail_attribute_dict =
+mail_attribute_dict = file:%h/Maildir/dovecot-attributes
+# Manually sync sieve for all users:  doveadm mailbox metadata set -A -s "" /private/update yes
 
 ##
 ## Mail processes
