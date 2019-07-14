@@ -22,10 +22,10 @@
     state: present
   when: inventory_hostname in groups['imap']
 
-- name: Import valid GPG code signing key - Nicholas Walter Knize <nknize@apache.org>
+- name: Import valid GPG code signing key - Ishan Chattopadhyaya <ishan@apache.org>
   shell: "{{ item }}"
   with_items:
-    - gpg --recv-keys --keyserver hkp://pgp.mit.edu 51F0CC22F625308A
+    - gpg --recv-keys --keyserver hkp://pgp.mit.edu BF160FF14992A24C
   when: inventory_hostname in groups['imap']
   changed_when: false
 
