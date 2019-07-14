@@ -766,7 +766,7 @@ smtpd_tls_auth_only = yes
 tls_random_source = dev:/dev/urandom
 smtpd_use_tls = yes
 
-# Disable SSLv3
+# Disable SSLv2/3 (default)
 smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3
 smtp_tls_mandatory_protocols=!SSLv2,!SSLv3
 smtpd_tls_protocols=!SSLv2,!SSLv3
