@@ -55,6 +55,9 @@ postfix_smtpd_tls_exclude_ciphers:
   - KRB5-DE5
   - CBC3-SHA
 
+# Limit in case of DoS attacks
+smtpd_client_new_tls_session_rate_limit: 10
+
 # LDAP
 postfix_ldap_dir: "{{ postfix_conf_dir }}/ldap"
 ldap_vmailbox: "ldap-vmailbox.cf"
