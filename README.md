@@ -233,7 +233,6 @@ The following automx man pages are available.
 ##### Tags
 |    automx   |
 |:------------:|
-|  automx      |
 
 
 ### TO DO
