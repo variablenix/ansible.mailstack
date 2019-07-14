@@ -1,2 +1,6 @@
 ---
+# Solr Full Text Search Indexing
 solrhome: "/opt/solr"
+# Solr cronie
+solr_cron_mail_from: "noreply@{{ domain_email }}"
+solr_cron_mail_to: "admin@{{ domain_email }}"
