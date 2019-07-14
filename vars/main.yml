@@ -20,4 +20,4 @@ tls_ca_cert_dir: "/etc/ssl/certs"
 # LDAP
 ldap_mail_search_base: "ou=Mail,dc=domain,dc=tld"
 ldap_mail_groups_search_base: "ou=Groups,ou=Mail,dc=domain,dc=tld"
-ldap_mail_domains_search_base: "ou=Domains,dc=koderoot,dc=net"
+ldap_mail_domains_search_base: "ou=Domains,dc=domain,dc=tld"
