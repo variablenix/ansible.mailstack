@@ -1,0 +1,12 @@
+# m h dom mon dow cmd
+MAILFROM={{ solr_cron_mail_from }}
+MAILTO={{ solr_cron_mail_to }}
+HOME={{ solrhome }}
+######
+# Solr
+# https://wiki.dovecot.org/Plugins/FTS/Solr
+######
+# run daily
+0 0 * * * /usr/bin/curl "http://localhost:8983/solr/dovecot/update?optimize=true" &>/dev/null
+# run every 2 min
+*/2 * * * * /usr/bin/curl "http://localhost:8983/solr/dovecot/update?commit=true" &>/dev/null

@@ -1,0 +1,9 @@
+---
+- name: Sync cron file for Solr commits & optimization
+  copy:
+    src: 'solr.j2'
+    dest: '/var/spool/cron/solr'
+    owner: solr
+    group: solr
+    mode: '0600'
+    backup: no
