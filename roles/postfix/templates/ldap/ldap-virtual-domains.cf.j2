@@ -2,7 +2,7 @@
 server_host = {% for domain in ldap_servers %}
   ldap://{{ domain }}
 {% endfor %}
-search_base = {{ ldap_mail_domains_search_base }}
+search_base = {{ ldap_mail_domains }}
 version = 3
 bind = {{ ldap_bind }}
 start_tls = {{ starttls }}
