@@ -724,7 +724,7 @@ smtpd_delay_reject = yes
 disable_vrfy_command = yes
 
 # require properly formatted email addresses - prevents a lot of spam
-strict_rfc821_envelopes = yes
+strict_rfc821_envelopes = {{ strict_rfc821_envelopes }}
   
 # don't give any helpful info when a mailbox doesn't exist
 show_user_unknown_table_name = no
