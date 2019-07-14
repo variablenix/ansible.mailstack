@@ -74,7 +74,7 @@ Other configurations include Postscreen, header checks, sender access, SMTP head
 |         ufw        |
 
 ### Postgrey
-By default the Postfix role is configured to use Postgrey. In addition to using Postscreen with Postfix, this role adds another line of defense against spammers. The role will install and configure a local whitelist for Postgrey clients and recipients that should not be greylisted. 
+By default the Postfix role is configured to use Postgrey on port 10030 within the same host as Postfix. In addition to using Postscreen with Postfix, this role adds another line of defense against spammers. The role will install and configure a local whitelist for Postgrey clients and recipients that should not be greylisted.
 
 ##### Tags
 |      postgrey      |
