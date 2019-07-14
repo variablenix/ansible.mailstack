@@ -4,7 +4,6 @@
     src: "{{ dovecot_ldap_master }}.j2"
     dest: "{{ dovecot_dir }}/{{ dovecot_ldap_master }}"
     mode: 0640
-  when: inventory_hostname in groups['imap']
   notify: reload dovecot
 
 - name: Enable LDAP master user
