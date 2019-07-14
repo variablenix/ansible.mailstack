@@ -19,11 +19,7 @@
   when: inventory_hostname in groups['imap']
   tags: [dovecot_ldap,doveconfig]
 
-- name: Configure LDAP master user
-  template:
-    src: "{{ dovecot_ldap_master }}.j2"
-    dest: "{{ dovecot_dir }}/{{ dovecot_ldap_master }}"
-    mode: 0640
+# Master
+- include: master.yml
   when: inventory_hostname in groups['imap']
-  notify: reload dovecot
-  tags: [dovecot_ldap,doveconfig]
+  tags: [dovecot_ldap,doveconfig,dovemaster]

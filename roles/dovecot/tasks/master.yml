@@ -1,0 +1,26 @@
+---
+- name: Configure LDAP master user
+  template:
+    src: "{{ dovecot_ldap_master }}.j2"
+    dest: "{{ dovecot_dir }}/{{ dovecot_ldap_master }}"
+    mode: 0640
+  when: inventory_hostname in groups['imap']
+  notify: reload dovecot
+
+- name: Enable LDAP master user
+  lineinfile:
+    path: "{{ dovecot_conf_dir }}/10-auth.conf"
+    regexp: '^#!include auth-master.conf.ext'
+    insertafter: '^!include auth-ldap.conf.ext'
+    line: '!include auth-master.conf.ext'
+  when: dovecot_enable_master_user
+  notify: reload dovecot
+
+- name: Disable LDAP master user
+  lineinfile:
+    path: "{{ dovecot_conf_dir }}/10-auth.conf"
+    regexp: '!include auth-master.conf.ext'
+    line: '#!include auth-master.conf.ext'
+    insertafter: 'auth-ldap.conf.ext'
+  when: dovecot_enable_master_user != "true"
+  notify: reload dovecot
