@@ -60,7 +60,7 @@ The Postfix MTA is the first role this Playbook will deploy. The end result is a
 * LDAP mail groups
 * LDAP mail forwarding
 
-Other configurations include Postscreen, header checks, sender access, SMTP header checks and many more MTA settings.
+Additional configurations of importance: [Postscreen](http://www.postfix.org/POSTSCREEN_README.html), [header checks](http://www.postfix.org/postconf.5.html#header_checks), [check_sender_access](http://www.postfix.org/postconf.5.html#check_sender_access), [SMTP header checks](http://www.postfix.org/postconf.5.html#smtp_header_checks) and various other MTA settings.
 
 ##### Tags
 |       postfix      |
