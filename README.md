@@ -97,7 +97,7 @@ The Prefix WhoIs Milter is a mail filter for Postfix to query Prefix WhoIs (whoi
 |:------:|
 
 ### OpenDKIM
-The OpenDKIM role will automate the following tasks for a multi-domain environment.
+The OpenDKIM role will automate the following tasks for a multi-domain environment. Note by default OpenDKIM listens on port 8891 within the same host as Postfix.
 
 * Install OpenDKIM
 * Sync config and TrustedHosts
