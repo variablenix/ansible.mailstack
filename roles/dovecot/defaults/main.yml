@@ -51,6 +51,7 @@ dovecot_auth_verbose: "yes"
 dovecot_auth_debug: "no"
 dovecot_mail_debug: "no"
 dovecot_verbose_ssl: "no"
+dovecot_enable_master_user: "false"
 doveadm_password:
  
   create with ->  ansible-vault encrypt_string 'secretpw' --name 'doveadm_password'
