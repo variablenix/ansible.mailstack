@@ -786,11 +786,6 @@ milter_protocol = 6
 non_smtpd_milters=inet:127.0.0.1:8891, {{ opendmarcsock }}
 smtpd_milters=inet:127.0.0.1:8891,inet:127.0.0.1:8472, {{ opendmarcsock }}
 
-# Limits
-smtpd_error_sleep_time = 0
-smtpd_soft_error_limit = 10
-smtpd_hard_error_limit = 20
-
 # Postscreen
 postscreen_blacklist_action = enforce
 postscreen_access_list =
@@ -804,6 +799,11 @@ postscreen_dnsbl_sites =
         {% for postscreen_dnsbl in postscreen_dnsbl_list %}
         {{ postscreen_dnsbl }}
         {% endfor %}
+
+# Limits
+smtpd_error_sleep_time = {{ smtpd_error_sleep_time }}
+smtpd_soft_error_limit = {{ smtpd_soft_error_limit }}
+smtpd_hard_error_limit = {{ smtpd_hard_error_limit }}
 
 # Limit in case of DoS attacks
 smtpd_client_new_tls_session_rate_limit = {{ smtpd_client_new_tls_session_rate_limit }}

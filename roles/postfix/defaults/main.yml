@@ -55,6 +55,11 @@ postfix_smtpd_tls_exclude_ciphers:
   - KRB5-DE5
   - CBC3-SHA
 
+# Limits
+smtpd_error_sleep_time: 0
+smtpd_soft_error_limit: 10
+smtpd_hard_error_limit: 20
+
 # Limit in case of DoS attacks
 smtpd_client_new_tls_session_rate_limit: 10
 
