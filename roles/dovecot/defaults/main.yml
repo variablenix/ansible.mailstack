@@ -52,5 +52,9 @@ dovecot_auth_debug: "no"
 dovecot_mail_debug: "no"
 dovecot_verbose_ssl: "no"
 doveadm_password:
-
+ 
   create with ->  ansible-vault encrypt_string 'secretpw' --name 'doveadm_password'
+
+replication_full_sync_interval: 1
+replication_max_conns: 100
+replication_dsync_parameters: "-d -N -l 30 -U"

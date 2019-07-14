@@ -32,9 +32,6 @@ service doveadm {
   }
 }
 
-# configure how many dsyncs can be run in parallel (10 by default)
-replication_max_conns = 20
-
 # tell doveadm client to use this port by default
 doveadm_port = 4343
 
@@ -43,9 +40,16 @@ doveadm_password = {{ doveadm_password }}
 
 # use tcp:hostname as the dsync target
 plugin {
-  replication_full_sync_interval = 1 hours
+  replication_full_sync_interval = {{ replication_full_sync_interval }} hours
   mail_replica = tcps:{{ dovecot_replication_host }}.{{ domain }}:4343 # use doveadm_port
   #mail_replica = tcp:anotherhost.example.com:12345 # use port 12345 explicitly
+
+  # Normally all replication is asynchronous. You can also optionally configure new
+  # mail saving to be synchronous, with a timeout to avoid waiting too long.
+  # When saving a new mail via IMAP or delivering a mail via LDA/LMTP,
+  # wait for the mail to be synced to the remote site. If it doesn't finish
+  # in 2 seconds, return success anyway.
+  # replication_sync_timeout = 2s
 }
 
 service config {
@@ -54,3 +58,8 @@ service config {
   }
 }
 
+# configure how many dsyncs can be run in parallel (10 by default)
+replication_max_conns = {{ replication_max_conns }}
+
+# dsync parameters: (by default -l = 30 sec)
+replication_dsync_parameters = {{ replication_dsync_parameters }}
