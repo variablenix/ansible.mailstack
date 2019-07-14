@@ -805,12 +805,12 @@ postscreen_dnsbl_sites =
         {{ postscreen_dnsbl }}
         {% endfor %}
 
-# Avoid DDoS attacks
-smtpd_client_new_tls_session_rate_limit = 10
+# Limit in case of DoS attacks
+smtpd_client_new_tls_session_rate_limit = {{ smtpd_client_new_tls_session_rate_limit }}
 
 # shlib/meta directory settings
 shlib_directory = /usr/lib/postfix
-meta_directory = /etc/postfix
+meta_directory = {{ postfix_conf_dir }}
 
 # Virtual settings
 virtual_uid_maps = static:5000
