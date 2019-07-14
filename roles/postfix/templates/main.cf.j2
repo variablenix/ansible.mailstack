@@ -787,7 +787,7 @@ non_smtpd_milters=inet:127.0.0.1:8891, {{ opendmarcsock }}
 smtpd_milters=inet:127.0.0.1:8891,inet:127.0.0.1:8472, {{ opendmarcsock }}
 
 # Postscreen
-postscreen_blacklist_action = enforce
+postscreen_blacklist_action = {{ postscreen_blacklist_action }}
 postscreen_access_list =
         permit_mynetworks
         cidr:{{ postfix_conf_dir }}/postscreen_access.cidr

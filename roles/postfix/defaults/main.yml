@@ -9,6 +9,7 @@ postfix_master_file: "{{ postfix_conf_dir }}/master.cf"
 header_checks_config: "{{ postfix_conf_dir }}/header_checks"
 sender_access_config: "{{ postfix_conf_dir }}/sender_access"
 smtp_header_checks_config: "{{ postfix_conf_dir }}/smtp_header_checks"
+postscreen_blacklist_action: "enforce"
 postscreen_access_list: "{{ postfix_conf_dir }}/postscreen_access.cidr"
 postscreen_dnsbl_list:
   - zen.spamhaus.org*2
