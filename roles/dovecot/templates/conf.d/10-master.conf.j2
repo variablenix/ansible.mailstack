@@ -33,7 +33,7 @@ service imap-login {
   process_min_avail = {{ dovecot_process_min_avail }} # number of CPU cores
 
   # If you set service_count=0, you probably need to grow this.
-  vsz_limit = $default_vsz_limit
+  vsz_limit = {{ dovecot_default_vsz_limit }}
 }
 
 service pop3-login {
