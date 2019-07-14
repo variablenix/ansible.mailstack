@@ -1,6 +1,6 @@
 ---
 - name: Sync cron file for Solr commits & optimization
-  copy:
+  template:
     src: 'solr.j2'
     dest: '/var/spool/cron/solr'
     owner: solr

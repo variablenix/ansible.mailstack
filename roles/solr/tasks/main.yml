@@ -92,3 +92,4 @@
 
 - include: cron.yml
   when: inventory_hostname in groups['imap']
+  tags: [solrcron]
