@@ -90,7 +90,7 @@ This role syncs our Postfix SPF policy configuration to all Postfix MTA hosts. T
 |     spf     |
 
 ### Pwhois Milter
-The Prefix WhoIs Milter is a mail filter for Postfix to query Prefix WhoIs (whois.pwhois.org by default) about the originating IP address found in the final Received or X-Originating-IP mail headers. By default the Postfix role defines the PWhois headers in the Postfix `header_checks` file.
+The Prefix WhoIs Milter is a mail filter for Postfix to query Prefix WhoIs (whois.pwhois.org by default) about the originating IP address found in the final Received or X-Originating-IP mail headers. Note the Postfix role defines the PWhois headers in the Postfix `header_checks` file. By default Pwhois Milter listens on port 8472.
 
 ##### Tags
 | pwhois |
