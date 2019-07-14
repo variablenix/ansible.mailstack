@@ -1,6 +1,6 @@
 # Arch Linux: Mailstack Deployment
 
-This Playbook uses mail roles to automate the installation and configuration of mail services for [Arch Linux](https://www.archlinux.org/) servers. The end result is an idempotent virtual mail environment using an LDAP backend for authentication.
+This Playbook uses mail roles to automate the installation and configuration of mail services for [Arch Linux](https://www.archlinux.org/) servers. The end result is an idempotent virtual mail environment. The Playbook is intended to be used with an OpenLDAP backend for authentication.
 
 #### Example Mail Structure
 | IMAP | SMTP | LDAP | Policyd-SPF | PWhois Milter | OpenDKIM  | OpenDMARC   | SpamAssassin | ClamAV    | CyrusSASL |
@@ -237,3 +237,4 @@ The following automx man pages are available.
 
 ### TO DO
 * Roundcubemail
+* OpenLDAP
