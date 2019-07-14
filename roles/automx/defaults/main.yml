@@ -32,7 +32,7 @@ automx_imap_refresh_ttl: 0
 automx_imap_auth_identity: "%u"
 # ldap settings
 automx_ldap_hosts: "ldap://ldap.domain.tld, ldap://ldap2.domain.tld, ldap://ldap3.domain.tld"
-automx_ldap_base: "ou=Mail,dc=domain,dc=tld"
+automx_ldap_base: "{{ ldap_mail_users }}"
 automx_ldap_result_attrs: "mail, uid, givenName, sn"
 automx_ldap_filter: "(&(objectClass=*)(mail=%s))"
 automx_bindmethod: "simple"
