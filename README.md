@@ -174,6 +174,9 @@ Since the replication password is encrypted using Ansible Vault, passing `--ask-
 ##### Run only for dsync replication config (verify with check-diff mode first)
 `ansible-playbook main.yml --check --diff --ask-vault-pass --tags "doveconfig"`
 
+#### Quota
+Port 12340 is the default port used by quota and is also the same quota port defined for `check_policy_service` within the Postfix `main.cf` config file.
+
 #### MailCrypt plugin
 The default configuration used with this role uses the MailCrypt plugin defined in `10-mail.conf` to encrypt mail store files. The expected public and private [elliptic curve](https://wiki.dovecot.org/Plugins/MailCrypt#EC_key) keys default to the `/etc/dovecot/mcrypt` directory.
 
