@@ -791,10 +791,10 @@ postscreen_blacklist_action = {{ postscreen_blacklist_action }}
 postscreen_access_list =
         permit_mynetworks
         cidr:{{ postfix_conf_dir }}/postscreen_access.cidr
-postscreen_greet_action = ignore
-postscreen_greet_banner = Spammers may now talk
-postscreen_dnsbl_action = enforce
-postscreen_dnsbl_threshold = 2
+postscreen_greet_action = {{ postscreen_greet_action }}
+postscreen_greet_banner = {{ postscreen_greet_banner }}
+postscreen_dnsbl_action = {{ postscreen_dnsbl_action }}
+postscreen_dnsbl_threshold = {{ postscreen_dnsbl_threshold }}
 postscreen_dnsbl_sites =
         {% for postscreen_dnsbl in postscreen_dnsbl_list %}
         {{ postscreen_dnsbl }}
