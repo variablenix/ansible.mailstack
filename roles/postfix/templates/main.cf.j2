@@ -702,7 +702,7 @@ manpage_directory = /usr/share/man
 # sample_directory: The location of the Postfix sample configuration files.
 # This parameter is obsolete as of Postfix 2.1.
 #
-sample_directory = /etc/postfix/sample
+sample_directory = {{ postfix_conf_dir }}/sample
 
 # readme_directory: The location of the Postfix README files.
 #
@@ -795,7 +795,7 @@ smtpd_hard_error_limit = 20
 postscreen_blacklist_action = enforce
 postscreen_access_list =
         permit_mynetworks
-        cidr:/etc/postfix/postscreen_access.cidr
+        cidr:{{ postfix_conf_dir }}/postscreen_access.cidr
 postscreen_greet_action = ignore
 postscreen_greet_banner = Spammers may now talk
 postscreen_dnsbl_action = enforce
