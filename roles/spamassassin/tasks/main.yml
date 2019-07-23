@@ -26,6 +26,14 @@
     - spamassassin
   when: inventory_hostname in groups['smtp']
 
+- name: Ensure GeoIP is installed
+  become: yes
+  become_user: aur_builder
+  aur:
+    skip_installed: true
+    name: perl-geoip
+  when: inventory_hostname in groups['smtp']
+
 # Copy spamassassin systemd service files
 - name: Copy custom systemd spamassassin files to /etc/systemd/system/
   copy:
@@ -50,7 +58,7 @@
 
 # Do an initial SpamAssassin rule update and compile them
 - name: Run initial SpamAssassin rule update and compile
-  command: "{{ item }} chdir={{ spamd_dir }}"
+  shell: "{{ item }} chdir={{ spamd_dir }}"
   with_items:
     - "{{ spamd_bin }}/sa-update"
     - "{{ spamd_bin }}/sa-compile"
