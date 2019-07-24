@@ -28,7 +28,7 @@ loadplugin Mail::SpamAssassin::Plugin::URIDNSBL
 
 # Hashcash - perform hashcash verification.
 #
-loadplugin Mail::SpamAssassin::Plugin::Hashcash
+#loadplugin Mail::SpamAssassin::Plugin::Hashcash
 
 # SPF - perform SPF verification.
 #
