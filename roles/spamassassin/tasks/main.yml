@@ -109,6 +109,7 @@
   template:
     src: "local.cf.j2"
     dest: "{{ spamd_dir }}/local.cf"
+    mode: '0640'
   notify: restart spamd
   tags: [spamdconfig]
   when: inventory_hostname in groups['smtp']
