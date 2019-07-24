@@ -104,6 +104,15 @@ ok_languages            en
 # as being possibly spam in a foreign language.
 ok_locales              en
 
+# SPF
+{% if spamassassin_enable_spf %}
+ifplugin Mail::SpamAssassin::Plugin::SPF
+do_not_use_mail_spf_query 1 # only use Mail::SPF
+ignore_received_spf_header 1 # default 0
+use_newest_received_spf_header 0
+endif # Mail::SpamAssassin::Plugin::SPF
+{% endif %}
+
 # TXRep (Reputation) http://truxoft.com/resources/txrep.htm
 {% if spamassassin_enable_txrep %}
 ifplugin Mail::SpamAssassin::Plugin::TxRep
