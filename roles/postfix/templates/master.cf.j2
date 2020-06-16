@@ -143,11 +143,15 @@ scache    unix  -       -       n       -       1       scache
 #dovecot   unix  -       n       n       -       -       pipe
 #  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/lmtp -f ${sender} -d ${recipient}
 
-spamassassin   unix   -     n       n      -       -       pipe
-  flags=R user=spamd argv=/usr/bin/vendor_perl/spamc -f -e /usr/bin/sendmail -oi -f ${sender} ${recipient}
+#spamassassin   unix   -     n       n      -       -       pipe
+#  flags=R user=spamd argv=/usr/bin/vendor_perl/spamc -f -e /usr/bin/sendmail -oi -f ${sender} ${recipient}
 
 #dovecot   unix  -       n       n       -       -       pipe
 #   flags=DRhu user=vmail:vmail argv=/usr/bin/vendor_perl/spamc -f -u spamd -e /usr/lib/dovecot/deliver -f ${sender} -d ${recipient}
+
+# Enable sub-addressing to deliver mail to a specific extension named folder
+dovecot   unix  -       n       n       -       -       pipe
+  flags=DRhu user=vmail:vmail argv=/usr/bin/vendor_perl/spamc -u spamd -e /usr/lib/dovecot/dovecot-lda -f ${sender} -d ${recipient} -m ${extension}
 
 subcleanup unix n       -       -       -       0       cleanup
     -o header_checks=pcre:{{ postfix_conf_dir }}/smtp_header_checks
