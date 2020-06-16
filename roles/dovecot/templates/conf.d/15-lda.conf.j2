@@ -30,7 +30,7 @@ submission_host = {{ dovecot_submission_host }}:25
 #rejection_reason = Your message to <%t> was automatically rejected:%n%r
 
 # Delimiter character between local-part and detail in email address.
-#recipient_delimiter = +
+recipient_delimiter = +
 
 # Header where the original recipient address (SMTP's RCPT TO: address) is taken
 # from if not available elsewhere. With dovecot-lda -a parameter overrides this. 
@@ -38,10 +38,10 @@ submission_host = {{ dovecot_submission_host }}:25
 #lda_original_recipient_header =
 
 # Should saving a mail to a nonexistent mailbox automatically create it?
-#lda_mailbox_autocreate = no
+lda_mailbox_autocreate = yes
 
 # Should automatically created mailboxes be also automatically subscribed?
-#lda_mailbox_autosubscribe = no
+lda_mailbox_autosubscribe = yes
 
 protocol lda {
   # Space separated list of plugins to load (default is global mail_plugins).
