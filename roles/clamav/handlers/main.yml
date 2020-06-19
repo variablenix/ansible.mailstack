@@ -1,21 +1,21 @@
 ---
-- name: start clamd
+- name: start clamav-daemon
   systemd:
-    name: clamd
+    name: clamav-daemon
     enabled: yes
     state: started
   become: yes
 
-- name: stop clamd
+- name: stop clamav-daemon
   systemd:
-    name: clamd
+    name: clamav-daemon
     enabled: yes
     state: stopped
   become: yes
 
-- name: restart clamd
+- name: restart clamav-daemon
   systemd:
-    name: clamd
+    name: clamav-daemon
     enabled: yes
     state: restarted
   become: yes

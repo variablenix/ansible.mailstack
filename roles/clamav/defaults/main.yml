@@ -4,7 +4,7 @@ clamd_logtime: "yes"
 clamd_logverbose: "no"
 clamd_pidfile: "/run/clamav/clamd.pid"
 clamd_tmpdir: "/tmp"
-clamd_localsocket: "/var/lib/clamav/clamd.sock"
+clamd_localsocket: "/run/clamav/clamd.ctl"
 clamd_user: "clamav"
 clamd_scanmail: "yes"
 # This value should match Postfix MTA postfix_message_size_limit

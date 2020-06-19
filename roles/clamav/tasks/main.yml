@@ -6,13 +6,13 @@
     state: present
   when: inventory_hostname in groups['smtp']
 
-- name: Copy custom systemd clamd.service file to /etc/systemd/system/
-  copy: >
-    src=systemd/clamd.service
-    dest=/etc/systemd/system/clamd.service
-    mode=644
-  notify: reload systemd daemon
-  when: inventory_hostname in groups['smtp']
+#- name: Copy custom systemd clamd.service file to /etc/systemd/system/
+#  copy: >
+#    src=systemd/clamd.service
+#    dest=/etc/systemd/system/clamd.service
+#    mode=644
+#  notify: reload systemd daemon
+#  when: inventory_hostname in groups['smtp']
 
 # Check if clamav-freshclam.service is already running
 - name: Check if clamav-freshclam.service is already running
@@ -44,7 +44,7 @@
     dest: "/etc/clamav/{{ item }}"
     backup: no
   when: inventory_hostname in groups['smtp']
-  notify: restart clamd
+  notify: restart clamav-daemon
   with_items:
     - clamd.conf
     - freshclam.conf
@@ -65,7 +65,7 @@
 
 - name: Ensure ClamAV is enabled
   systemd:
-    name: clamd
+    name: clamav-daemon
     enabled: yes
     masked: no
     state: started
