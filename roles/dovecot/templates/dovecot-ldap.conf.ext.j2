@@ -19,7 +19,7 @@ pass_filter = (&(objectclass=inetOrgPerson)(uid=%n))
 
 # user filter
 user_attrs = mailHomeDirectory=home,mailStorageDirectory=mail,mailUidNumber=uid,mailGidNumber=gid,mailQuota=quota_rule=*:bytes=%$
-user_filter = (&(objectclass=inetOrgPerson)(uid=%n)(mailEnabled=TRUE))
+user_filter = (&(mailEnabled=TRUE)(objectClass=inetOrgPerson)(|(mail=%u)(mailAlias=%u)(uid=%u)))
 
 iterate_attrs = mail=user
 iterate_filter = (objectClass=inetOrgPerson)
