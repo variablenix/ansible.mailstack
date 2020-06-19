@@ -7,7 +7,7 @@ use strict;
 #     pushing a header field directly into $conf->{headers_spam}
 
 # our $CLAMD_SOCK = 3310;               # for TCP-based usage
-our $CLAMD_SOCK = "/var/lib/clamav/clamd.sock";   # change me
+our $CLAMD_SOCK = "/run/clamav/clamd.ctl";   # change me
 
 use Mail::SpamAssassin;
 use Mail::SpamAssassin::Plugin;
